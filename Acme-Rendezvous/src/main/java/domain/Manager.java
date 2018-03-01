@@ -33,15 +33,15 @@ public class Manager extends Actor {
 	}
 	
 	//Relationships----------------
-	private Collection<Service> services;
+	private Collection<Zervice> zervices;
 
 	@NotNull
 	@OneToMany(mappedBy="manager")
-	public Collection<Service> getServices() {
-		return services;
+	public Collection<Zervice> getZervices() {
+		return zervices;
 	}
-	public void setServices(Collection<Service> services) {
-		this.services = services;
+	public void setServices(Collection<Zervice> zervices) {
+		this.zervices = zervices;
 	}
 	
 	

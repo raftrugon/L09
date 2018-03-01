@@ -40,7 +40,7 @@ public class Category extends DomainEntity {
 	
 	//Relationships-----------------
 	private Collection<Category> categories;
-	private Collection<Service> service;
+	private Collection<Zervice> zervice;
 
 	
 	@NotNull
@@ -54,11 +54,11 @@ public class Category extends DomainEntity {
 	
 	@NotNull
 	@OneToMany(mappedBy="category")
-	public Collection<Service> getService() {
-		return service;
+	public Collection<Zervice> getZervice() {
+		return zervice;
 	}
-	public void setService(Collection<Service> service) {
-		this.service = service;
+	public void setZervice(Collection<Zervice> zervice) {
+		this.zervice = zervice;
 	}
 	
 	

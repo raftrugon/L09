@@ -9,12 +9,14 @@ import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Access(AccessType.PROPERTY)
 public class Request extends DomainEntity{
 
 	private CreditCard creditCard;
-	private Collection<String> comments;
+	private String comment;
 	
 	@NotNull
 	public CreditCard getCreditCard() {
@@ -24,27 +26,16 @@ public class Request extends DomainEntity{
 		this.creditCard = creditCard;
 	}
 	
-	@NotNull
-	public Collection<String> getComments() {
-		return comments;
+	public String getComment() {
+		return comment;
 	}
-	public void setComments(Collection<String> comments) {
-		this.comments = comments;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	
 	//Relationships--------
-	private User user;
 	private Rendezvous rendezvous;
-	private Service service;
-
-	@Valid
-	@ManyToOne(optional=false)
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
+	private Zervice zervice;
 	
 	@Valid
 	@ManyToOne(optional=false)
@@ -57,11 +48,11 @@ public class Request extends DomainEntity{
 	
 	@Valid
 	@ManyToOne(optional=false)
-	public Service getService() {
-		return service;
+	public Zervice getZervice() {
+		return zervice;
 	}
-	public void setService(Service service) {
-		this.service = service;
+	public void setZervice(Zervice zervice) {
+		this.zervice = zervice;
 	}
 	
 	
