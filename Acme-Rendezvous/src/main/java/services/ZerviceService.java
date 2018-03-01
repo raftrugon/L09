@@ -16,6 +16,7 @@ import org.springframework.validation.Validator;
 import repositories.ZerviceRepository;
 import domain.Announcement;
 import domain.Comment;
+import domain.Request;
 import domain.Zervice;
 import domain.Rsvp;
 import domain.User;

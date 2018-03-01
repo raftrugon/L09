@@ -40,7 +40,7 @@ public class Manager extends Actor {
 	public Collection<Zervice> getZervices() {
 		return zervices;
 	}
-	public void setServices(Collection<Zervice> zervices) {
+	public void setZervices(Collection<Zervice> zervices) {
 		this.zervices = zervices;
 	}
 	

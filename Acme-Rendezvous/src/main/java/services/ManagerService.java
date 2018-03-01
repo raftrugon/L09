@@ -44,7 +44,7 @@ public class ManagerService {
 		Manager res = new Manager();
 		
 		//Collections
-		res.setZervizces(new ArrayList<Zervice>());
+		res.setZervices(new ArrayList<Zervice>());
 		
 		//UserAccount
 		UserAccount managerAccount = new UserAccount();
