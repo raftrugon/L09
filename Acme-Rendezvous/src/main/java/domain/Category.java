@@ -4,8 +4,10 @@ import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -39,10 +41,20 @@ public class Category extends DomainEntity {
 	
 	
 	//Relationships-----------------
+	private Category parent;
 	private Collection<Category> categories;
 	private Collection<Service> service;
 
 	
+	@Valid
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+	public Category getParent() {
+		return parent;
+	}
+	
+	public void setParent(Category parent) {
+		this.parent = parent;
+	}
 	@NotNull
 	@OneToMany(mappedBy="category")
 	public Collection<Category> getCategories() {
