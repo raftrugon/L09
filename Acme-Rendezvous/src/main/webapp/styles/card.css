@@ -1,0 +1,75 @@
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 450px;
+    margin: auto;
+    text-align: center;
+	position: relative;
+	margin-bottom: 20px;
+}
+
+.cardDisplay{
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 100%;
+    margin: auto;
+    text-align: center;
+	margin-bottom: 20px;
+	margin-top:10px;
+	overflow:hidden;
+	padding:0 !important;
+	height:100%;
+}
+
+.userCard {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 100%;
+    margin: auto;
+    height:550px;
+    text-align: center;
+	position: relative;
+	margin-bottom: 20px;
+}
+
+.cardDate {
+    color: grey;
+    font-size: 18px;
+}
+
+.cardButton {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+    position: absolute;
+    right: 0;
+	bottom:   0;
+}
+
+.cardUserButton {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+
+.cardButton:hover{
+    opacity: 0.7;
+}
+
+.description {
+	overflow-y: scrollable;
+}

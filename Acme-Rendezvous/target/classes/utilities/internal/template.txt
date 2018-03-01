@@ -1,0 +1,100 @@
+
+package controllers;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import services.%ent%Service;
+import controllers.AbstractController;
+import domain.%ent%;
+
+@Controller
+@RequestMapping("/%ea%")
+public class %ent%Controller extends AbstractController {
+
+	@Autowired
+	private %ent%Service	%ea%Service;
+
+
+	//Constructor
+	public %ent%Controller() {
+		super();
+	}
+
+	@RequestMapping("/list")
+	public ModelAndView list() {
+		ModelAndView result;
+		final List<%ent%> %ea%s = new ArrayList<%ent%>(%ea%Service.findAll());
+		result = new ModelAndView("%ea%/list");
+		result.addObject("%ea%s", %ea%s);
+		result.addObject("requestUri", "%ea%/list.do");
+		return result;
+	}
+	
+		@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create(%aux%) {
+		ModelAndView result;
+		try {
+			%ent% %ea% = %ea%Service.create(%aux2%);
+			result = newEditModelAndView(%ea%);
+		} catch (Throwable oops) {
+			result = new ModelAndView("redirect:list.do");
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam(required = true) final int %ea%Id) {
+		return newEditModelAndView(%ea%);
+	}
+
+	@RequestMapping(value = "/save", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid final %ent% %ea%, final BindingResult binding) {
+		ModelAndView result;
+		if (binding.hasErrors())
+			result = newEditModelAndView(%ea%);
+		else
+			try {
+				%ea%Service.save(%ea%);
+				result = new ModelAndView("redirect:list.do");
+			} catch (Throwable oops) {
+				result = newEditModelAndView(%ea%);
+				result.addObject("message", "%ea%.commitError");
+			}
+		return result;
+	}
+
+	@RequestMapping(value = "/save", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(@Valid final %ent% %ea%, final BindingResult binding) {
+		ModelAndView result;
+		if (binding.hasErrors())
+			result = newEditModelAndView(%ea%);
+		else
+			try {
+				%ea%Service.delete(%ea%);
+				result = new ModelAndView("redirect:list.do");
+			} catch (Throwable oops) {
+				result = newEditModelAndView(%ea%);
+				result.addObject("message", "%ea%.commitError");
+			}
+		return result;
+	}
+	protected ModelAndView newEditModelAndView(final %ent% %ea%) {
+		ModelAndView result;
+		result = new ModelAndView("%ea%/edit");
+		result.addObject("%ea%", %ea%);
+		result.addObject("actionUri", "%ea%/save.do");
+		return result;
+	}
+}

@@ -1,0 +1,51 @@
+
+package services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import repositories.%ent%Repository;
+import domain.%ent%;
+
+@Service
+@Transactional
+public class %ent%Service {
+
+	// Managed repository -----------------------------------------------------
+
+	@Autowired
+	private %ent%Repository			%ea%Repository;
+
+	// Supporting services ----------------------------------------------------
+
+
+	// Simple CRUD methods ----------------------------------------------------
+
+	public %ent% create() {
+		%ent% res = new %ent%();
+
+		return res;
+	}
+
+	public %ent% findOne(int %ea%Id) {
+		Assert.isTrue(%ea%Id != 0);
+		%ent% res = %ea%Repository.findOne(%ea%Id);
+		Assert.notNull(res);
+		return res;
+	}
+
+	public %ent% save(%ent% %ea%) {
+		return %ea%Repository.save(%ea%);
+	}
+
+	public void delete(final %ent% %ea%) {
+		%ea%Repository.delete(%ea%);
+
+	}
+	
+	//Other Business Methods --------------------------------
+	
+	
+}

@@ -1,0 +1,121 @@
+/* common.css
+ *
+ * Copyright (C) 2017 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ * 
+ */
+
+.error {
+	color: red;
+	font-weight: bolder;
+}
+.success {
+	color: green;
+	font-weight: bolder;
+}
+
+.message {
+	color: red;
+	font-weight: bolder;
+}
+
+.leftdiv{
+	float:left;
+	width:15%;
+}
+
+.rightdiv{
+	float:left;
+	width:85%;
+}
+
+.tripcenterdiv{
+	float:left;
+	width:70%;
+}
+
+.triprightdiv{
+	float:left;
+	width:15%;
+}
+
+
+
+.wholediv::after{
+	clear:both;
+}
+
+.clearDiv{
+	clear:both;
+}
+
+.centerTd{
+	text-align: center;
+}
+
+caption{
+	font-weight:bold;
+	font-size: xx-large;
+	text-align: center !important;
+	
+}
+
+.adminconfigs input[type="text"]{
+	width:100% !important;
+}
+
+.adminconfigs textarea{
+	width: 100% !important;
+	height: 100px !important;
+}
+
+label{
+	font-weight: bold;
+}
+
+.ui-datepicker{
+	background-color: #FFF;
+}
+
+.sidebarLink, .sidebarRegisterLink{
+	color:#9d9d9d;
+	background-color:#333;
+}
+
+input.sidebarLink:hover, input.sidebarRegisterLink:hover{
+	color:white;
+}
+
+input.sidebarLink:focus, input.sidebarRegisterLink:focus{
+	color:white;
+}
+
+.stageTable{
+	
+}
+
+.stageTable th{
+	text-align:center !important;
+}
+
+.stageTable tbody tr td{
+	padding:0 !important;
+}
+
+.stageTable tbody tr td input{
+	width:100%;
+	border-radius:0 !important;
+}
+
+.footer{
+	position:fixed;
+	left:0;
+	bottom:0;
+	width:100%;
+	background-color:#222;
+	color:#9d9d9d;
+	padding:5px 0 10px 5px;
+}

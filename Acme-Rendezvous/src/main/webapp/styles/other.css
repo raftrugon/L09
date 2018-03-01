@@ -1,0 +1,167 @@
+.commentpanel:hover{
+	background-color:#c5c5c5 !important;
+	cursor:pointer;
+}
+
+.centerimage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nopicContainer {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.nopicCaption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity:0.9;
+}
+
+.nopic{
+	opacity:0.5;
+}
+
+.chip {
+    display: inline-block;
+    padding: 0 0 0 25px;
+    height: 50px;
+    font-size: 14px;
+    line-height: 50px;
+    border-radius: 25px;
+    background-color: #f1f1f1;
+    width:100%;
+    margin:5px 0;
+}
+
+.chip:hover{
+	background-color:#c5c5c5 !important;
+	cursor:pointer;
+}
+
+@media only screen and (max-width: 1700px) {
+	.chip img{
+		display:none;	
+	}
+	.chip{
+		padding: 0 0 0 5px;
+	}
+}
+
+@media only screen and (max-width: 1450px) {
+	.chip{
+		font-size:10px;
+	}
+}
+
+@media only screen and (max-width: 985px) {
+	.chip img{
+		display:inline;
+	}
+	.chip{
+		font-size:14px;
+		padding: 0 0 0 25px;
+	}
+}
+.chip img {
+    float: left;
+    margin: 0 10px 0 -25px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.chipQA {
+    float: right;
+    border-radius: 50% !important;
+    height: 50px;
+    width: 50px;
+    vertical-align: middle;
+}
+
+#notificationDiv{
+	display:none;
+	position:fixed;
+	right:20px;
+	z-index:1100;
+}
+
+#notificationAlert{
+	width:500px;
+	margin:0;
+	text-align:center;
+	margin-bottom:0px;
+	font-weight:bold;
+}
+
+#notificationClose{
+	position: absolute;
+    top: 5px;
+    right: 10px
+}
+
+#linkSearchInput {
+    padding: 20px;
+    margin-top: -6px;
+    border: 0;
+    border-radius: 0;
+    background: #f1f1f1;
+  }
+  
+  
+#loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #31b0d5;
+  border-bottom: 16px solid #31b0d5;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 1.3s linear infinite;
+  animation: spin 1.3s linear infinite;
+}
+#loaderDiv {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+}
+
+#loaderGif{
+    margin-top: -50%;
+    margin-left: -50%;
+    border-radius: 50%;
+    height:100%;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#loaderWrapper{
+	position:fixed;
+	width:100vw;
+	height:100%;
+	background-color:#F5F5F5;
+	z-index:5000;
+	margin: -20px 0 0 -15px;
+}

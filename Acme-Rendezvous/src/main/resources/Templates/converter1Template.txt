@@ -1,0 +1,27 @@
+
+package converters;
+
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import domain.%ent%;
+
+@Component
+@Transactional
+public class %ent%ToStringConverter implements Converter<%ent%, String> {
+
+	@Override
+	public String convert(final %ent% %ea%) {
+		String result;
+
+		if (%ea% == null) {
+			result = null;
+		} else {
+			result = String.valueOf(%ea%.getId());
+		}
+
+		return result;
+	}
+
+}
