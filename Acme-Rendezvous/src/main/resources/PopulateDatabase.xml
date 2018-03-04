@@ -140,6 +140,45 @@
 		</property>
 	</bean>
 
+
+	<bean id="userAccount11" class="security.UserAccount">
+		<property name="username" value="manager1" />
+		<property name="password" value="c240642ddef994358c96da82c0361a58" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+	
+	<!-- <bean id="userAccount12" class="security.UserAccount">
+		<property name="username" value="manager2" />
+		<property name="password" value="8df5127cd164b5bc2d2b78410a7eea0c" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount13" class="security.UserAccount">
+		<property name="username" value="manager3" />
+		<property name="password" value="2d3a5db4a2a9717b43698520a8de57d0" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+
+			</list>
+		</property>
+	</bean> -->
 	<!-- ADMIN -->
 	
 	<bean id="admin" class="domain.Admin">
@@ -339,6 +378,88 @@
 				<ref bean="rendezvous10"/>
 			</list>
 		</property>			
+	</bean>
+	
+	<bean id="manager1" class="domain.Manager">
+		<property name="userAccount" ref="userAccount11" />
+		<property name="name" value="Antonio Luis" />
+		<property name="surnames" value="Carmona Pacheco" />
+		<property name="email" value="manager1@correo.com" />
+		<property name="address" value="Reina Mercedes 32" />
+		<property name="birthDate" value="11/15/1994" />
+		<property name="VAT" value="ASD24-prueba" />
+		<property name="zervices">
+			<list>
+				<ref bean="zervice1" />
+			</list>
+		</property>
+	</bean>
+	
+	
+	<bean id="zervice1" class="domain.Zervice">
+		<property name="title" value="Hola" />
+		<property name="description" value="Prueba" />
+		<property name="picture" value="http://wmnf.s3.amazonaws.com/wp-content/uploads/2017/06/service-1a.jpg" />
+		<property name="inappropriate" value="false" />
+		<property name="manager" ref="manager1" />
+		<property name="category" ref="category2" />
+		<property name="requests">
+			<list>
+				<ref bean="request1"/>			
+			</list>		
+		</property>
+	</bean>
+	
+	<bean id="DEFAULTcategory1" class="domain.Category">
+		<property name="name" value="CATEGORY" />
+		<property name="parent">
+			<null />
+		</property>
+		<property name="categories">
+			<list>
+				<ref bean="category2" />
+			</list>
+		</property>
+		<property name="zervices">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="category2" class="domain.Category">
+		<property name="name" value="Turismo" />
+		<property name="parent" ref="DEFAULTcategory1" />
+		<property name="categories">
+			<list>
+			</list>
+		</property>
+		<property name="zervices">
+			<list>
+				<ref bean="zervice1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="creditCard1" class="domain.CreditCard">
+		<property name="holderName" value="Armando Garrido Castro" />
+		<property name="brandName" value="La Caixa Bank" />
+		<property name="number" value="377510700149084" />
+		<property name="expirationMonth" value="11" />
+		<property name="expirationYear" value="2019" />
+		<property name="cvvCode" value="132" />
+		
+	</bean>
+	
+	<bean id="request1" class="domain.Request">
+		<property name="comments">
+			<list>
+			</list>		
+		</property>
+		<property name="zervice" ref="zervice1"/>
+
+		<property name="creditCard" value="creditCard1"/>
+		<property name="rendezvous" ref="rendezvous1"/>
+	
 	</bean>
 	
 	
