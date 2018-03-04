@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.Range;
 
 @Embeddable
 @Access(AccessType.PROPERTY)
-public class CreditCard extends DomainEntity {
+public class CreditCard {
 
 	// Attributes -------------------------------------------------------------
 
