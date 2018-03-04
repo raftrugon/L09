@@ -29,6 +29,7 @@
 		<value>/views/announcement/tiles.xml</value>
 		<value>/views/comment/tiles.xml</value>
 		<value>/views/zervice/tiles.xml</value>
+		<value>/views/systemConfig/tiles.xml</value>
 		
 		
 	</util:list>

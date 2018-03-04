@@ -58,6 +58,7 @@
 		
 			<security:authorize access="hasRole('ADMIN')">
 				<button onClick="javascript:window.location.href = 'admin/dashboard.do'" class="btn btn-danger navbar-btn"><spring:message code="master.page.dashboard" /></button>
+				<button onClick="javascript:window.location.href = 'admin/systemConfig/edit.do'" class="btn btn-danger navbar-btn"><spring:message code="master.page.systemConfig" /></button>
 			</security:authorize>
 			
 			<security:authorize access="hasRole('USER')">

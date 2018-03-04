@@ -14,15 +14,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.CommentService;
 import services.RendezvousService;
+import services.SystemConfigService;
 import controllers.AbstractController;
 import domain.Rendezvous;
+import domain.SystemConfig;
 
 @Controller
 @RequestMapping("/admin")
@@ -33,6 +39,8 @@ public class AdminController extends AbstractController {
 	private RendezvousService rendezvousService;
 	@Autowired
 	private CommentService commentService;
+	@Autowired
+	private SystemConfigService systemConfigService;
 	
 	// Constructors -----------------------------------------------------------
 
@@ -83,5 +91,31 @@ public class AdminController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value="/systemConfig/edit", method=RequestMethod.GET)
+	public ModelAndView editSystemConfig() {
+		ModelAndView res = new ModelAndView("systemConfig/edit");
+		res.addObject("systemConfig", systemConfigService.get());
+		return res;
+	}
+	
+	@RequestMapping(value="/systemConfig/edit", method=RequestMethod.POST, params = "save")
+	public ModelAndView saveSystemConfig(@Valid final SystemConfig systemConfig, final BindingResult binding) {
+		ModelAndView res;
+		if (binding.hasErrors()) {
+			res = new ModelAndView("systemConfig/edit");
+			res.addObject("systemConfig", systemConfig);
+			res.addObject("actionUri", "systemConfig/save.do");
+		} else
+			try {
+				systemConfigService.save(systemConfig);
+				res = new ModelAndView("redirect:../..");
+			} catch (Throwable oops) {
+				oops.printStackTrace();
+				res = new ModelAndView("systemConfig/edit");
+				res.addObject("systemConfig", systemConfig);
+				res.addObject("actionUri", "systemConfig/save.do");
+			}
+		return res;
+	}
 
 }
