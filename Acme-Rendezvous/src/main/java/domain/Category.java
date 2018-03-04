@@ -6,6 +6,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -47,7 +48,7 @@ public class Category extends DomainEntity {
 
 	
 	@Valid
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+	@ManyToOne(optional=true)
 	public Category getParent() {
 		return parent;
 	}
@@ -56,7 +57,7 @@ public class Category extends DomainEntity {
 		this.parent = parent;
 	}
 	@NotNull
-	@OneToMany(mappedBy="category")
+	@OneToMany(mappedBy="parent")
 	public Collection<Category> getCategories() {
 		return categories;
 	}

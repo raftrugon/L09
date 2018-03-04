@@ -85,7 +85,7 @@ public class Zervice extends DomainEntity {
 	}
 	
 	@NotNull
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "service")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "zervice")
 	public Collection<Request> getRequests() {
 		return requests;
 	}

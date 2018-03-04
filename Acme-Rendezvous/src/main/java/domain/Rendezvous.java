@@ -65,7 +65,6 @@ public class Rendezvous extends DomainEntity {
 		this.description = description;
 	}
 
-	@Future
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
