@@ -57,8 +57,10 @@
 		<li><a href="announcement/list.do"><spring:message code="master.page.announcement.feed" /></a></li>
 		
 			<security:authorize access="hasRole('ADMIN')">
-				<button onClick="javascript:window.location.href = 'admin/dashboard.do'" class="btn btn-danger navbar-btn"><spring:message code="master.page.dashboard" /></button>
-				<button onClick="javascript:window.location.href = 'admin/systemConfig/edit.do'" class="btn btn-danger navbar-btn"><spring:message code="master.page.systemConfig" /></button>
+				<li class="btn-group">
+					<button onClick="javascript:window.location.href = 'admin/dashboard.do'" class="btn btn-info navbar-btn"><i class="fas fa-tachometer-alt"></i> <spring:message code="master.page.dashboard" /></button>
+					<button onClick="javascript:window.location.href = 'admin/systemConfig/edit.do'" class="btn btn-danger navbar-btn">&nbsp;<i class="fas fa-cog"></i>&nbsp;</button>
+				</li>
 			</security:authorize>
 			
 			<security:authorize access="hasRole('USER')">
@@ -86,9 +88,9 @@
 			</ul>	
 		<ul class="nav navbar-nav navbar-right">
 		
-		<li class="btn-group">	
-			<button onClick="javascript:window.location.href = '?language=en'" class="btn navbar-btn btn-info" >en</button>
-			<button onClick="javascript:window.location.href = '?language=es'" class="btn navbar-btn btn-info" >es</button>
+		<li >	
+			<button onClick="javascript:window.location.href = '?language=en'" class="btn navbar-btn btn-link flag-icon-background flag-icon-us" >&emsp;</button>
+			<button onClick="javascript:window.location.href = '?language=es'" class="btn navbar-btn btn-link flag-icon-background flag-icon-es" >&emsp;</button>
 		</li>
 		
 			<security:authorize access="isAuthenticated()">
@@ -102,6 +104,7 @@
 				<li><a href="register/user.do"><span class="glyphicon glyphicon-user"></span> <spring:message code="master.page.register" /> &nbsp;</a></li>
 				<li><a  href="security/login.do"><span class="glyphicon glyphicon-log-in"></span> <spring:message code="master.page.login" /> &nbsp; </a></li>
 			</security:authorize>
+		
 		</ul>
 		</div>
 	</div>
