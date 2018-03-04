@@ -2,6 +2,8 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -11,7 +13,7 @@ import org.springframework.util.Assert;
 
 import repositories.CategoryRepository;
 import domain.Category;
-import domain.Zervice;;
+import domain.Zervice;
 
 
 @Service
@@ -29,7 +31,7 @@ public class CategoryService {
 
 		Category c = new Category();
 		c.setCategories(new ArrayList<Category>());
-		c.setZervice(new ArrayList<Zervice>());
+		c.setZervices(new ArrayList<Zervice>());
 
 		return c;
 	}
@@ -91,5 +93,10 @@ public class CategoryService {
 		c.setName(name);
 		c.setParent(parent);
 		return nameClashes(c);
+	}
+	
+	public Collection<String> getSubCategoriesMap(Integer categoryId){
+		if(categoryId == null) return categoryRepository.getFirstLevelCategoriesMap();
+		else return categoryRepository.getSubCategoriesMap(categoryId);
 	}
 }

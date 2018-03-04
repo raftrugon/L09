@@ -21,19 +21,29 @@
 		<bean class="converters.AdminToStringConverter"/>
 		<bean class="converters.AnnouncementToStringConverter"/>
 		<bean class="converters.AuthorityToStringConverter"/>
+		<bean class="converters.CategoryToStringConverter"/>
 		<bean class="converters.CommentToStringConverter"/>
+		<bean class="converters.ManagerToStringConverter"/>
 		<bean class="converters.RendezvousToStringConverter"/>
+		<bean class="converters.RequestToStringConverter"/>
 		<bean class="converters.RsvpToStringConverter"/>
 		<bean class="converters.StringToAdminConverter"/>
 		<bean class="converters.StringToAnnouncementConverter"/>
 		<bean class="converters.StringToAuthorityConverter"/>
+		<bean class="converters.StringToCategoryConverter"/>
 		<bean class="converters.StringToCommentConverter"/>
+		<bean class="converters.StringToManagerConverter"/>
 		<bean class="converters.StringToRendezvousConverter"/>
+		<bean class="converters.StringToRequestConverter"/>
 		<bean class="converters.StringToRsvpConverter"/>
-		<bean class="converters.StringToUserConverter"/>
+		<bean class="converters.StringToSystemConfigConverter"/>
 		<bean class="converters.StringToUserAccountConverter"/>
-		<bean class="converters.UserToStringConverter"/>
+		<bean class="converters.StringToUserConverter"/>
+		<bean class="converters.StringToZerviceConverter"/>
+		<bean class="converters.SystemConfigToStringConverter"/>
 		<bean class="converters.UserAccountToStringConverter"/>
+		<bean class="converters.UserToStringConverter"/>
+		<bean class="converters.ZerviceToStringConverter"/>
 	</util:list>
 	
 </beans>

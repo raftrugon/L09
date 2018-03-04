@@ -1754,5 +1754,4 @@
 		<property name="rendezvous" ref="rendezvous9" />
 		<property name="user" ref="user1" />
 	</bean>
-
 </beans>
