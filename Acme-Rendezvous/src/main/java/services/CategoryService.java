@@ -2,8 +2,8 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -15,17 +15,16 @@ import repositories.CategoryRepository;
 import domain.Category;
 import domain.Zervice;
 
-
 @Service
 @Transactional
 public class CategoryService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
+
 	@Autowired
 	private AdminService adminService;
-	
+
 	public Category create() {
 		Assert.notNull(adminService.findByPrincipal());
 
@@ -49,11 +48,10 @@ public class CategoryService {
 		return res;
 	}
 
-
 	public Category save(Category category) {
 		Assert.notNull(adminService.findByPrincipal());
 		Assert.notNull(category);
-		if(category.getId()==0)
+		if (category.getId() == 0)
 			Assert.isTrue(!nameClashes(category));
 		Category res = categoryRepository.save(category);
 		return res;
@@ -79,24 +77,36 @@ public class CategoryService {
 		Assert.notNull(res);
 		return res;
 	}
-	
 
 	public boolean nameClashes(Category c) {
 		Boolean res = false;
-		if (categoryRepository.nameClashes(c.getParent(),c.getName()) != 0)
+		if (categoryRepository.nameClashes(c.getParent(), c.getName()) != 0)
 			res = true;
 		return res;
 	}
-	
+
 	public boolean nameClashesAux(String name, Category parent) {
 		Category c = create();
 		c.setName(name);
 		c.setParent(parent);
 		return nameClashes(c);
 	}
-	
-	public Collection<String> getSubCategoriesMap(Integer categoryId){
-		if(categoryId == null) return categoryRepository.getFirstLevelCategoriesMap();
-		else return categoryRepository.getSubCategoriesMap(categoryId);
+
+	public Collection<String> getSubCategoriesMap(Integer categoryId) {
+		if (categoryId == null)
+			return categoryRepository.getFirstLevelCategoriesMap();
+		else
+			return categoryRepository.getSubCategoriesMap(findOne(categoryId));
+	}
+
+	public Collection<Integer> getCategoryParents(Category category) {
+		List<Integer> ids = new ArrayList<Integer>();
+		Category cat = category;
+		while (cat.getParent() != null) {
+			ids.add(cat.getParent().getId());
+			cat = cat.getParent();
+		}
+		Collections.reverse(ids);
+		return ids;
 	}
 }

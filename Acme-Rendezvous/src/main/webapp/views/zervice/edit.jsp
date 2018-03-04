@@ -17,19 +17,51 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="lib" tagdir="/WEB-INF/tags/myTagLib" %>
 
+<jstl:if test="${categoryParents ne null }">
+		<script>
+	$(function(){
+		var categoryParents = <jstl:out value="${categoryParents}"/> ;
+		var recursiveStr = 'printSubCategories()';
+		$.each(categoryParents,function(i,id){
+			recursiveStr += '.then(printSubCategories('+id+'))';
+		});
+		eval(recursiveStr);
+	});
+	</script>
+</jstl:if>
+<jstl:if test="${categoryParents eq null }">
+	<script>
+	$(function(){
+		printSubCategories();
+	});
+	</script>
+</jstl:if>
 <script>
 	$(function(){
-		printSubCategories(null);
+		$('#zervice').submit(function(){
+			$('#category').val($('#categoryDiv .btn-success').val());
+		});
 	});
 	
 	function printSubCategories(id){
-		var categories = [];
-		var div = $('#categoryDiv'+id);
-		$.get('ajax/category/getSubCategories?categoryId='+id,function(data){
-			$.each(data,function(val){
-				var arr = data.split("$$");
-				div.append('<button id="'+arr[0]+'"type="button" class="btn btn-primary" style="margin:2px">'+arr[1]+'<span class="badge">'+arr[2]+'</span></button>');
+		var div,url;
+		$('#categoryDiv .btn').removeClass('btn-success');
+		if(jQuery.type(id) == 'undefined'){
+			url = 'ajax/category/getSubCategories.do';
+			div = $('#categoryDiv');
+		}else{
+			url = 'ajax/category/getSubCategories.do?categoryId='+id;
+			div = $('#categoryDiv'+id);
+			$('#categoryBtn'+id).addClass("btn-success");
+			div.siblings('div').html('');
+		}
+		return $.get(url,function(data){
+			var htmlString = '';
+			$.each(JSON.parse(data),function(i,val){
+				var arr = val.split("$$");
+				htmlString += '<button id="categoryBtn'+arr[0]+'"type="button" onclick="javascript:printSubCategories('+arr[0]+')" value="'+arr[0]+'" class="btn btn-primary" style="margin:2px">'+arr[1]+'&ensp;<span class="badge">'+arr[2]+'</span></button><br><div id="categoryDiv'+arr[0]+'" style="padding-left:1em"></div>';
 			});
+			div.html(htmlString);
 		});
 	}
 </script>
@@ -40,7 +72,7 @@
 		<jstl:set var="model" value="zervice" scope="request"/>	
 		
 		<!-- Hidden Attributes -->
-		<lib:input name="id" type="hidden" />
+		<lib:input name="id,category" type="hidden" />
 			
 		<!-- Attributes -->
 		<h1><spring:message code="master.page.zervice.create" /></h1>

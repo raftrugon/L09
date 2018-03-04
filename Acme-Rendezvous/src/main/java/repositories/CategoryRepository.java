@@ -18,6 +18,6 @@ public interface CategoryRepository extends JpaRepository<Category,Integer>{
 	Collection<String> getFirstLevelCategoriesMap();
 	
 	@Query("select concat(c.id,'$$',c.name,'$$',c.categories.size) from Category c where c.parent = ?1")
-	Collection<String> getSubCategoriesMap(int categoryId);
+	Collection<String> getSubCategoriesMap(Category category);
 
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+
 import services.AnnouncementService;
 import services.CategoryService;
 import services.CommentService;
@@ -145,11 +147,14 @@ public class AjaxController {
 	}
 	
 	@RequestMapping(value = "category/getSubCategories", method = RequestMethod.GET)
-	public Collection<String> getSubCategories(@RequestParam(required=false) final Integer categoryId){
+	public String getSubCategories(@RequestParam(required=false) final Integer categoryId){
+		Collection<String> res;
 		try{
-			return categoryService.getSubCategoriesMap(categoryId);
+			res = categoryService.getSubCategoriesMap(categoryId);
 		}catch(Throwable oops){
-			return new ArrayList<String>();
+			res = new ArrayList<String>();
 		}
+		Gson gson = new Gson();
+		return gson.toJson(res);
 	}
 }

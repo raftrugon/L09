@@ -1,10 +1,7 @@
-
 package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,12 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.ZerviceRepository;
-import domain.Announcement;
-import domain.Comment;
 import domain.Request;
 import domain.Zervice;
-import domain.Rsvp;
-import domain.User;
 
 @Service
 @Transactional
@@ -28,15 +21,16 @@ public class ZerviceService {
 	// Managed repository -----------------------------------------------------
 
 	@Autowired
-	private ZerviceRepository	zerviceRepository;
+	private ZerviceRepository zerviceRepository;
 
 	// Supporting Services ----------------------------------------------------
 
 	@Autowired
-	private ManagerService				managerService;
+	private ManagerService managerService;
 	@Autowired
-	private AdminService			adminService;
-
+	private AdminService adminService;
+	@Autowired
+	private Validator validator;
 
 	// Simple CRUD methods ----------------------------------------------------
 
@@ -50,7 +44,7 @@ public class ZerviceService {
 
 	public Zervice findOne(final int zerviceId) {
 		Assert.isTrue(zerviceId != 0);
-		Zervice res = this.zerviceRepository.findOne(zerviceId);
+		Zervice res = zerviceRepository.findOne(zerviceId);
 		Assert.notNull(res);
 		return res;
 	}
@@ -59,10 +53,10 @@ public class ZerviceService {
 		return zerviceRepository.findAll();
 	}
 
-
 	public Zervice save(final Zervice zervice) {
 		Assert.notNull(zervice);
-		Assert.isTrue(zervice.getManager().equals(this.managerService.findByPrincipal()));
+		Assert.isTrue(zervice.getManager().equals(
+				managerService.findByPrincipal()));
 		return zerviceRepository.save(zervice);
 	}
 
@@ -70,7 +64,7 @@ public class ZerviceService {
 		Assert.isTrue(zerviceId != 0);
 		Zervice zervice = findOne(zerviceId);
 		Assert.notNull(zervice);
-		Assert.notNull(this.adminService.findByPrincipal());
+		Assert.notNull(adminService.findByPrincipal());
 		zervice.setInappropriate(true);
 		zervice.setPicture(null);
 		return zerviceRepository.save(zervice);
@@ -78,9 +72,10 @@ public class ZerviceService {
 
 	public void deleteByUser(final int zerviceId) {
 		Assert.isTrue(zerviceId != 0);
-		Zervice zervice = this.findOne(zerviceId);
+		Zervice zervice = findOne(zerviceId);
 		Assert.notNull(zervice);
-		Assert.isTrue(zervice.getManager().equals(managerService.findByPrincipal()));
+		Assert.isTrue(zervice.getManager().equals(
+				managerService.findByPrincipal()));
 		Assert.isTrue(zervice.getRequests().isEmpty());
 		zerviceRepository.delete(zervice);
 	}
@@ -91,6 +86,7 @@ public class ZerviceService {
 		zervice.setInappropriate(false);
 		zervice.setManager(managerService.findByPrincipal());
 		zervice.setRequests(new ArrayList<Request>());
+		validator.validate(zervice, binding);
 		return zervice;
 	}
 
@@ -98,10 +94,10 @@ public class ZerviceService {
 		zervice.setInappropriate(false);
 		zervice.setManager(managerService.findByPrincipal());
 		zervice.setRequests(findOne(zervice.getId()).getRequests());
+		validator.validate(zervice, binding);
 		return zervice;
 	}
 
-	//Other Business Methods --------------------------------
-
+	// Other Business Methods --------------------------------
 
 }
