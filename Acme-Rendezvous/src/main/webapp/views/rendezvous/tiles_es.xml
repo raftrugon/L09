@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * tiles_es.xml
+ *
+ * Copyright (C) 2017 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+      
+<tiles-definitions>
+
+	<definition name="rendezvous/list" extends="master.page">	
+		<put-attribute name="title" value="Lista Reuniones" />
+		<put-attribute name="body" value="/views/rendezvous/list.jsp" />
+	</definition>
+	
+	<definition name="rendezvous/display" extends="master.page">	
+		<put-attribute name="title" value="Reunión" />
+		<put-attribute name="body" value="/views/rendezvous/display.jsp" />
+	</definition>
+	
+	<definition name="rendezvous/listQuestions" extends="master.page">	
+		<put-attribute name="title" value="Lista de preguntas" />
+		<put-attribute name="body" value="/views/rendezvous/listQuestions.jsp" />
+	</definition>
+	
+	<definition name="user/rendezvous/edit" extends="master.page">	
+		<put-attribute name="title" value="Crear Reunión" />
+		<put-attribute name="body" value="/views/rendezvous/create.jsp" />
+	</definition>
+	
+	<definition name="rendezvous/buttonsalerts" template="/views/rendezvous/buttonsalerts.jsp"/>
+	<definition name="rendezvous/qa/edit" template="/views/rendezvous/editQuestions.jsp"/>
+</tiles-definitions>
