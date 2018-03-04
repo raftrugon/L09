@@ -67,6 +67,7 @@ public class Zervice extends DomainEntity {
 	private Collection<Request> requests;
 
 	@Valid
+	@NotNull
 	@ManyToOne(optional=false)
 	public Manager getManager() {
 		return manager;
@@ -76,6 +77,7 @@ public class Zervice extends DomainEntity {
 	}
 	
 	@Valid
+	@NotNull
 	@ManyToOne(optional=false)	
 	public Category getCategory() {
 		return category;

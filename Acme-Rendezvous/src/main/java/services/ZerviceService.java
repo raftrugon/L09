@@ -36,10 +36,6 @@ public class ZerviceService {
 	private ManagerService				managerService;
 	@Autowired
 	private AdminService			adminService;
-	@Autowired
-	private Validator				validator;
-	@Autowired
-	private CategoryService				categoryService;
 
 
 	// Simple CRUD methods ----------------------------------------------------
@@ -70,9 +66,10 @@ public class ZerviceService {
 		return zerviceRepository.save(zervice);
 	}
 
-	public Zervice deleteByAdmin(final Zervice zervice) {
+	public Zervice deleteByAdmin(final int zerviceId) {
+		Assert.isTrue(zerviceId != 0);
+		Zervice zervice = findOne(zerviceId);
 		Assert.notNull(zervice);
-		Assert.isTrue(zervice.getId() != 0);
 		Assert.notNull(this.adminService.findByPrincipal());
 		zervice.setInappropriate(true);
 		zervice.setPicture(null);
@@ -80,11 +77,28 @@ public class ZerviceService {
 	}
 
 	public void deleteByUser(final int zerviceId) {
+		Assert.isTrue(zerviceId != 0);
 		Zervice zervice = this.findOne(zerviceId);
 		Assert.notNull(zervice);
 		Assert.isTrue(zervice.getManager().equals(managerService.findByPrincipal()));
 		Assert.isTrue(zervice.getRequests().isEmpty());
 		zerviceRepository.delete(zervice);
+	}
+
+	public Zervice reconstructNew(Zervice zervice, BindingResult binding) {
+		zervice.setId(0);
+		zervice.setVersion(0);
+		zervice.setInappropriate(false);
+		zervice.setManager(managerService.findByPrincipal());
+		zervice.setRequests(new ArrayList<Request>());
+		return zervice;
+	}
+
+	public Zervice reconstruct(Zervice zervice, BindingResult binding) {
+		zervice.setInappropriate(false);
+		zervice.setManager(managerService.findByPrincipal());
+		zervice.setRequests(findOne(zervice.getId()).getRequests());
+		return zervice;
 	}
 
 	//Other Business Methods --------------------------------

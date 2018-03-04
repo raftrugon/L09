@@ -47,6 +47,7 @@
 				<security:intercept-url pattern="/cookies**" access="permitAll" />
 		<security:intercept-url pattern="/register/**" access="isAnonymous()" requires-channel="https"/>
 		<security:intercept-url pattern="/user/**" access="hasRole('USER')" />
+		<security:intercept-url pattern="/manager/**" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
 
 

@@ -1,5 +1,9 @@
 package controllers;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -8,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.AnnouncementService;
+import services.CategoryService;
 import services.CommentService;
 import services.RendezvousService;
 import services.RsvpService;
@@ -30,6 +35,8 @@ public class AjaxController {
 	private CommentService commentService;
 	@Autowired
 	private RendezvousService rendezvousService;
+	@Autowired
+	private CategoryService	categoryService;
 	 
 	
 	@RequestMapping(value = "/qa", method = RequestMethod.GET)
@@ -135,5 +142,14 @@ public class AjaxController {
 			result = new ModelAndView("ajaxException");
 		}
 		return result;
+	}
+	
+	@RequestMapping(value = "category/getSubCategories", method = RequestMethod.GET)
+	public Collection<String> getSubCategories(@RequestParam(required=false) final Integer categoryId){
+		try{
+			return categoryService.getSubCategoriesMap(categoryId);
+		}catch(Throwable oops){
+			return new ArrayList<String>();
+		}
 	}
 }

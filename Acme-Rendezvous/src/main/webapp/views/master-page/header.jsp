@@ -64,6 +64,10 @@
 				<button onClick="javascript:window.location.href = 'user/rendezvous/create.do'" class="btn btn-success navbar-btn"><i class="fas fa-plus-square"></i> <spring:message code="master.page.rendezvous.create" /></button>
 			</security:authorize>
 			
+			<security:authorize access="hasRole('MANAGER')">
+				<button onClick="javascript:window.location.href = 'manager/zervice/create.do'" class="btn btn-success navbar-btn"><i class="fas fa-plus-square"></i> <spring:message code="master.page.zervice.create" /></button>
+			</security:authorize>
+			
 		<%-- <security:authorize access="all()"> 
 		<form class="navbar-form navbar-left" action="trip/list.do">
 		  <div class="input-group">
