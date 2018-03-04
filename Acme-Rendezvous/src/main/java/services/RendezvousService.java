@@ -78,7 +78,8 @@ public class RendezvousService {
 	public Rendezvous save(final Rendezvous rendezvous) {
 		Assert.notNull(rendezvous);
 		Assert.isTrue(rendezvous.getUser().equals(this.userService.findByPrincipal()));
-
+		Assert.isTrue(rendezvous.getOrganisationMoment().after(new Date()));
+		
 		//Checkeos contra base de datos
 		if (rendezvous.getId() != 0) {
 			Rendezvous bd = this.findOne(rendezvous.getId());

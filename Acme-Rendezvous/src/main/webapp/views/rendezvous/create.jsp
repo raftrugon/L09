@@ -32,7 +32,9 @@
 			<hr>
 			<lib:input name="name" type="text" />
 			<lib:input name="description" type="text" />
-			<lib:input name="organisationMoment" type="moment" />		
+			<div class="form-group">
+				<lib:input name="organisationMoment" type="hidden" />	
+			</div>	
 			<lib:input name="latitude" type="text" />
 			<lib:input name="longitude" type="text" />				
 			<lib:input name="picture" type="text" />
@@ -122,6 +124,13 @@ $(function(){
 		});
 	}
 	addListener();
+	$('#organisationMoment').datetimepicker({
+    	format: "DD/MM/YYYY HH:mm",
+    	locale: "<jstl:out value='${pageContext.request.locale.language}'/>",
+    	inline: true,
+    	sideBySide: true,
+    });
+	$('#organisationMoment').data("DateTimePicker").minDate(new Date());
 });
 </script>
 <script>

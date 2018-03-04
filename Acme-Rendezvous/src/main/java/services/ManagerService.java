@@ -9,6 +9,7 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import domain.Rendezvous;
@@ -104,6 +105,27 @@ public class ManagerService {
 		Assert.notNull(userAccount);
 		res = findByUserAccount(userAccount);
 		return res;
+	}
+	
+	public Manager reconstruct(Manager manager, final BindingResult binding) {
+		
+		manager.setId(0);
+		manager.setVersion(0);
+		
+		//Collections
+		manager.setZervices(new ArrayList<Zervice>());
+
+		//Authority
+		Collection<Authority> authorities = manager.getUserAccount().getAuthorities();
+		Authority authority = new Authority();
+
+		authority.setAuthority(Authority.MANAGER);
+		authorities.add(authority);
+		manager.getUserAccount().setAuthorities(authorities);
+		
+		this.validator.validate(manager, binding);
+
+		return manager;
 	}
 	
 }

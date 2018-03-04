@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ManagerService;
 import services.RendezvousService;
 import services.UserService;
 import domain.Rendezvous;
@@ -62,49 +63,5 @@ public class UserController extends AbstractController {
 		return result;
 	}
 
-	//Create Edit GET
-	@RequestMapping(value = "/register/user", method = RequestMethod.GET)
-	public ModelAndView create() {
-		ModelAndView result;
-		try {
-			result = this.newEditModelAndView(userService.create());
-		} catch (Throwable oops) {
-			result = new ModelAndView("redirect:list.do");
-		}
-		return result;
-	}
 
-	//Save Delete POST
-	@RequestMapping(value = "/register/user", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(User user, final BindingResult binding) {
-		ModelAndView result;
-		user = this.userService.reconstruct(user, binding);
-		if (binding.hasErrors()) {
-			result = this.newEditModelAndView(user);
-		} else
-			try {
-				User saved = this.userService.save(user);
-				result = new ModelAndView("redirect:../user-display.do?userId=" + saved.getId());
-			} catch (Throwable oops) {
-				result = this.newEditModelAndView(user);
-				result.addObject("message", "user.commitError");
-			}
-		return result;
-	}
-
-	//EditModelAndView
-	protected ModelAndView newEditModelAndView(final User user) {
-		ModelAndView result;
-		result = this.newEditModelAndView(user, null);
-		return result;
-	}
-
-	protected ModelAndView newEditModelAndView(final User user, final String message) {
-		ModelAndView result;
-		result = new ModelAndView("register/user");
-		result.addObject("user", user);
-		result.addObject("message", message);
-		result.addObject("actionUri", "user/save.do");
-		return result;
-	}
 }

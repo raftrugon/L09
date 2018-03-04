@@ -20,16 +20,16 @@ import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = "userAccount_id")})
 public class Manager extends Actor {
 
-	private String VAT;
+	private String vat;
 
 	@NotBlank
 	@Pattern(regexp="(\\w|\\d|-){1,}")	
 	@SafeHtml(whitelistType=WhiteListType.NONE)
-	public String getVAT() {
-		return VAT;
+	public String getVat() {
+		return vat;
 	}
-	public void setVAT(String vAT) {
-		VAT = vAT;
+	public void setVat(String vat) {
+		this.vat = vat;
 	}
 	
 	//Relationships----------------
