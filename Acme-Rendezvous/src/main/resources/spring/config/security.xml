@@ -54,6 +54,7 @@
 		<security:intercept-url pattern="/rsvp/qa.do" access="permitAll"/>
 		<security:intercept-url pattern="/rendezvous/**" access="permitAll"/>
 		<security:intercept-url pattern="/announcement/**" access="permitAll"/>
+		<security:intercept-url pattern="/zervice/**" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/ajax/**" access="permitAll"/>
 		
 		
