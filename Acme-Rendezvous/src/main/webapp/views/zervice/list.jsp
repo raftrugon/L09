@@ -31,7 +31,8 @@
 	        <h1>
 	        	<jstl:out value="${zervice.name}"/>
 	        </h1>
-	        <div style="text-align:center" class="cardDate">
+	        	<span class="label label-primary"><jstl:out value="${zervice.category.name}"/></span>
+	        <div style="text-align:center;margin-top:5px;" class="cardDate">
 				<jstl:out value="${zervice.description}"/>
 	        </div>
 		</div>
