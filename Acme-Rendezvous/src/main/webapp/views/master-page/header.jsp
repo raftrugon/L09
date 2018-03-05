@@ -42,7 +42,7 @@
 
 <div class="container-fluid" style="height:200px;background-image:url('${banner}')">
 </div>
-<nav class="navbar navbar-inverse navbar-fixed-top" style="z-index:1500" data-spy="affix" data-offset-top="197">
+<nav class="navbar navbar-inverse" style="z-index:1500" data-spy="affix" data-offset-top="195">
 	<div class="containter-fluid">
 		<div class="navbar-header">
 		 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
