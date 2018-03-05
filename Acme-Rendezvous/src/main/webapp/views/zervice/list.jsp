@@ -22,7 +22,7 @@
 			<jstl:if test="${empty zervice.picture}">
 				<div class="nopicContainer">
 					<img src="images/nopic2.jpg" style="object-fit:cover;height:200px;width:100%" class="nopic"/>
-					<div class="nopicCaption alert alert-warning"><spring:message code="master.page.nopic"/></div>
+					<div class="nopicCaption2 alert alert-warning"><spring:message code="master.page.nopic"/></div>
 				</div>
 			</jstl:if>
 			<jstl:if test="${not empty zervice.picture}">

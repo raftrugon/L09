@@ -55,6 +55,9 @@
 		<li><a href="rendezvous/list.do"><spring:message code="master.page.rendezvous.list" /></a></li>
 		<li><a href="user-list.do"><spring:message code="master.page.user.list" /></a></li>
 		<li><a href="announcement/list.do"><spring:message code="master.page.announcement.feed" /></a></li>
+		<security:authorize access="isAuthenticated()">
+			<li><a href="zervice/list.do"><spring:message code="master.page.zervice.feed" /></a></li>
+		</security:authorize>
 		
 			<security:authorize access="hasRole('ADMIN')">
 				<li class="btn-group">
