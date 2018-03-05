@@ -11,16 +11,28 @@
 package controllers;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
+
+import services.SystemConfigService;
 
 @Controller
 public class AbstractController {
+	
+	@Autowired
+	private SystemConfigService systemConfigService;
 
-	// Panic handler ----------------------------------------------------------
-
+	@ModelAttribute
+	public void getLocale(Model result) {
+		result.addAttribute("bussinessName", systemConfigService.get().getBussinessName());
+		result.addAttribute("banner",systemConfigService.get().getBanner());
+	}
+	
 	@ExceptionHandler(Throwable.class)
 	public ModelAndView panic(final Throwable oops) {
 		ModelAndView result;

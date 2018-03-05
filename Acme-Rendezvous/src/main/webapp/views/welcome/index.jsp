@@ -16,7 +16,18 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<h2 class="well" style="margin:0 0 10px 0;text-align:center;"><spring:message code="welcome.greeting.message"/></h2>
+<h2 class="well" style="margin:0 0 10px 0;text-align:center;">
+	<spring:message code="welcome.greeting.message"/></br>
+	<small>
+		<jstl:if test="${locale eq 'en'}">
+			<jstl:out value="${systemConfig.welcomeMessageEN}"/>
+		</jstl:if>
+		<jstl:if test="${locale eq 'es'}">
+			<jstl:out value="${systemConfig.welcomeMessageES}"/>
+		</jstl:if>
+	</small>
+	
+</h2>
 
 <div id="map" style="height:75vh;width:100%"></div>
 <script defer>

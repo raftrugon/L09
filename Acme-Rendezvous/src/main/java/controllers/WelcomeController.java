@@ -11,11 +11,13 @@
 package controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.RendezvousService;
+import services.SystemConfigService;
 
 @Controller
 @RequestMapping("/welcome")
@@ -23,6 +25,9 @@ public class WelcomeController extends AbstractController {
 
 	@Autowired
 	private RendezvousService rendezvousService;
+	@Autowired
+	private SystemConfigService systemConfigService;
+	
 	// Constructors -----------------------------------------------------------
 
 	public WelcomeController() {
@@ -35,6 +40,8 @@ public class WelcomeController extends AbstractController {
 	public ModelAndView index() {
 		ModelAndView result = new ModelAndView("welcome/index");
 		result.addObject("rendezvouses",rendezvousService.getTop10RendezvousByRSVPs());
+		result.addObject("systemConfig", systemConfigService.get());
+		result.addObject("locale",LocaleContextHolder.getLocale().getLanguage());
 		return result;
 	}
 }

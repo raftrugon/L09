@@ -39,7 +39,10 @@
 	});
 	</script>
 </jstl:if>
-<nav class="navbar navbar-inverse navbar-fixed-top" style="z-index:1500">
+
+<div class="container-fluid" style="height:200px;background-image:url('${banner}')">
+</div>
+<nav class="navbar navbar-inverse navbar-fixed-top" style="z-index:1500" data-spy="affix" data-offset-top="197">
 	<div class="containter-fluid">
 		<div class="navbar-header">
 		 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -47,7 +50,9 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>                        
 	      </button>
-			<a class="navbar-brand" href="#">Acme-Rendezvous</a>
+			<a class="navbar-brand" href="#">
+				<jstl:out value="${bussinessName}"/>
+			</a>
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 		<ul class="nav navbar-nav">			
