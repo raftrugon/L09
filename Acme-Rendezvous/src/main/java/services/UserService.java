@@ -65,13 +65,13 @@ public class UserService {
 
 	public User findOne(final int userId) {
 		Assert.isTrue(userId != 0);
-		User res = this.userRepository.findOne(userId);
+		User res = userRepository.findOne(userId);
 		Assert.notNull(res);
 		return res;
 	}
 
 	public Collection<User> findAll() {
-		Collection<User> res = this.userRepository.findAll();
+		Collection<User> res = userRepository.findAll();
 		Assert.notNull(res);
 		return res;
 	}
@@ -79,18 +79,18 @@ public class UserService {
 	public User save(final User user) {
 		Assert.notNull(user);
 		Assert.isTrue(user.getBirthDate().before(new Date()));
-		
+
 		if(user.getId() == 0){
 			Md5PasswordEncoder password = new Md5PasswordEncoder();
 			String encodedPassword = password.encodePassword(user.getUserAccount().getPassword(), null);
 			user.getUserAccount().setPassword(encodedPassword);
 			user.setUserAccount(userAccountService.save(user.getUserAccount()));
 		}
-		return this.userRepository.save(user);
+		return userRepository.save(user);
 	}
 
 	public void delete(final User user) {
-		this.userRepository.delete(user);
+		userRepository.delete(user);
 
 	}
 
@@ -99,7 +99,7 @@ public class UserService {
 	public User findByUserAccount(final UserAccount userAccount) {
 		Assert.notNull(userAccount);
 		User res;
-		res = this.userRepository.findByUserAccount(userAccount.getId());
+		res = userRepository.findByUserAccount(userAccount.getId());
 		return res;
 	}
 
@@ -108,28 +108,28 @@ public class UserService {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
 		Assert.notNull(userAccount);
-		res = this.findByUserAccount(userAccount);
+		res = findByUserAccount(userAccount);
 		return res;
 	}
-	
+
 	public Boolean isRsvpd(int rendezvousId){
 		Assert.isTrue(rendezvousId != 0);
 		return (userRepository.isRsvpd(rendezvousId, findByPrincipal()) == 1);
 	}
-	
+
 	public Boolean isAdult(){
 		User u = findByPrincipal();
-		 DateTime user18 = new DateTime(u.getBirthDate()).plusYears(18);
-		 return user18.isBeforeNow();
+		DateTime user18 = new DateTime(u.getBirthDate()).plusYears(18);
+		return user18.isBeforeNow();
 	}
 
 	//RegisterUserForm ----> User
 
 	public User reconstruct(User user, final BindingResult binding) {
-		
+
 		user.setId(0);
 		user.setVersion(0);
-		
+
 		//Collections
 		user.setRsvps(new ArrayList<Rsvp>());
 		user.setRendezvouses(new ArrayList<Rendezvous>());
@@ -141,10 +141,14 @@ public class UserService {
 		authority.setAuthority(Authority.USER);
 		authorities.add(authority);
 		user.getUserAccount().setAuthorities(authorities);
-		
-		this.validator.validate(user, binding);
+
+		validator.validate(user, binding);
 
 		return user;
+	}
+
+	public Collection<Rendezvous> getRequestableRendezvouses() {
+		return userRepository.getRequestableRendezvouses(findByPrincipal());
 	}
 
 }

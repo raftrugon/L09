@@ -32,6 +32,7 @@
 		<value>/views/announcement/messages</value>
 		<value>/views/zervice/messages</value>
 		<value>/views/systemConfig/messages</value>
+		<value>/views/request/messages</value>
 		
 		
 	</util:list>

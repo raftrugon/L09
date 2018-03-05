@@ -98,6 +98,10 @@ public class ZerviceService {
 		return zervice;
 	}
 
+	public Collection<Zervice> findAllNotInappropriate() {
+		return zerviceRepository.findAllNotInappropriate();
+	}
+
 	// Other Business Methods --------------------------------
 
 }

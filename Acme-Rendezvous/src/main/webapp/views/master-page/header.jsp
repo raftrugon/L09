@@ -39,10 +39,23 @@
 	});
 	</script>
 </jstl:if>
+<script>
+	$(function(){
+		$('#newRequestHeaderBtn').click(function(e){
+			e.preventDefault();
+			$.get('user/request/create.do', function(data){
+				$('#requestModal .modal-body').html(data);
+				$('#requestModal').modal('show');
+				$('#rendezvousSelect').selectpicker('refresh');
+				$('#zerviceSelect').selectpicker('refresh');
+			});
+		});
+	});
+</script>
 
 <div class="container-fluid" style="height:200px;background-image:url('${banner}')">
 </div>
-<nav class="navbar navbar-inverse" style="z-index:1500" data-spy="affix" data-offset-top="195">
+<nav class="navbar navbar-inverse" style="z-index:1000" data-spy="affix" data-offset-top="195">
 	<div class="containter-fluid">
 		<div class="navbar-header">
 		 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -72,7 +85,10 @@
 			</security:authorize>
 			
 			<security:authorize access="hasRole('USER')">
-				<button onClick="javascript:window.location.href = 'user/rendezvous/create.do'" class="btn btn-success navbar-btn"><i class="fas fa-plus-square"></i> <spring:message code="master.page.rendezvous.create" /></button>
+				<li class="btn-group">
+					<button onClick="javascript:window.location.href = 'user/rendezvous/create.do'" class="btn btn-success navbar-btn"><i class="fas fa-plus-square"></i> <spring:message code="master.page.rendezvous.create" /></button>
+					<button id="newRequestHeaderBtn" class="btn btn-success navbar-btn"><spring:message code="request.new" /> <i class="fas fa-plus-square"></i> </button>
+				</li>
 			</security:authorize>
 			
 			<security:authorize access="hasRole('MANAGER')">
@@ -103,7 +119,7 @@
 		
 			<security:authorize access="isAuthenticated()">
 				<li><a href="#"><span class="glyphicon glyphicon-user"></span> <security:authentication property="principal.username"/></a></li>
-				<li><a href="j_spring_security_logout"><span class="glyphicon glyphicon-log-out"> </span><spring:message code="master.page.logout" /> &nbsp; </a></li>
+				<li><a href="j_spring_security_logout"><span class="glyphicon glyphicon-log-out"></span> <spring:message code="master.page.logout" /> &nbsp; </a></li>
 			</security:authorize>
 			
 			

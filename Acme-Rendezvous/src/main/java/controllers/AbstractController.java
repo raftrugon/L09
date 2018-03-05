@@ -23,16 +23,17 @@ import services.SystemConfigService;
 
 @Controller
 public class AbstractController {
-	
+
 	@Autowired
 	private SystemConfigService systemConfigService;
 
 	@ModelAttribute
-	public void getLocale(Model result) {
-		result.addAttribute("bussinessName", systemConfigService.get().getBussinessName());
-		result.addAttribute("banner",systemConfigService.get().getBanner());
+	public void getGeneralAttributes(Model result) {
+		result.addAttribute("bussinessName", systemConfigService.get()
+				.getBussinessName());
+		result.addAttribute("banner", systemConfigService.get().getBanner());
 	}
-	
+
 	@ExceptionHandler(Throwable.class)
 	public ModelAndView panic(final Throwable oops) {
 		ModelAndView result;
