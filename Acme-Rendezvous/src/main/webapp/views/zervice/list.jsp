@@ -10,17 +10,18 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <jsp:useBean id="now" class="java.util.Date" />
-<jstl:forEach items="${zervices}" var="zervices">
+<jstl:forEach items="${zervices}" var="zervice">
 
 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 cardContainer" >
 			<jstl:if test="${zervice.inappropriate eq true}">
 				<div class="alert alert-danger" style="position:absolute;top:40%;right:10%;left:10%;text-align:center;z-index:500;"><strong><spring:message code="zervice.inappropriate.alert"/></strong></div>
 			</jstl:if>
+			
 	<div class="card" style="${inappropriateStyle}">
 		<div onclick="${rendClick}" style="height:100%;${rendStyle}">
 			<jstl:if test="${empty zervice.picture}">
 				<div class="nopicContainer">
-					<img src="images/nopic.jpg" style="object-fit:cover;height:200px;width:100%" class="nopic"/>
+					<img src="images/nopic2.jpg" style="object-fit:cover;height:200px;width:100%" class="nopic"/>
 					<div class="nopicCaption alert alert-warning"><spring:message code="master.page.nopic"/></div>
 				</div>
 			</jstl:if>
