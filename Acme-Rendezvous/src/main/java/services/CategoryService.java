@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.CategoryRepository;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import domain.Category;
 import domain.Zervice;
 
@@ -109,4 +113,22 @@ public class CategoryService {
 		Collections.reverse(ids);
 		return ids;
 	}
+
+	public JsonArray getCategoriesJson(Category category){
+		JsonArray json = new JsonArray();
+		Collection<Category> subCategories;
+		if(category == null)
+			subCategories = categoryRepository.getFirstLevelCategories();
+		else
+			subCategories = category.getCategories();
+		for(Category c: subCategories){
+			JsonObject subJson = new JsonObject();
+			subJson.addProperty("text", c.getName());
+			if(!c.getCategories().isEmpty())
+				subJson.add("nodes", getCategoriesJson(c));
+			json.add(subJson);
+		}
+		return json;
+	}
+
 }

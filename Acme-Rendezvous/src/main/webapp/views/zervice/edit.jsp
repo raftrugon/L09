@@ -16,7 +16,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="lib" tagdir="/WEB-INF/tags/myTagLib" %>
-
+<%-- 
 <jstl:if test="${categoryParents ne null }">
 		<script>
 	$(function(){
@@ -36,6 +36,7 @@
 	});
 	</script>
 </jstl:if>
+
 <script>
 	$(function(){
 		$('#zervice').submit(function(){
@@ -64,6 +65,15 @@
 			div.html(htmlString);
 		});
 	}
+</script>
+--%>
+<script>
+	$(function(){
+		$.get('ajax/category/getSubCategories.do',function(data){
+			alert(data.toString());
+			$('#categoryDiv').treeview({data:data});
+		});
+	});
 </script>
 <div class="well col-md-6 col-md-offset-3">
 	<form:form action="manager/zervice/save.do" modelAttribute="zervice">		
