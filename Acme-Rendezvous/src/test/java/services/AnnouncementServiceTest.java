@@ -17,6 +17,8 @@ import utilities.AbstractTest;
 public class AnnouncementServiceTest extends AbstractTest {
 
 	// System under test ------------------------------------------------------
+	
+	//Supporting services -----------------------------------------------------
 
 	// Tests ------------------------------------------------------------------
 

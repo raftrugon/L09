@@ -47,6 +47,10 @@ public class AdminService {
 
 	}
 	
+	public void flush() {
+		adminRepository.flush();
+	}
+	
 	//Other Business Methods --------------------------------
 	
 	public Admin findByUserAccount(UserAccount userAccount) {
