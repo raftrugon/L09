@@ -1,17 +1,11 @@
 package controllers;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.google.gson.Gson;
 
 import services.AnnouncementService;
 import services.CategoryService;
@@ -39,8 +33,8 @@ public class AjaxController {
 	private RendezvousService rendezvousService;
 	@Autowired
 	private CategoryService	categoryService;
-	 
-	
+
+
 	@RequestMapping(value = "/qa", method = RequestMethod.GET)
 	public ModelAndView qa(@RequestParam(required=true)final int rsvpId) {
 		ModelAndView result = new ModelAndView("rsvp/qa");
@@ -49,8 +43,8 @@ public class AjaxController {
 		result.addObject("pendingQuestions", rsvpService.getPendingQuestions(rsvp));
 		result.addObject("rsvp", rsvp);
 		return result;
-	}	
-		
+	}
+
 	@RequestMapping(value="user-card", method = RequestMethod.GET)
 	public ModelAndView userCard(@RequestParam(required=true) final int userId){
 		ModelAndView result;
@@ -63,29 +57,27 @@ public class AjaxController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping(value="loadAnnouncements", method = RequestMethod.GET)
 	public ModelAndView loadAnnouncements(@RequestParam(required=true) final int type){
 		ModelAndView result = new ModelAndView("announcement/subList");
-		if(type==0){
+		if(type==0)
 			result.addObject("announcements",announcementService.findAllOrderedNotInappropriate());
-		}else{
+		else
 			try{
 				User u = userService.findByPrincipal();
-				if(type==1){
+				if(type==1)
 					result.addObject("announcements",announcementService.getMyAnnouncementsNotInappropriate(u));
-				}else if(type==2){
+				else if(type==2)
 					result.addObject("announcements",announcementService.getRSVPAnnouncementsForUserNotInappropriate(u));
-				}else{
+				else
 					result.addObject("announcements",announcementService.findAllOrderedNotInappropriate());
-				}
 			}catch(Throwable oops){
 				result.addObject("announcements",announcementService.findAllOrderedNotInappropriate());
 			}
-		}
 		return result;
 	}
-	
+
 	@RequestMapping(value="showComments", method = RequestMethod.GET)
 	public ModelAndView showComments(@RequestParam(required=true) final int rendezvousId){
 		ModelAndView result = new ModelAndView("comment/display");
@@ -104,7 +96,7 @@ public class AjaxController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping(value="showAnnouncements", method = RequestMethod.GET)
 	public ModelAndView showAnnouncements(@RequestParam(required=true) final int rendezvousId){
 		ModelAndView result = new ModelAndView("announcement/display");
@@ -115,7 +107,7 @@ public class AjaxController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping(value="showButtons", method = RequestMethod.GET)
 	public ModelAndView showButtons(@RequestParam(required=true) final int rendezvousId){
 		ModelAndView result = new ModelAndView("rendezvous/buttonsalerts");
@@ -134,7 +126,7 @@ public class AjaxController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping(value="rsvp/showChips.do", method = RequestMethod.GET)
 	public ModelAndView showCHips(@RequestParam(required=true) final int rendezvousId){
 		ModelAndView result = new ModelAndView("rsvp/chips");
@@ -145,16 +137,9 @@ public class AjaxController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping(value = "category/getSubCategories", method = RequestMethod.GET)
 	public String getSubCategories(@RequestParam(required=false) final Integer categoryId){
-		Collection<String> res;
-		try{
-			res = categoryService.getSubCategoriesMap(categoryId);
-		}catch(Throwable oops){
-			res = new ArrayList<String>();
-		}
-		Gson gson = new Gson();
-		return gson.toJson(res);
+		return categoryService.getCategoriesJson(null).toString();
 	}
 }

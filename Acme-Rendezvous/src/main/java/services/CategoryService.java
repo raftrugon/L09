@@ -2,8 +2,6 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -12,6 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.CategoryRepository;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import domain.Category;
 import domain.Zervice;
 
@@ -92,21 +94,28 @@ public class CategoryService {
 		return nameClashes(c);
 	}
 
-	public Collection<String> getSubCategoriesMap(Integer categoryId) {
-		if (categoryId == null)
-			return categoryRepository.getFirstLevelCategoriesMap();
+
+	public JsonArray getCategoriesJson(Category category){
+		JsonArray json = new JsonArray();
+		Collection<Category> subCategories;
+		if(category == null)
+			subCategories = categoryRepository.getFirstLevelCategories();
 		else
-			return categoryRepository.getSubCategoriesMap(findOne(categoryId));
+			subCategories = category.getCategories();
+		for(Category c: subCategories){
+			JsonObject subJson = new JsonObject();
+			subJson.addProperty("text", c.getName());
+			subJson.addProperty("selectedIcon", "glyphicon glyphicon-ok");
+			subJson.addProperty("categoryId",c.getId());
+			if(!c.getCategories().isEmpty()){
+				subJson.add("nodes", getCategoriesJson(c));
+				JsonArray tags = new JsonArray();
+				tags.add(c.getCategories().size());
+				subJson.add("tags", tags);
+			}
+			json.add(subJson);
+		}
+		return json;
 	}
 
-	public Collection<Integer> getCategoryParents(Category category) {
-		List<Integer> ids = new ArrayList<Integer>();
-		Category cat = category;
-		while (cat.getParent() != null) {
-			ids.add(cat.getParent().getId());
-			cat = cat.getParent();
-		}
-		Collections.reverse(ids);
-		return ids;
-	}
 }

@@ -17,53 +17,25 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="lib" tagdir="/WEB-INF/tags/myTagLib" %>
 
-<jstl:if test="${categoryParents ne null }">
-		<script>
-	$(function(){
-		var categoryParents = <jstl:out value="${categoryParents}"/> ;
-		var recursiveStr = 'printSubCategories()';
-		$.each(categoryParents,function(i,id){
-			recursiveStr += '.then(printSubCategories('+id+'))';
-		});
-		eval(recursiveStr);
-	});
-	</script>
-</jstl:if>
-<jstl:if test="${categoryParents eq null }">
-	<script>
-	$(function(){
-		printSubCategories();
-	});
-	</script>
-</jstl:if>
 <script>
 	$(function(){
-		$('#zervice').submit(function(){
-			$('#category').val($('#categoryDiv .btn-success').val());
+		$.get('ajax/category/getSubCategories.do',function(data){
+			$('#categoryDiv').treeview({
+				data:data,
+				showTags:true,
+				onNodeSelected: function(event,node){
+					$('#category').val($(node).attr("categoryId"));
+				}	
+			});
+			var category = $('#category').val();
+			if(typeof(category) !== 'undefined'){
+				var selectNode = jQuery.grep($('#categoryDiv').treeview('getUnselected',null),function(n){
+					return n.categoryId === parseInt($('#category').val());
+				});
+				$('#categoryDiv').treeview('selectNode',[selectNode[0],{silent:true}]);
+			}
 		});
 	});
-	
-	function printSubCategories(id){
-		var div,url;
-		$('#categoryDiv .btn').removeClass('btn-success');
-		if(jQuery.type(id) == 'undefined'){
-			url = 'ajax/category/getSubCategories.do';
-			div = $('#categoryDiv');
-		}else{
-			url = 'ajax/category/getSubCategories.do?categoryId='+id;
-			div = $('#categoryDiv'+id);
-			$('#categoryBtn'+id).addClass("btn-success");
-			div.siblings('div').html('');
-		}
-		return $.get(url,function(data){
-			var htmlString = '';
-			$.each(JSON.parse(data),function(i,val){
-				var arr = val.split("$$");
-				htmlString += '<button id="categoryBtn'+arr[0]+'"type="button" onclick="javascript:printSubCategories('+arr[0]+')" value="'+arr[0]+'" class="btn btn-primary" style="margin:2px">'+arr[1]+'&ensp;<span class="badge">'+arr[2]+'</span></button><br><div id="categoryDiv'+arr[0]+'" style="padding-left:1em"></div>';
-			});
-			div.html(htmlString);
-		});
-	}
 </script>
 <div class="well col-md-6 col-md-offset-3">
 	<form:form action="manager/zervice/save.do" modelAttribute="zervice">		
@@ -80,8 +52,10 @@
 		<lib:input name="name" type="text" />
 		<lib:input name="description" type="text" />			
 		<lib:input name="picture" type="text" />
+		<hr> 
+		<div class="form-group">
 		<div id="categoryDiv" class="form-group">
-		
+		</div>
 		</div>
 		<hr>		
 		<lib:button noDelete="true" model="zervice" id="${zervice.id}"/>
