@@ -154,31 +154,58 @@
         </property>
     </bean>
     
-    <!-- <bean id="userAccount12" class="security.UserAccount">
-     <property name="username" value="manager2" />
-     <property name="password" value="8df5127cd164b5bc2d2b78410a7eea0c" />
-     <property name="authorities">
-     <list>
-     <bean class="security.Authority">
-     <property name="authority" value="MANAGER" />
-     </bean>
+    
+    <bean id="userAccount12" class="security.UserAccount">
+     	<property name="username" value="manager2" />
+     	<property name="password" value="8df5127cd164b5bc2d2b78410a7eea0c" />
+     	<property name="authorities">
+     		<list>
+     			<bean class="security.Authority">
+     				<property name="authority" value="MANAGER" />
+     			</bean>
      
-     </list>
-     </property>
+    		 </list>
+     	</property>
      </bean>
      
      <bean id="userAccount13" class="security.UserAccount">
-     <property name="username" value="manager3" />
-     <property name="password" value="2d3a5db4a2a9717b43698520a8de57d0" />
-     <property name="authorities">
-     <list>
-     <bean class="security.Authority">
-     <property name="authority" value="MANAGER" />
+     	<property name="username" value="manager3" />
+     	<property name="password" value="2d3a5db4a2a9717b43698520a8de57d0" />
+     	<property name="authorities">
+     		<list>
+     			<bean class="security.Authority">
+    				<property name="authority" value="MANAGER" />
+     			</bean>
+     
+     		</list>
+     	</property>
      </bean>
      
-     </list>
-     </property>
-     </bean> -->
+     <bean id="userAccount14" class="security.UserAccount">
+     	<property name="username" value="manager4" />
+     	<property name="password" value="e1ec6fc941af3ba79a4ac5242dd39735" />
+     	<property name="authorities">
+     		<list>
+     			<bean class="security.Authority">
+    				<property name="authority" value="MANAGER" />
+     			</bean>
+     
+     		</list>
+     	</property>
+     </bean>
+     
+     <bean id="userAccount15" class="security.UserAccount">
+     	<property name="username" value="manager5" />
+     	<property name="password" value="029cb1d27c0b9c551703ccba2591c334" />
+     	<property name="authorities">
+     		<list>
+     			<bean class="security.Authority">
+    				<property name="authority" value="MANAGER" />
+     			</bean>
+     
+     		</list>
+     	</property>
+     </bean>
     <!-- ADMIN -->
     
     <bean id="admin" class="domain.Admin">
@@ -394,24 +421,134 @@
         </property>
     </bean>
     
+    <bean id="manager2" class="domain.Manager">
+        <property name="userAccount" ref="userAccount12" />
+        <property name="name" value="Rafael" />
+        <property name="surnames" value="Garcia Vargas" />
+        <property name="email" value="manager2@correo.com" />
+        <property name="address" value="Reina Mercedes 33" />
+        <property name="vat" value="QWE32-vat" />
+        <property name="zervices">
+            <list>
+            	<ref bean="zervice2"/>
+            </list>
+        </property>
+    </bean>
     
+    <bean id="manager3" class="domain.Manager">
+        <property name="userAccount" ref="userAccount13" />
+        <property name="name" value="Manuel" />
+        <property name="surnames" value="Carrero Muñoz" />
+        <property name="email" value="manager3@correo.com" />
+        <property name="address" value="Juan Antonio Cavestany 15" />
+        <property name="vat" value="FGH13-java" />
+        <property name="zervices">
+            <list>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="manager4" class="domain.Manager">
+        <property name="userAccount" ref="userAccount14" />
+        <property name="name" value="Miguel" />
+        <property name="surnames" value="Jimenez Valderas" />
+        <property name="email" value="manager4@correo.com" />
+        <property name="address" value="Alejandro Collantes 31" />
+        <property name="vat" value="POI31-marvel" />
+        <property name="zervices">
+            <list>
+            	<ref bean="zervice4"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="manager5" class="domain.Manager">
+        <property name="userAccount" ref="userAccount15" />
+        <property name="name" value="Maria" />
+        <property name="surnames" value="De la Escalera Pérez" />
+        <property name="email" value="manager5@correo.com" />
+        <property name="address" value="Imperial SN" />
+        <property name="vat" value="LMK15-uganda" />
+        <property name="zervices">
+            <list>
+            	<ref bean="zervice5"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- ZERVICE 15 -->
     <bean id="zervice1" class="domain.Zervice">
-        <property name="name" value="Hola" />
-        <property name="description" value="Prueba" />
-        <property name="picture" value="http://wmnf.s3.amazonaws.com/wp-content/uploads/2017/06/service-1a.jpg" />
+        <property name="name" value="Catering" />
+        <property name="description" value="Servicio de catering" />
+        <property name="picture" value="http://www.furgocar.es/blog/wp-content/uploads/2017/01/catering.jpg" />
         <property name="inappropriate" value="false" />
         <property name="manager" ref="manager1" />
         <property name="category" ref="category2" />
         <property name="requests">
             <list>
                 <ref bean="request1"/>
+                <ref bean="request2"/>
             </list>
         </property>
     </bean>
     
-    <bean id="DEFAULTcategory1" class="domain.Category">
-        <property name="name" value="CATEGORY" />
-        <property name="description" value="categoria general" />
+    <bean id="zervice2" class="domain.Zervice">
+        <property name="name" value="Material fotográfico" />
+        <property name="description" value="Disponible material fotográfico" />
+        <property name="picture" value="https://365enfoques.com/wp-content/uploads/2016/03/ahorrar-dinero-como-fotografo.jpg" />
+        <property name="inappropriate" value="false" />
+        <property name="manager" ref="manager2" />
+        <property name="category" ref="category2" />
+        <property name="requests">
+            <list>
+            	<ref bean="request3"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="zervice3" class="domain.Zervice">
+        <property name="name" value="Material de lectura" />
+        <property name="description" value="Disponible material de lectura" />
+        <property name="picture" value="" />
+        <property name="inappropriate" value="false" />
+        <property name="manager" ref="manager1" />
+        <property name="category" ref="category2" />
+        <property name="requests">
+            <list>
+            	<ref bean="request4"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="zervice4" class="domain.Zervice">
+        <property name="name" value="Alcohol permitido" />
+        <property name="description" value="Beber siempre con moderación" />
+        <property name="picture" value="" />
+        <property name="inappropriate" value="true" />
+        <property name="manager" ref="manager4" />
+        <property name="category" ref="category2" />
+        <property name="requests">
+            <list>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="zervice5" class="domain.Zervice">
+        <property name="name" value="Informática" />
+        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
+        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="inappropriate" value="false" />
+        <property name="manager" ref="manager5" />
+        <property name="category" ref="category2" />
+        <property name="requests">
+            <list>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- CATEGORY 20 -->
+    
+    <bean id="category1" class="domain.Category">
+        <property name="name" value="Categoria" />
+        <property name="description" value="Categoria general" />
         <property name="parent">
             <null />
         </property>
@@ -429,7 +566,7 @@
     <bean id="category2" class="domain.Category">
         <property name="name" value="Turismo" />
         <property name="description" value="Haremos turismos por los parques cercanos" />
-        <property name="parent" ref="DEFAULTcategory1" />
+        <property name="parent" ref="category1" />
         <property name="categories">
             <list>
             </list>
@@ -437,9 +574,16 @@
         <property name="zervices">
             <list>
                 <ref bean="zervice1" />
+                <ref bean="zervice2" />
+                <ref bean="zervice3" />
+                <ref bean="zervice4" />
+                <ref bean="zervice5" />
             </list>
         </property>
     </bean>
+    
+    
+    <!-- CREDIT CARDS 5 -->
     
     <bean id="creditCard1" class="domain.CreditCard">
         <property name="holderName" value="Armando Garrido Castro" />
@@ -451,6 +595,8 @@
         
     </bean>
     
+    <!-- REQUEST 25 -->
+    
     <bean id="request1" class="domain.Request">
         <property name="comment" value="esta ciudad es una maravilla" />
         <property name="zervice" ref="zervice1"/>
@@ -459,6 +605,45 @@
         <property name="rendezvous" ref="rendezvous1"/>
         
     </bean>
+    
+    <bean id="request2" class="domain.Request">
+        <property name="comment" value="Me encanta esta ciudad" />
+        <property name="zervice" ref="zervice1"/>
+        
+        <property name="creditCard" ref="creditCard1"/>
+        <property name="rendezvous" ref="rendezvous2"/>
+        
+    </bean>
+    
+    <bean id="request3" class="domain.Request">
+        <property name="comment" value="Esta visita es increible" />
+        <property name="zervice" ref="zervice2"/>
+        
+        <property name="creditCard" ref="creditCard1"/>
+        <property name="rendezvous" ref="rendezvous3"/>
+        
+    </bean>
+    
+    <bean id="request4" class="domain.Request">
+        <property name="comment" value="No soy muy fan de la semana santa" />
+        <property name="zervice" ref="zervice3"/>
+        
+        <property name="creditCard" ref="creditCard1"/>
+        <property name="rendezvous" ref="rendezvous6"/>
+        
+    </bean>
+    
+    <bean id="request5" class="domain.Request">
+        <property name="comment" value="Seguro que me encanta la experiencia de irme de bares" />
+        <property name="zervice" ref="zervice4"/>
+        
+        <property name="creditCard" ref="creditCard1"/>
+        <property name="rendezvous" ref="rendezvous8"/>
+        
+    </bean>
+    
+    
+    
     
     
     <bean id="systemConfig1" class="domain.SystemConfig">
