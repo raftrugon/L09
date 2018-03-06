@@ -155,6 +155,7 @@ public class Rendezvous extends DomainEntity {
 	private Collection<Rsvp>			rsvps;
 	private Collection<Announcement>	announcements;
 	private Collection<Rendezvous>		rendezvouses;
+	private Collection<Request>			requests;
 
 
 	@Valid
@@ -207,5 +208,15 @@ public class Rendezvous extends DomainEntity {
 
 	public void setRendezvouses(final Collection<Rendezvous> rendezvouses) {
 		this.rendezvouses = rendezvouses;
+	}
+
+	@NotNull
+	@OneToMany(mappedBy = "rendezvous")
+	public Collection<Rendezvous> getRequests() {
+		return this.rendezvouses;
+	}
+
+	public void setRequests(final Collection<Request> requests) {
+		this.requests = requests;
 	}
 }
