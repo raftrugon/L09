@@ -212,8 +212,8 @@ public class Rendezvous extends DomainEntity {
 
 	@NotNull
 	@OneToMany(mappedBy = "rendezvous")
-	public Collection<Rendezvous> getRequests() {
-		return this.rendezvouses;
+	public Collection<Request> getRequests() {
+		return this.requests;
 	}
 
 	public void setRequests(final Collection<Request> requests) {
