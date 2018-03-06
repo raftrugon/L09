@@ -540,6 +540,8 @@
         <property name="category" ref="category2" />
         <property name="requests">
             <list>
+            	<ref bean= "request5"/>
+            	<ref bean="request6"/>
             </list>
         </property>
     </bean>
@@ -547,14 +549,16 @@
     <!-- CATEGORY 20 -->
     
     <bean id="category1" class="domain.Category">
-        <property name="name" value="Categoria" />
-        <property name="description" value="Categoria general" />
+        <property name="name" value="Reuniones" />
+        <property name="description" value="Nos reuniremos para charlar" />
         <property name="parent">
             <null />
         </property>
         <property name="categories">
             <list>
-                <ref bean="category2" />
+            	<ref bean="category8"/>
+            	<ref bean="category9"/>
+            	<ref bean="category10"/>
             </list>
         </property>
         <property name="zervices">
@@ -566,9 +570,12 @@
     <bean id="category2" class="domain.Category">
         <property name="name" value="Turismo" />
         <property name="description" value="Haremos turismos por los parques cercanos" />
-        <property name="parent" ref="category1" />
+        <property name="parent">
+            <null />
+        </property>
         <property name="categories">
             <list>
+            	<ref bean="category3"/>
             </list>
         </property>
         <property name="zervices">
@@ -582,8 +589,199 @@
         </property>
     </bean>
     
+    <bean id="category3" class="domain.Category">
+        <property name="name" value="Turismo por bar" />
+        <property name="description" value="Haremos turismos por los bares" />
+        <property name="parent" ref="category2" />
+        <property name="categories">
+            <list>
+            	<ref bean="category4"/>
+            </list>
+        </property>
+        <property name="zervices">
+            <list>
+                <ref bean="zervice1" />
+                <ref bean="zervice4" />
+                <ref bean="zervice5" />
+            </list>
+        </property>
+    </bean>
     
-    <!-- CREDIT CARDS 5 -->
+    <bean id="category4" class="domain.Category">
+        <property name="name" value="Turismo por ciudad" />
+        <property name="description" value="Haremos turismos por la ciudad" />
+        <property name="parent" ref="category3" />
+        <property name="categories">
+            <list>
+            	<ref bean = "category5"/>
+            </list>
+        </property>
+        <property name="zervices">
+            <list>
+                <ref bean="zervice1" />
+                <ref bean="zervice4" />
+                <ref bean="zervice5" />
+            </list>
+        </property>
+    </bean>
+    
+     <bean id="category5" class="domain.Category">
+        <property name="name" value="Turismo por monumentos" />
+        <property name="description" value="Visitaremos los monumentos" />
+        <property name="parent" ref="category4" />
+        <property name="categories">
+            <list>
+            	<ref bean ="category6"/>
+            	<ref bean="category11"/>
+            	<ref bean="category12"/>
+            </list>
+        </property>
+        <property name="zervices">
+            <list>
+                <ref bean="zervice1" />
+                <ref bean="zervice4" />
+                <ref bean="zervice5" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="category6" class="domain.Category">
+        <property name="name" value="Turismo por edificios" />
+        <property name="description" value="Entraremos en los edificios más importantes" />
+        <property name="parent" ref="category5" />
+        <property name="categories">
+            <list>
+            	<ref bean = "category7"/>
+            </list>
+        </property>
+        <property name="zervices">
+            <list>
+                <ref bean="zervice1" />
+                <ref bean="zervice4" />
+                <ref bean="zervice5" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="category7" class="domain.Category">
+        <property name="name" value="Turismo por rio" />
+        <property name="description" value="Visitaremos la ciudad por el rio" />
+        <property name="parent" ref="category6" />
+        <property name="categories">
+            <list>
+            </list>
+        </property>
+        <property name="zervices">
+            <list>
+                <ref bean="zervice1" />
+                <ref bean="zervice4" />
+                <ref bean="zervice5" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="category8" class="domain.Category">
+        <property name="name" value="Reuniones de empresa" />
+        <property name="description" value="Nos reuniremos para hablar sobre la empresa" />
+        <property name="parent" ref="category1" />
+        <property name="categories">
+            <list>
+            </list>
+        </property>
+        <property name="zervices">
+            <list>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="category9" class="domain.Category">
+        <property name="name" value="Reuniones de relación" />
+        <property name="description" value="Nos reuniremos para hablar sobre nuestra relación" />
+        <property name="parent" ref="category1" />
+        <property name="categories">
+            <list>
+            </list>
+        </property>
+        <property name="zervices">
+            <list>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="category10" class="domain.Category">
+        <property name="name" value="Reuniones de trabajo" />
+        <property name="description" value="Para hablar sobre nuestros trabajos" />
+        <property name="parent" ref="category1" />
+        <property name="categories">
+            <list>
+            </list>
+        </property>
+        <property name="zervices">
+            <list>
+            </list>
+        </property>
+    </bean>
+    
+    
+    <bean id="category11" class="domain.Category">
+        <property name="name" value="Reuniones de trabajo" />
+        <property name="description" value="Para hablar sobre nuestros trabajos" />
+        <property name="parent" ref="category5" />
+        <property name="categories">
+            <list>
+            </list>
+        </property>
+        <property name="zervices">
+            <list>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="category12" class="domain.Category">
+        <property name="name" value="Reuniones de trabajo" />
+        <property name="description" value="Para hablar sobre nuestros trabajos" />
+        <property name="parent" ref="category5" />
+        <property name="categories">
+            <list>
+            	<ref bean="category13"/>
+            </list>
+        </property>
+        <property name="zervices">
+            <list>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="category13" class="domain.Category">
+        <property name="name" value="Reuniones de trabajo" />
+        <property name="description" value="Para hablar sobre nuestros trabajos" />
+        <property name="parent" ref="category12" />
+        <property name="categories">
+            <list>
+            	<ref bean="category14"/>
+            </list>
+        </property>
+        <property name="zervices">
+            <list>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="category14" class="domain.Category">
+        <property name="name" value="Reuniones de trabajo" />
+        <property name="description" value="Para hablar sobre nuestros trabajos" />
+        <property name="parent" ref="category13" />
+        <property name="categories">
+            <list>
+            </list>
+        </property>
+        <property name="zervices">
+            <list>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- CREDIT CARDS 3 -->
     
     <bean id="creditCard1" class="domain.CreditCard">
         <property name="holderName" value="Armando Garrido Castro" />
@@ -594,6 +792,24 @@
         <property name="cvvCode" value="132" />
         
     </bean>
+    
+    <bean id="creditCard2" class="domain.CreditCard">
+		<property name="holderName" value="Jorge Puente Zaro" />
+		<property name="brandName" value="La Caixa Bank" />
+		<property name="number" value="4532128724655541" />
+		<property name="expirationMonth" value="03" />
+		<property name="expirationYear" value="2020" />
+		<property name="cvvCode" value="333" />
+	</bean>
+	
+	<bean id="creditCard3" class="domain.CreditCard">
+		<property name="holderName" value="Manuel Perez Carmona" />
+		<property name="brandName" value="Panama Bank" />
+		<property name="number" value="4788169636722384" />
+		<property name="expirationMonth" value="02" />
+		<property name="expirationYear" value="2027" />
+		<property name="cvvCode" value="653" />
+	</bean>
     
     <!-- REQUEST 25 -->
     
@@ -635,10 +851,19 @@
     
     <bean id="request5" class="domain.Request">
         <property name="comment" value="Seguro que me encanta la experiencia de irme de bares" />
-        <property name="zervice" ref="zervice4"/>
+        <property name="zervice" ref="zervice5"/>
         
         <property name="creditCard" ref="creditCard1"/>
         <property name="rendezvous" ref="rendezvous8"/>
+        
+    </bean>
+    
+     <bean id="request6" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice5"/>
+        
+        <property name="creditCard" ref="creditCard2"/>
+        <property name="rendezvous" ref="rendezvous9"/>
         
     </bean>
     
