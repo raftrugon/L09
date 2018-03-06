@@ -14,12 +14,6 @@ public interface CategoryRepository extends JpaRepository<Category,Integer>{
 	@Query("select count(c) from Category c where c.parent = ?1 and c.name = ?2")
 	int nameClashes(Category cP, String name);
 
-	@Query("select concat(c.id,'$$',c.name,'$$',c.categories.size) from Category c where c.parent is null")
-	Collection<String> getFirstLevelCategoriesMap();
-
-	@Query("select concat(c.id,'$$',c.name,'$$',c.categories.size) from Category c where c.parent = ?1")
-	Collection<String> getSubCategoriesMap(Category category);
-
 	@Query("select c from Category c where c.parent is null")
 	Collection<Category> getFirstLevelCategories();
 

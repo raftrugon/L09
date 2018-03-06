@@ -1,11 +1,11 @@
 package controllers.Manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.CategoryService;
@@ -13,7 +13,7 @@ import services.ManagerService;
 import services.ZerviceService;
 import domain.Zervice;
 
-@RestController
+@Controller
 @RequestMapping("/manager/zervice")
 public class ManagerZerviceController {
 
@@ -45,8 +45,6 @@ public class ManagerZerviceController {
 					|| zervice.getManager() != managerService.findByPrincipal())
 				throw new Throwable();
 			result = newEditModelAndView(zervice);
-			result.addObject("categoryParents",
-					categoryService.getCategoryParents(zervice.getCategory()));
 		} catch (Throwable oops) {
 			result = new ModelAndView("redirect:/zervice/list.do");
 		}
@@ -70,7 +68,7 @@ public class ManagerZerviceController {
 			try {
 				saved = zerviceService.save(validatedObject);
 				result = new ModelAndView(
-						"redirect:../../zervice/display.do?zerviceId="
+						"redirect:../zervice/display.do?zerviceId="
 								+ saved.getId());
 			} catch (Throwable oops) {
 				oops.printStackTrace();

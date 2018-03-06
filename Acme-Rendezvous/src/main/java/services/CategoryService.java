@@ -2,8 +2,6 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -96,23 +94,6 @@ public class CategoryService {
 		return nameClashes(c);
 	}
 
-	public Collection<String> getSubCategoriesMap(Integer categoryId) {
-		if (categoryId == null)
-			return categoryRepository.getFirstLevelCategoriesMap();
-		else
-			return categoryRepository.getSubCategoriesMap(findOne(categoryId));
-	}
-
-	public Collection<Integer> getCategoryParents(Category category) {
-		List<Integer> ids = new ArrayList<Integer>();
-		Category cat = category;
-		while (cat.getParent() != null) {
-			ids.add(cat.getParent().getId());
-			cat = cat.getParent();
-		}
-		Collections.reverse(ids);
-		return ids;
-	}
 
 	public JsonArray getCategoriesJson(Category category){
 		JsonArray json = new JsonArray();
@@ -124,8 +105,14 @@ public class CategoryService {
 		for(Category c: subCategories){
 			JsonObject subJson = new JsonObject();
 			subJson.addProperty("text", c.getName());
-			if(!c.getCategories().isEmpty())
+			subJson.addProperty("selectedIcon", "glyphicon glyphicon-ok");
+			subJson.addProperty("categoryId",c.getId());
+			if(!c.getCategories().isEmpty()){
 				subJson.add("nodes", getCategoriesJson(c));
+				JsonArray tags = new JsonArray();
+				tags.add(c.getCategories().size());
+				subJson.add("tags", tags);
+			}
 			json.add(subJson);
 		}
 		return json;

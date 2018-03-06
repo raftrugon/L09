@@ -140,14 +140,6 @@ public class AjaxController {
 
 	@RequestMapping(value = "category/getSubCategories", method = RequestMethod.GET)
 	public String getSubCategories(@RequestParam(required=false) final Integer categoryId){
-		//		Collection<String> res;
-		//		try{
-		//			res = categoryService.getSubCategoriesMap(categoryId);
-		//		}catch(Throwable oops){
-		//			res = new ArrayList<String>();
-		//		}
-		//		Gson gson = new Gson();
-		//		return gson.toJson(res);
 		return categoryService.getCategoriesJson(null).toString();
 	}
 }
