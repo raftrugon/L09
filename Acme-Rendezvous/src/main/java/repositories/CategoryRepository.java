@@ -16,5 +16,12 @@ public interface CategoryRepository extends JpaRepository<Category,Integer>{
 
 	@Query("select c from Category c where c.parent is null")
 	Collection<Category> getFirstLevelCategories();
+	
+	@Query("select coalesce(avg(c.zervices.size),0) from Category c")
+	Double getAvgRatioOfZervicesInEachCategory();
+	
+	@Query("select r,z from Request r,Zervice z where  ")
+	Double getAvgOfCategoriesPerRendezvous();
 
+	
 }
