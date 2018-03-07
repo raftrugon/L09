@@ -13,6 +13,7 @@ import org.springframework.validation.Validator;
 import repositories.ZerviceRepository;
 import domain.Request;
 import domain.Zervice;
+import exceptions.ZerviceRequestsNotEmptyException;
 
 @Service
 @Transactional
@@ -70,13 +71,14 @@ public class ZerviceService {
 		return zerviceRepository.save(zervice);
 	}
 
-	public void deleteByUser(final int zerviceId) {
+	public void deleteByUser(final int zerviceId) throws ZerviceRequestsNotEmptyException {
 		Assert.isTrue(zerviceId != 0);
 		Zervice zervice = findOne(zerviceId);
 		Assert.notNull(zervice);
 		Assert.isTrue(zervice.getManager().equals(
 				managerService.findByPrincipal()));
-		Assert.isTrue(zervice.getRequests().isEmpty());
+		if(!zervice.getRequests().isEmpty())
+			throw new ZerviceRequestsNotEmptyException();
 		zerviceRepository.delete(zervice);
 	}
 

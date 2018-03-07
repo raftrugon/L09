@@ -27,6 +27,7 @@
 		<spring:message code="request.rendezvous" />:
 	</form:label>
 	<select class="selectpicker form-control" id="rendezvousSelect" name="rendezvous" data-live-search="true">
+		<option selected="selected" disabled="disabled">--- <spring:message code="request.selectARendezvous"/> ---</option>
 		<jstl:forEach items="${rendezvouses}" var="rendezvous">
 			<jstl:choose>
 				<jstl:when test="${selectedRendezvous ne null and selectedRendezvous eq rendezvous }">
@@ -41,7 +42,8 @@
 			</jstl:choose>
 		</jstl:forEach>
 	</select>
-	<form:errors cssClass="error" path="rendezvous" />	
+	<form:errors cssClass="error" path="rendezvous" />
+	<span id="rendezvousError" class="error" style="display:none"><spring:message code="javax.validation.constraints.NotNull.message"/></span>
 	</div>
 	
 	<div class="form-group">
@@ -49,6 +51,7 @@
 		<spring:message code="request.zervice" />:
 	</form:label>
 	<select class="selectpicker form-control" id="zerviceSelect" name="zervice" data-live-search="true">
+		<option selected="selected" disabled="disabled">--- <spring:message code="request.selectAZervice"/> ---</option>
 		<jstl:forEach items="${zervices}" var="zervice">
 			<jstl:choose>
 				<jstl:when test="${selectedZervice ne null and selectedZervice eq zervice }">
@@ -64,6 +67,7 @@
 		</jstl:forEach>
 	</select>
 	<form:errors cssClass="error" path="zervice" />
+	<span id="zerviceError" style="display:none" class="error"><spring:message code="javax.validation.constraints.NotNull.message"/></span>
 	</div>
 	
 	<form:label class="control-label" path="comment">
@@ -139,6 +143,12 @@ $(document).ready(function(){
 		$('#brandName').val($.payment.cardType($('#number').val()));
 	});
 	$('#form').submit(function(e){
+		var renSelect = $('#rendezvousSelect');
+		var zerSelect = $('#zerviceSelect');
+		$('#rendezvousError').hide();
+		$('#zerviceError').hide();
+		renSelect.parent().parent().removeClass('has-error');
+		zerSelect.parent().parent().removeClass('has-error');
 		var submitting = true;
 		$('#numberAlert').hide();
 		$('#dateAlert').hide();
@@ -155,6 +165,19 @@ $(document).ready(function(){
 			e.preventDefault();
 			submitting = false;
 		}
+		if(renSelect.val() === null){
+			renSelect.parent().parent().addClass('has-error');	
+			$('#rendezvousError').show();
+			e.preventDefault();
+			submitting = false;
+		}
+		if(zerSelect.val() === null){
+			zerSelect.parent().parent().addClass('has-error');
+			$('#zerviceError').show();
+			e.preventDefault();
+			submitting = false;
+		}
+		
 		if(submitting){
 			var noSpaceNumber = $('#number').val().replace(/ /g,"");
 			$('#number').val(noSpaceNumber);

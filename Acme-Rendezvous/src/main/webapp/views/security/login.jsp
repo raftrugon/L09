@@ -18,7 +18,7 @@
 
 <script type="text/javascript" src="scripts/md5.min.js"></script>
 
-<div class="col-sm-4 col-sm-offset-4">
+<div class="well col-sm-4 col-sm-offset-4">
 <form:form id="loginForm" action="j_spring_security_check" modelAttribute="credentials" >
 	<div class="form-group">
 	<form:label path="username">
@@ -44,8 +44,11 @@
 
 	
 	<input type="submit" class="btn btn-success btn-group-justified" value="<spring:message code="security.login" />" />
-		
-	
-	
 </form:form>
 </div>
+
+<script>
+	$(function(){
+		$('#usernameInput').focus();
+	});
+</script>

@@ -12,6 +12,7 @@ import services.CategoryService;
 import services.ManagerService;
 import services.ZerviceService;
 import domain.Zervice;
+import exceptions.ZerviceRequestsNotEmptyException;
 
 @Controller
 @RequestMapping("/manager/zervice")
@@ -46,7 +47,7 @@ public class ManagerZerviceController {
 				throw new Throwable();
 			result = newEditModelAndView(zervice);
 		} catch (Throwable oops) {
-			result = new ModelAndView("redirect:/zervice/list.do");
+			result = new ModelAndView("redirect:/list.do");
 		}
 		return result;
 	}
@@ -68,7 +69,7 @@ public class ManagerZerviceController {
 			try {
 				saved = zerviceService.save(validatedObject);
 				result = new ModelAndView(
-						"redirect:../zervice/display.do?zerviceId="
+						"redirect:../../zervice/display.do?zerviceId="
 								+ saved.getId());
 			} catch (Throwable oops) {
 				oops.printStackTrace();
@@ -79,19 +80,18 @@ public class ManagerZerviceController {
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(final Zervice zervice,
-			final BindingResult binding) {
+	public ModelAndView delete(final Zervice zervice) {
 		ModelAndView result;
-		if (binding.hasErrors())
+		try {
+			zerviceService.deleteByUser(zervice.getId());
+			result = new ModelAndView("redirect:../../zervice/list.do");
+		} catch(ZerviceRequestsNotEmptyException oops){
 			result = newEditModelAndView(zervice);
-		else
-			try {
-				zerviceService.deleteByUser(zervice.getId());
-				result = new ModelAndView("redirect:../../zervice/list.do");
-			} catch (Throwable oops) {
-				result = newEditModelAndView(zervice);
-				result.addObject("message", "zervice.commitError");
-			}
+			result.addObject("message", oops.getMessage());
+		} catch (Throwable oops) {
+			result = newEditModelAndView(zervice);
+			result.addObject("message", "zervice.commitError");
+		}
 		return result;
 	}
 
