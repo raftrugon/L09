@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import services.AnnouncementService;
 import services.CommentService;
 import services.RendezvousService;
+import services.ZerviceService;
 import domain.Announcement;
 import domain.Comment;
 import domain.Rendezvous;
+import domain.Zervice;
 
 @RestController
 @RequestMapping("/admin/ajax")
@@ -23,6 +25,8 @@ public class AdminAjaxController {
 	private CommentService commentService;
 	@Autowired
 	private RendezvousService rendezvousService;
+	@Autowired
+	private ZerviceService zerviceService;
 
 	@RequestMapping(value="/rendezvous/delete", method=RequestMethod.POST)
 	public String deleteRendezvous(@RequestParam(required = true) int rendezvousId) {
@@ -51,6 +55,16 @@ public class AdminAjaxController {
 		Comment c = commentService.findOne(commentId);
 		try{
 			commentService.deleteByAdmin(c);
+			return "1";
+		} catch(Throwable oops) {
+			return "2";
+		}
+	}
+	
+	@RequestMapping(value="/zervice/delete", method=RequestMethod.POST)
+	public String deleteZervice(@RequestParam(required = true) int zerviceId) {
+		try{
+			zerviceService.deleteByAdmin(zerviceId);
 			return "1";
 		} catch(Throwable oops) {
 			return "2";
