@@ -47,11 +47,13 @@
 			</jstl:if>
 		</security:authorize>
 		<security:authorize access="hasRole('MANAGER')">
-			<jstl:if test="${not zervice.inappropriate}">
-				<a class="cardButton" href="manager/zervice/edit.do?zerviceId=${zervice.id}"><spring:message code="zervice.edit"/></a>
-			</jstl:if>
-			<jstl:if test="${zervice.inappropriate}">
-				<button type="button" class="cardButton disabled"><s><spring:message code="zervice.edit"/></s></button>
+			<jstl:if test="${pageContext.request.userPrincipal.name eq zervice.manager.userAccount.username }">
+				<jstl:if test="${not zervice.inappropriate}">
+					<a class="cardButton" href="manager/zervice/edit.do?zerviceId=${zervice.id}"><spring:message code="zervice.edit"/></a>
+				</jstl:if>
+				<jstl:if test="${zervice.inappropriate}">
+					<button type="button" class="cardButton disabled"><s><spring:message code="zervice.edit"/></s></button>
+				</jstl:if>
 			</jstl:if>
 		</security:authorize>
 	</div>

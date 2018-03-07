@@ -32,7 +32,7 @@ public class ManagerZerviceController {
 			result = newEditModelAndView(zerviceService.create());
 			result.addObject("categories", categoryService.findAll());
 		} catch (Throwable oops) {
-			result = new ModelAndView("redirect:list.do");
+			result = new ModelAndView("redirect:../../zervice/list.do");
 		}
 		return result;
 	}
@@ -47,7 +47,7 @@ public class ManagerZerviceController {
 				throw new Throwable();
 			result = newEditModelAndView(zervice);
 		} catch (Throwable oops) {
-			result = new ModelAndView("redirect:list.do");
+			result = new ModelAndView("redirect:../../zervice/list.do");
 		}
 		return result;
 	}
@@ -82,7 +82,7 @@ public class ManagerZerviceController {
 	public ModelAndView delete(final Zervice zervice) {
 		ModelAndView result;
 		try {
-			zerviceService.deleteByUser(zervice.getId());
+			zerviceService.deleteByManager(zervice.getId());
 			result = new ModelAndView("redirect:../../zervice/list.do");
 		} catch(ZerviceRequestsNotEmptyException oops){
 			result = newEditModelAndView(zervice);

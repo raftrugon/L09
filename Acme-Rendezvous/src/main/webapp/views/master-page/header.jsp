@@ -86,8 +86,8 @@
 			
 			<security:authorize access="hasRole('USER')">
 				<li class="btn-group">
-					<button onClick="javascript:window.location.href = 'user/rendezvous/create.do'" class="btn btn-success navbar-btn"><i class="fas fa-plus-square"></i> <spring:message code="master.page.rendezvous.create" /></button>
-					<button id="newRequestHeaderBtn" class="btn btn-success navbar-btn"><spring:message code="request.new" /> <i class="fas fa-plus-square"></i> </button>
+					<button onClick="javascript:window.location.href = 'user/rendezvous/create.do'" class="btn btn-success navbar-btn"><i class="fas fa-users"></i> <spring:message code="master.page.rendezvous.create" /></button>
+					<button id="newRequestHeaderBtn" class="btn btn-success navbar-btn"><spring:message code="request.new" /> <i class="far fa-handshake"></i> </button>
 				</li>
 			</security:authorize>
 			

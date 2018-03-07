@@ -58,7 +58,8 @@
 <div class="col-md-2">
 <security:authorize access="hasRole('USER')">
 	<jstl:if test="${rendezvous.user.userAccount.username eq pageContext.request.userPrincipal.name }">
-	<div class="panel panel-default">
+	<button type="button" onclick="javascript:newRequest()" class="btn btn-primary btn-block"><spring:message code="request.requestOnRendezvous"/></button>
+	<div class="panel panel-default" style="margin-top:20px">
 		<div class="well" style="margin-bottom:10px;text-align:center"><strong><i class="fas fa-bullhorn"></i> <spring:message code="rendezvous.announcement.new"/></strong></div>
 		<form:form action="user/ajax/announcement/save.do" modelAttribute="announcement" style="margin-bottom:10px !important;width:95%;margin:auto">		
 			<jstl:set var="model" value="announcement" scope="request"/>
@@ -382,5 +383,15 @@ $(function(){
 			}
 		});
 	};
+</script>
+<script>
+function newRequest(){
+	$.get('user/request/create.do',{rendezvousId: ${rendezvous.id}}, function(data){
+		$('#requestModal .modal-body').html(data);
+		$('#requestModal').modal('show');
+		$('#rendezvousSelect').selectpicker('refresh');
+		$('#zerviceSelect').selectpicker('refresh');
+	});
+};
 </script>
 </div>

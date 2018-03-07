@@ -71,7 +71,7 @@ public class ZerviceService {
 		return zerviceRepository.save(zervice);
 	}
 
-	public void deleteByUser(final int zerviceId) throws ZerviceRequestsNotEmptyException {
+	public void deleteByManager(final int zerviceId) throws ZerviceRequestsNotEmptyException {
 		Assert.isTrue(zerviceId != 0);
 		Zervice zervice = findOne(zerviceId);
 		Assert.notNull(zervice);
