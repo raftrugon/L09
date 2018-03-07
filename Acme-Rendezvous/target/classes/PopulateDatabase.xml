@@ -1400,6 +1400,11 @@
                 <ref bean="announcement2" />
             </list>
         </property>
+        <property name="requests">
+            <list>
+                <ref bean="request1" />
+            </list>
+        </property>
     </bean>
     
     <bean id="rendezvous2" class="domain.Rendezvous">
@@ -1443,6 +1448,11 @@
                 <ref bean="announcement3" />
                 <ref bean="announcement6" />
                 <ref bean="announcement7" />
+            </list>
+        </property>
+        <property name="requests">
+            <list>
+                <ref bean="request2" />
             </list>
         </property>
     </bean>
@@ -1495,6 +1505,11 @@
                 <ref bean="announcement8" />
             </list>
         </property>
+        <property name="requests">
+            <list>
+                <ref bean="request3" />
+            </list>
+        </property>
     </bean>
     
     <bean id="rendezvous4" class="domain.Rendezvous">
@@ -1530,6 +1545,10 @@
         <property name="announcements">
             <list>
                 <ref bean="announcement9" />
+            </list>
+        </property>
+        <property name="requests">
+            <list>
             </list>
         </property>
     </bean>
@@ -1570,6 +1589,10 @@
                 <ref bean="announcement11" />
             </list>
         </property>
+                <property name="requests">
+            <list>
+            </list>
+        </property>
     </bean>
     
     <bean id="rendezvous6" class="domain.Rendezvous">
@@ -1604,6 +1627,11 @@
         </property>
         <property name="announcements">
             <list>
+            </list>
+        </property>
+        <property name="requests">
+            <list>
+            	<ref bean="request4"/>
             </list>
         </property>
     </bean>
@@ -1645,6 +1673,10 @@
                 <ref bean="announcement13" />
             </list>
         </property>
+        <property name="requests">
+            <list>
+            </list>
+        </property>
     </bean>
     
     <bean id="rendezvous8" class="domain.Rendezvous">
@@ -1680,6 +1712,11 @@
             <list>
                 <ref bean="announcement14" />
                 <ref bean="announcement15" />
+            </list>
+        </property>
+        <property name="requests">
+            <list>
+            	<ref bean="request5"/>
             </list>
         </property>
     </bean>
@@ -1718,6 +1755,11 @@
             <list>
             </list>
         </property>
+        <property name="requests">
+            <list>
+            	<ref bean="request6"/>
+            </list>
+        </property>
     </bean>
     
     <bean id="rendezvous10" class="domain.Rendezvous">
@@ -1751,6 +1793,10 @@
             </list>
         </property>
         <property name="announcements">
+            <list>
+            </list>
+        </property>
+        <property name="requests">
             <list>
             </list>
         </property>
@@ -1789,6 +1835,10 @@
             <list>
             </list>
         </property>
+        <property name="requests">
+            <list>
+            </list>
+        </property>
     </bean>
     
     <bean id="rendezvous12" class="domain.Rendezvous">
@@ -1823,6 +1873,10 @@
             </list>
         </property>
         <property name="announcements">
+            <list>
+            </list>
+        </property>
+        <property name="requests">
             <list>
             </list>
         </property>
@@ -1864,6 +1918,10 @@
             <list>
             </list>
         </property>
+        <property name="requests">
+            <list>
+            </list>
+        </property>
     </bean>
     
     <bean id="rendezvous14" class="domain.Rendezvous">
@@ -1898,6 +1956,10 @@
             </list>
         </property>
         <property name="announcements">
+            <list>
+            </list>
+        </property>
+        <property name="requests">
             <list>
             </list>
         </property>
