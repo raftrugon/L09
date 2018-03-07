@@ -12,13 +12,15 @@
 <jsp:useBean id="now" class="java.util.Date" />
 <jstl:forEach items="${zervices}" var="zervice">
 
+<jstl:set var="inappropriateStyle" value=""/>
 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 cardContainer" >
 			<jstl:if test="${zervice.inappropriate eq true}">
+				<jstl:set var="inappropriateStyle" value="filter: blur(5px);-webkit-filter: blur(5px);"/>
 				<div class="alert alert-danger" style="position:absolute;top:40%;right:10%;left:10%;text-align:center;z-index:500;"><strong><spring:message code="zervice.inappropriate.alert"/></strong></div>
 			</jstl:if>
 			
 	<div class="card" style="${inappropriateStyle}">
-		<div onclick="${rendClick}" style="height:100%;${rendStyle}">
+		<div onclick="${rendClick}" style="height:100%;">
 			<jstl:if test="${empty zervice.picture}">
 				<div class="nopicContainer">
 					<img src="images/nopic2.jpg" style="object-fit:cover;height:200px;width:100%" class="nopic"/>
@@ -37,10 +39,35 @@
 	        </div>
 		</div>
 		<security:authorize access="hasRole('USER')">
-			<input class="cardButton" type="button" name="cancel"
-					value="XXXXXX"	
-			onclick="${userClick}"/>
+			<jstl:if test="${not zervice.inappropriate}">
+				<a class="cardButton newRequestCardBtn" id="${zervice.id}"><spring:message code="request.new"/></a>
+			</jstl:if>
+			<jstl:if test="${zervice.inappropriate}">
+				<button type="button" class="cardButton disabled"><s><spring:message code="request.new"/></s></button>
+			</jstl:if>
+		</security:authorize>
+		<security:authorize access="hasRole('MANAGER')">
+			<jstl:if test="${not zervice.inappropriate}">
+				<a class="cardButton" href="manager/zervice/edit.do?zerviceId=${zervice.id}"><spring:message code="zervice.edit"/></a>
+			</jstl:if>
+			<jstl:if test="${zervice.inappropriate}">
+				<button type="button" class="cardButton disabled"><s><spring:message code="zervice.edit"/></s></button>
+			</jstl:if>
 		</security:authorize>
 	</div>
 </div>
 </jstl:forEach>
+
+<script>
+	$(function(){
+		$('.newRequestCardBtn').click(function(e){
+			e.preventDefault();
+			$.get('user/request/create.do',{zerviceId: $(this).attr('id')}, function(data){
+				$('#requestModal .modal-body').html(data);
+				$('#requestModal').modal('show');
+				$('#rendezvousSelect').selectpicker('refresh');
+				$('#zerviceSelect').selectpicker('refresh');
+			});
+		});
+	});
+</script>

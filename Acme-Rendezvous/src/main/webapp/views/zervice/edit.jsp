@@ -58,6 +58,6 @@
 		</div>
 		</div>
 		<hr>		
-		<lib:button noDelete="true" model="zervice" id="${zervice.id}"/>
+		<lib:button model="zervice" id="${zervice.id}" cancelUri="zervice/list.do"/>
 	</form:form>		
 </div>

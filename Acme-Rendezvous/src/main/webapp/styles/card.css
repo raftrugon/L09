@@ -51,6 +51,14 @@
 	bottom:   0;
 }
 
+.cardButton.disabled{
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
+}
+
 .cardUserButton {
     border: none;
     outline: 0;

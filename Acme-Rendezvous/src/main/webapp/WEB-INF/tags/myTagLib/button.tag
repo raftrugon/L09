@@ -29,6 +29,3 @@
 		</div>
 	</jstl:if>
 </div>
-<jstl:if test="${message ne null }">
-	<p style="error"><spring:message code="${message}"/></p>
-</jstl:if>
