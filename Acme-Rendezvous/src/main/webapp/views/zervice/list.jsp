@@ -13,7 +13,7 @@
 <jstl:forEach items="${zervices}" var="zervice">
 
 <jstl:set var="inappropriateStyle" value=""/>
-<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 cardContainer" >
+<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 cardContainer" id="zervicesContainer">
 			<jstl:if test="${zervice.inappropriate eq true}">
 				<jstl:set var="inappropriateStyle" value="filter: blur(5px);-webkit-filter: blur(5px);"/>
 				<div class="alert alert-danger" style="position:absolute;top:40%;right:10%;left:10%;text-align:center;z-index:500;"><strong><spring:message code="zervice.inappropriate.alert"/></strong></div>
@@ -56,6 +56,11 @@
 				</jstl:if>
 			</jstl:if>
 		</security:authorize>
+		<security:authorize access="hasRole('ADMIN')">
+				<jstl:if test="${not zervice.inappropriate}">
+					<a class="cardButton btn-danger deleteZerviceButton" id="${zervice.id}"><spring:message code="zervice.markAsInappropriate"/></a>
+				</jstl:if>
+		</security:authorize>
 	</div>
 </div>
 </jstl:forEach>
@@ -72,4 +77,21 @@
 			});
 		});
 	});
+</script>
+
+<script>
+$(function(){
+	$('.deleteZerviceButton').click(function(e){
+		e.preventDefault();
+		var button = $(this);
+		$.post( "admin/ajax/zervice/delete.do",{zerviceId: $(this).attr('id') }, function( data ) {
+			if(data==1){
+				button.parent().parent().prepend('<div class="alert alert-danger" style="position:absolute;top:40%;right:10%;left:10%;text-align:center;z-index:500;"><strong><spring:message code="zervice.inappropriate.alert"/></strong></div>')
+				button.parent().css('filer','blur(5px)').css('-webkit-filter','blur(5px)');
+				button.remove();
+			}
+			else notify('danger','<spring:message code="rendezvous.zervice.delete.error"/>');
+			});
+	});
+});
 </script>
