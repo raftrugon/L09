@@ -47,7 +47,7 @@ public class ManagerZerviceController {
 				throw new Throwable();
 			result = newEditModelAndView(zervice);
 		} catch (Throwable oops) {
-			result = new ModelAndView("redirect:/list.do");
+			result = new ModelAndView("redirect:list.do");
 		}
 		return result;
 	}
@@ -69,8 +69,7 @@ public class ManagerZerviceController {
 			try {
 				saved = zerviceService.save(validatedObject);
 				result = new ModelAndView(
-						"redirect:../../zervice/display.do?zerviceId="
-								+ saved.getId());
+						"redirect:../../zervice/list.do");
 			} catch (Throwable oops) {
 				oops.printStackTrace();
 				result = newEditModelAndView(zervice);
