@@ -14,4 +14,13 @@ public interface ZerviceRepository extends JpaRepository<Zervice, Integer> {
 	@Query("select z from Zervice z where z.inappropriate is false")
 	Collection<Zervice> findAllNotInappropriate();
 
+	@Query("select z from Zervice z where z.requests.size = (select max(x.requests.size) from Zervice x)")
+	Collection<Zervice> getTopSellingSevices();
+	
+	@Query("select coalesce(avg(r.requests.size),0),max(r.requests.size),min(r.requests.size)," +
+			"coalesce(stddev(r.requests.size),0) from Rendezvous r")
+	Double[] getZerviceStatsPerRendezvous();
+	
+	@Query("select z from Zervice z where z.requests.size = (select max(x.requests.size) from Zervice x)")
+	Collection<Zervice> getTopSellingZervices();
 }
