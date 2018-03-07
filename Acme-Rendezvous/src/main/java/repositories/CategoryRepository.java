@@ -20,8 +20,8 @@ public interface CategoryRepository extends JpaRepository<Category,Integer>{
 	@Query("select coalesce(avg(c.zervices.size),0) from Category c")
 	Double getAvgRatioOfZervicesInEachCategory();
 	
-	@Query("select r,z from Request r,Zervice z where  ")
-	Double getAvgOfCategoriesPerRendezvous();
+//	@Query("")
+//	Double getAvgOfCategoriesPerRendezvous();
 
 	
 }
