@@ -417,6 +417,10 @@
         <property name="zervices">
             <list>
                 <ref bean="zervice1" />
+                <ref bean="zervice3"/>
+                <ref bean="zervice8"/>
+                <ref bean="zervice12"/>
+                <ref bean="zervice13"/>
             </list>
         </property>
     </bean>
@@ -431,6 +435,9 @@
         <property name="zervices">
             <list>
             	<ref bean="zervice2"/>
+            	<ref bean="zervice6"/>
+            	<ref bean="zervice9"/>
+            	<ref bean="zervice14"/>
             </list>
         </property>
     </bean>
@@ -458,6 +465,10 @@
         <property name="zervices">
             <list>
             	<ref bean="zervice4"/>
+            	<ref bean="zervice7"/>
+            	<ref bean="zervice10"/>
+            	<ref bean="zervice11"/>
+            	<ref bean="zervice15"/>
             </list>
         </property>
     </bean>
@@ -488,6 +499,7 @@
             <list>
                 <ref bean="request1"/>
                 <ref bean="request2"/>
+                <ref bean="request7"/>
             </list>
         </property>
     </bean>
@@ -515,6 +527,7 @@
         <property name="requests">
             <list>
             	<ref bean="request4"/>
+            	<ref bean="request8"/>
             </list>
         </property>
     </bean>
@@ -542,6 +555,151 @@
             <list>
             	<ref bean= "request5"/>
             	<ref bean="request6"/>
+            	<ref bean="request9"/>
+            </list>
+        </property>
+    </bean>
+    
+     <bean id="zervice6" class="domain.Zervice">
+        <property name="name" value="Informática" />
+        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
+        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="inappropriate" value="false" />
+        <property name="manager" ref="manager2" />
+        <property name="category" ref="category3" />
+        <property name="requests">
+            <list>
+            	<ref bean="request10"/>
+            	<ref bean="request15"/>
+            </list>
+        </property>
+    </bean>
+    
+     <bean id="zervice7" class="domain.Zervice">
+        <property name="name" value="Informática" />
+        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
+        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="inappropriate" value="false" />
+        <property name="manager" ref="manager4" />
+        <property name="category" ref="category3" />
+        <property name="requests">
+            <list>
+            	<ref bean="request11"/>
+            	<ref bean="request16"/>
+            </list>
+        </property>
+    </bean>
+    
+     <bean id="zervice8" class="domain.Zervice">
+        <property name="name" value="Informática" />
+        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
+        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="inappropriate" value="false" />
+        <property name="manager" ref="manager1" />
+        <property name="category" ref="category4" />
+        <property name="requests">
+            <list>
+            	<ref bean="request12"/>
+            	<ref bean="request17"/>
+            </list>
+        </property>
+    </bean>
+    
+     <bean id="zervice9" class="domain.Zervice">
+        <property name="name" value="Informática" />
+        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
+        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="inappropriate" value="false" />
+        <property name="manager" ref="manager2" />
+        <property name="category" ref="category4" />
+        <property name="requests">
+            <list>
+            	<ref bean="request13"/>
+            	<ref bean="request18"/>
+            </list>
+        </property>
+    </bean>
+    
+     <bean id="zervice10" class="domain.Zervice">
+        <property name="name" value="Informática" />
+        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
+        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="inappropriate" value="false" />
+        <property name="manager" ref="manager4" />
+        <property name="category" ref="category5" />
+        <property name="requests">
+            <list>
+            	<ref bean="request14"/>
+            	<ref bean="request19"/>
+            </list>
+        </property>
+    </bean>
+    
+     <bean id="zervice11" class="domain.Zervice">
+        <property name="name" value="Informática" />
+        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
+        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="inappropriate" value="false" />
+        <property name="manager" ref="manager4" />
+        <property name="category" ref="category6" />
+        <property name="requests">
+            <list>
+            	<ref bean="request20"/>
+            </list>
+        </property>
+    </bean>
+    
+     <bean id="zervice12" class="domain.Zervice">
+        <property name="name" value="Informática" />
+        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
+        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="inappropriate" value="false" />
+        <property name="manager" ref="manager5" />
+        <property name="category" ref="category8" />
+        <property name="requests">
+            <list>
+            	<ref bean="request21"/>
+            </list>
+        </property>
+    </bean>
+    
+     <bean id="zervice13" class="domain.Zervice">
+        <property name="name" value="Informática" />
+        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
+        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="inappropriate" value="false" />
+        <property name="manager" ref="manager1" />
+        <property name="category" ref="category9" />
+        <property name="requests">
+            <list>
+            	<ref bean="request22"/>
+            </list>
+        </property>
+    </bean>
+    
+     <bean id="zervice14" class="domain.Zervice">
+        <property name="name" value="Informática" />
+        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
+        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="inappropriate" value="false" />
+        <property name="manager" ref="manager2" />
+        <property name="category" ref="category9" />
+        <property name="requests">
+            <list>
+            	<ref bean="request23"/>
+            </list>
+        </property>
+    </bean>
+    
+     <bean id="zervice15" class="domain.Zervice">
+        <property name="name" value="Informática" />
+        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
+        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="inappropriate" value="false" />
+        <property name="manager" ref="manager4" />
+        <property name="category" ref="category10" />
+        <property name="requests">
+            <list>
             </list>
         </property>
     </bean>
@@ -600,9 +758,8 @@
         </property>
         <property name="zervices">
             <list>
-                <ref bean="zervice1" />
-                <ref bean="zervice4" />
-                <ref bean="zervice5" />
+                <ref bean="zervice6" />
+                <ref bean="zervice7" />
             </list>
         </property>
     </bean>
@@ -618,9 +775,8 @@
         </property>
         <property name="zervices">
             <list>
-                <ref bean="zervice1" />
-                <ref bean="zervice4" />
-                <ref bean="zervice5" />
+                <ref bean="zervice8" />
+                <ref bean="zervice9" />
             </list>
         </property>
     </bean>
@@ -638,9 +794,8 @@
         </property>
         <property name="zervices">
             <list>
-                <ref bean="zervice1" />
-                <ref bean="zervice4" />
-                <ref bean="zervice5" />
+                <ref bean="zervice10" />
+
             </list>
         </property>
     </bean>
@@ -656,9 +811,8 @@
         </property>
         <property name="zervices">
             <list>
-                <ref bean="zervice1" />
-                <ref bean="zervice4" />
-                <ref bean="zervice5" />
+                <ref bean="zervice11" />
+
             </list>
         </property>
     </bean>
@@ -673,9 +827,6 @@
         </property>
         <property name="zervices">
             <list>
-                <ref bean="zervice1" />
-                <ref bean="zervice4" />
-                <ref bean="zervice5" />
             </list>
         </property>
     </bean>
@@ -690,6 +841,7 @@
         </property>
         <property name="zervices">
             <list>
+            	<ref bean="zervice12"/>
             </list>
         </property>
     </bean>
@@ -704,6 +856,8 @@
         </property>
         <property name="zervices">
             <list>
+            	<ref bean="zervice13"/>
+            	<ref bean="zervice14"/>
             </list>
         </property>
     </bean>
@@ -718,6 +872,7 @@
         </property>
         <property name="zervices">
             <list>
+            	<ref bean="zervice15"/>
             </list>
         </property>
     </bean>
@@ -867,9 +1022,145 @@
         
     </bean>
     
+    <bean id="request7" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice1"/>
+        
+        <property name="creditCard" ref="creditCard2"/>
+        <property name="rendezvous" ref="rendezvous4"/>
+        
+    </bean>
+    <bean id="request8" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice3"/>
+        
+        <property name="creditCard" ref="creditCard2"/>
+        <property name="rendezvous" ref="rendezvous5"/>
+        
+    </bean>
+    <bean id="request9" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice5"/>
+        
+        <property name="creditCard" ref="creditCard2"/>
+        <property name="rendezvous" ref="rendezvous7"/>
+        
+    </bean>
+    <bean id="request10" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice6"/>
+        
+        <property name="creditCard" ref="creditCard2"/>
+        <property name="rendezvous" ref="rendezvous8"/>
+        
+    </bean>
+    <bean id="request11" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice7"/>
+        
+        <property name="creditCard" ref="creditCard2"/>
+        <property name="rendezvous" ref="rendezvous11"/>
+        
+    </bean>
+    <bean id="request12" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice8"/>
+        
+        <property name="creditCard" ref="creditCard3"/>
+        <property name="rendezvous" ref="rendezvous2"/>
+        
+    </bean>
+    <bean id="request13" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice9"/>
+        
+        <property name="creditCard" ref="creditCard2"/>
+        <property name="rendezvous" ref="rendezvous3"/>
+        
+    </bean>
+    <bean id="request14" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice10"/>
+        
+        <property name="creditCard" ref="creditCard3"/>
+        <property name="rendezvous" ref="rendezvous4"/>
+        
+    </bean>
+    <bean id="request15" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice6"/>
+        
+        <property name="creditCard" ref="creditCard3"/>
+        <property name="rendezvous" ref="rendezvous5"/>
+        
+    </bean>
+    <bean id="request16" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice7"/>
+        
+        <property name="creditCard" ref="creditCard3"/>
+        <property name="rendezvous" ref="rendezvous6"/>
+        
+    </bean>
+    <bean id="request17" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice8"/>
+        
+        <property name="creditCard" ref="creditCard2"/>
+        <property name="rendezvous" ref="rendezvous7"/>
+        
+    </bean>
+    <bean id="request18" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice9"/>
+        
+        <property name="creditCard" ref="creditCard2"/>
+        <property name="rendezvous" ref="rendezvous1"/>
+        
+    </bean>
+    <bean id="request19" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice10"/>
+        
+        <property name="creditCard" ref="creditCard2"/>
+        <property name="rendezvous" ref="rendezvous2"/>
+        
+    </bean>
+    <bean id="request20" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice11"/>
+        
+        <property name="creditCard" ref="creditCard2"/>
+        <property name="rendezvous" ref="rendezvous3"/>
+        
+    </bean>
+    <bean id="request21" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice12"/>
+        
+        <property name="creditCard" ref="creditCard2"/>
+        <property name="rendezvous" ref="rendezvous4"/>
+        
+    </bean>
+    <bean id="request22" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice13"/>
+        
+        <property name="creditCard" ref="creditCard2"/>
+        <property name="rendezvous" ref="rendezvous6"/>
+        
+    </bean>
+    <bean id="request23" class="domain.Request">
+        <property name="comment" value="" />
+        <property name="zervice" ref="zervice14"/>
+        
+        <property name="creditCard" ref="creditCard2"/>
+        <property name="rendezvous" ref="rendezvous7"/>
+        
+    </bean>
     
     
-    
+    <!-- SYSTEM CONFIG -->
     
     <bean id="systemConfig1" class="domain.SystemConfig">
         <property name="bussinessName" value="Adventure meetups" />
@@ -1403,6 +1694,7 @@
         <property name="requests">
             <list>
                 <ref bean="request1" />
+                <ref bean="request18"/>
             </list>
         </property>
     </bean>
@@ -1453,6 +1745,8 @@
         <property name="requests">
             <list>
                 <ref bean="request2" />
+                <ref bean="request12" />
+                <ref bean="request19" />
             </list>
         </property>
     </bean>
@@ -1508,6 +1802,8 @@
         <property name="requests">
             <list>
                 <ref bean="request3" />
+                <ref bean="request13"/>
+                <ref bean="request20"/>
             </list>
         </property>
     </bean>
@@ -1549,6 +1845,9 @@
         </property>
         <property name="requests">
             <list>
+            	<ref bean="request7" />
+            	<ref bean="request14"/>
+            	<ref bean="request21"/>
             </list>
         </property>
     </bean>
@@ -1591,6 +1890,8 @@
         </property>
                 <property name="requests">
             <list>
+            	<ref bean="request8"/>
+            	<ref bean="request15"/>
             </list>
         </property>
     </bean>
@@ -1632,6 +1933,8 @@
         <property name="requests">
             <list>
             	<ref bean="request4"/>
+            	<ref bean="request16" />
+            	<ref bean="request22"/>
             </list>
         </property>
     </bean>
@@ -1675,6 +1978,9 @@
         </property>
         <property name="requests">
             <list>
+           		<ref bean="request9"/>
+           		<ref bean="request17"/>
+           		<ref bean="request23"/>
             </list>
         </property>
     </bean>
@@ -1717,6 +2023,7 @@
         <property name="requests">
             <list>
             	<ref bean="request5"/>
+            	<ref bean="request10"/>
             </list>
         </property>
     </bean>
@@ -1837,6 +2144,7 @@
         </property>
         <property name="requests">
             <list>
+            	<ref bean="request11"/>
             </list>
         </property>
     </bean>
