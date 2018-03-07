@@ -11,7 +11,7 @@
 
 <security:authorize access="hasRole('USER')"> 
 <div style="padding-right:15px;padding-left:15px;margin-bottom:10px">
-<ul class="nav nav-pills nav-justified">
+<ul class="nav nav-pills nav-justified" style="margin-bottom:10px">
   <li id="button1" class="active "><a href="javascript:all()"><spring:message code="rendezvous.list.all"/></a></li>
   <li id="button2" class=""><a class="" href="javascript:mine()"><spring:message code="rendezvous.list.mine"/></a></li>
   <li id="button3" class=""><a class="" href="javascript:rsvp()"><spring:message code="rendezvous.list.rsvpd"/></a></li>
@@ -19,6 +19,13 @@
 </ul>
 </div>
 </security:authorize>
+
+<div id="showCategoriesPanel" class="col-xs-12" style="margin-bottom:10px">
+	<button class="btn btn-info btn-block" data-toggle="collapse" data-target="#categoryDiv" ><spring:message code="rendezvous.showCategoryFilter"/>&emsp;<i class="fas fa-angle-down"></i></button>
+	<button class="btn btn-info btn-block" data-toggle="collapse" data-target="#categoryDiv" style="display:none"><spring:message code="rendezvous.hideCategoryFilter"/>&emsp;<i class="fas fa-angle-up"></i></button>
+</div>
+<div id="categoryDiv" class="collapse col-xs-12"></div>
+
 <jsp:useBean id="now" class="java.util.Date" />
 <jstl:forEach items="${rendezvouss}" var="rendezvous">
 <jstl:set var="rendClick" value=""/>
@@ -47,7 +54,7 @@
 <jstl:if test="${rendezvous.organisationMoment lt now}">
 	<jstl:set var="pastRend" value="color:red;"/>
 </jstl:if>
-<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 ${rsvp} ${mine} ${inappropriate} cardContainer" >
+<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 ${rsvp} ${mine} ${inappropriate} cardContainer" data-categories='<jstl:forEach items="${rendezvous.categoriesId}" var="categoryId">${categoryId},</jstl:forEach>'>
 			<jstl:if test="${rendezvous.inappropriate eq true}">
 				<div class="alert alert-danger" style="position:absolute;top:40%;right:10%;left:10%;text-align:center;z-index:500;"><strong><spring:message code="rendezvous.inappropriate.alert"/></strong></div>
 			</jstl:if>
@@ -114,4 +121,60 @@ function all(){
 	document.getElementById("button4").className = "";
 };
 
+</script>
+<script>
+	$(function(){
+		$.get('ajax/category/getSubCategories.do',function(data){
+			$('#categoryDiv').treeview({
+				data:data,
+				showTags:true,
+				multiSelect: true,
+			});
+			$('#categoryDiv').treeview('collapseAll', { silent: true });
+			$('#categoryDiv').on('nodeSelected', function(event,node){
+				$('.cardContainer').show();
+				var nodes = $('#categoryDiv').treeview('getSelected',null);
+				var nodeCategories = [];
+				$.each(nodes,function(node){
+					nodeCategories.push(''+$(this).attr('categoryId'));
+				});
+				if(nodes.length !== 0){
+					$('.cardContainer').filter(function(i){
+						var rendezvousCategories = $(this).attr("data-categories").split(",");
+						var count = $.grep(rendezvousCategories,function(a){
+							return $.inArray(a,nodeCategories) !== -1;
+						}).length;
+						return count === 0;
+					}).hide(); 
+				}
+			});
+			$('#categoryDiv').on('nodeUnselected', function(event,node){
+				$('.cardContainer').show();
+				var nodes = $('#categoryDiv').treeview('getSelected',null);
+				var nodeCategories = [];
+				$.each(nodes,function(node){
+					nodeCategories.push(''+$(this).attr('categoryId'));
+				});
+				if(nodes.length !== 0){
+					$('.cardContainer').filter(function(i){
+						var rendezvousCategories = $(this).attr("data-categories").split(",");
+						var count = $.grep(rendezvousCategories,function(a){
+							return $.inArray(a,nodeCategories) !== -1;
+						}).length;
+						return count === 0;
+					}).hide(); 
+				}
+			});
+		});
+		
+		$('#showCategoriesPanel').click(function(e){
+			$(this).children('button').each(function(){
+				$(this).toggle();
+			});
+		});
+		
+		function filterByCategories(nodes){
+			
+		};
+	});
 </script>
