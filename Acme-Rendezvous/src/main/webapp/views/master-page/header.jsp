@@ -78,6 +78,7 @@
 		</security:authorize>
 		
 			<security:authorize access="hasRole('ADMIN')">
+				<li><a href="admin/category/list.do"><spring:message code="master.page.category.list" /></a></li>
 				<li class="btn-group">
 					<button onClick="javascript:window.location.href = 'admin/dashboard.do'" class="btn btn-info navbar-btn"><i class="fas fa-tachometer-alt"></i> <spring:message code="master.page.dashboard" /></button>
 					<button onClick="javascript:window.location.href = 'admin/systemConfig/edit.do'" class="btn btn-danger navbar-btn">&nbsp;<i class="fas fa-cog"></i>&nbsp;</button>
