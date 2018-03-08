@@ -1,8 +1,11 @@
 
 package domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -17,14 +20,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.Valid;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
-import org.hibernate.validator.constraints.URL;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -48,7 +51,7 @@ public class Rendezvous extends DomainEntity {
 	@SafeHtml(whitelistType=WhiteListType.NONE)
 	@NotBlank
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
 	public void setName(final String name) {
@@ -58,7 +61,7 @@ public class Rendezvous extends DomainEntity {
 	@SafeHtml(whitelistType=WhiteListType.NONE)
 	@NotBlank
 	public String getDescription() {
-		return this.description;
+		return description;
 	}
 
 	public void setDescription(final String description) {
@@ -69,7 +72,7 @@ public class Rendezvous extends DomainEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getOrganisationMoment() {
-		return this.organisationMoment;
+		return organisationMoment;
 	}
 
 	public void setOrganisationMoment(final Date organisationMoment) {
@@ -79,7 +82,7 @@ public class Rendezvous extends DomainEntity {
 	@SafeHtml(whitelistType=WhiteListType.NONE)
 	@URL
 	public String getPicture() {
-		return this.picture;
+		return picture;
 	}
 
 	public void setPicture(final String picture) {
@@ -87,7 +90,7 @@ public class Rendezvous extends DomainEntity {
 	}
 
 	public Double getLatitude() {
-		return this.latitude;
+		return latitude;
 	}
 
 	public void setLatitude(final Double latitude) {
@@ -95,7 +98,7 @@ public class Rendezvous extends DomainEntity {
 	}
 
 	public Double getLongitude() {
-		return this.longitude;
+		return longitude;
 	}
 
 	public void setLongitude(final Double longitude) {
@@ -104,7 +107,7 @@ public class Rendezvous extends DomainEntity {
 
 	@NotNull
 	public Boolean getFinalMode() {
-		return this.finalMode;
+		return finalMode;
 	}
 
 	public void setFinalMode(final Boolean finalMode) {
@@ -113,7 +116,7 @@ public class Rendezvous extends DomainEntity {
 
 	@NotNull
 	public Boolean getDeleted() {
-		return this.deleted;
+		return deleted;
 	}
 
 	public void setDeleted(final Boolean deleted) {
@@ -122,7 +125,7 @@ public class Rendezvous extends DomainEntity {
 
 	@NotNull
 	public Boolean getAdultOnly() {
-		return this.adultOnly;
+		return adultOnly;
 	}
 
 	public void setAdultOnly(final Boolean adultOnly) {
@@ -132,7 +135,7 @@ public class Rendezvous extends DomainEntity {
 	@NotNull
 	@ElementCollection
 	public Collection<String> getQuestions() {
-		return this.questions;
+		return questions;
 	}
 
 	public void setQuestions(final Collection<String> questions) {
@@ -148,6 +151,18 @@ public class Rendezvous extends DomainEntity {
 		this.inappropriate = inappropriate;
 	}
 
+	// Transient ---------------------------------------------------
+
+	private Collection<Category> categoriesId;
+
+	@Transient
+	public Collection<Integer> getCategoriesId() {
+		Set<Integer> categories = new HashSet<Integer>();
+		for(Request z: getRequests()) categories.add(z.getZervice().getCategory().getId());
+		return new ArrayList<Integer>(categories);
+	}
+
+
 
 	// Relationships ----------------------------------------------------------
 	private User						user;
@@ -162,7 +177,7 @@ public class Rendezvous extends DomainEntity {
 	@NotNull
 	@ManyToOne(optional = false)
 	public User getUser() {
-		return this.user;
+		return user;
 	}
 
 	public void setUser(final User user) {
@@ -172,7 +187,7 @@ public class Rendezvous extends DomainEntity {
 	@NotNull
 	@OneToMany(mappedBy = "rendezvous")
 	public Collection<Comment> getComments() {
-		return this.comments;
+		return comments;
 	}
 
 	public void setComments(final Collection<Comment> comments) {
@@ -182,7 +197,7 @@ public class Rendezvous extends DomainEntity {
 	@NotNull
 	@OneToMany(mappedBy = "rendezvous")
 	public Collection<Rsvp> getRsvps() {
-		return this.rsvps;
+		return rsvps;
 	}
 
 	public void setRsvps(final Collection<Rsvp> rsvps) {
@@ -192,7 +207,7 @@ public class Rendezvous extends DomainEntity {
 	@NotNull
 	@OneToMany(cascade = CascadeType.ALL)
 	public Collection<Announcement> getAnnouncements() {
-		return this.announcements;
+		return announcements;
 	}
 
 	public void setAnnouncements(final Collection<Announcement> announcements) {
@@ -203,7 +218,7 @@ public class Rendezvous extends DomainEntity {
 	@ManyToMany
 	@JoinTable(name = "linked_rendezvouses")
 	public Collection<Rendezvous> getRendezvouses() {
-		return this.rendezvouses;
+		return rendezvouses;
 	}
 
 	public void setRendezvouses(final Collection<Rendezvous> rendezvouses) {
@@ -213,7 +228,7 @@ public class Rendezvous extends DomainEntity {
 	@NotNull
 	@OneToMany(mappedBy = "rendezvous")
 	public Collection<Request> getRequests() {
-		return this.requests;
+		return requests;
 	}
 
 	public void setRequests(final Collection<Request> requests) {
