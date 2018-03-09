@@ -64,11 +64,11 @@ public class Comment extends DomainEntity {
 	}
 
 	@NotNull
-	public Boolean getinappropriate() {
+	public Boolean getInappropriate() {
 		return inappropriate;
 	}
 
-	public void setinappropriate(Boolean inappropriate) {
+	public void setInappropriate(Boolean inappropriate) {
 		this.inappropriate = inappropriate;
 	}	
 
