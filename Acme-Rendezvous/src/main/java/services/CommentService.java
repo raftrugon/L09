@@ -32,84 +32,99 @@ public class CommentService {
 	private AdminService adminService;
 	@Autowired
 	private RendezvousService rendezvousService;
-	
+
 	// Simple CRUD methods ----------------------------------------------------
 
-	public Comment createComment(int rendezvousId) {
+	public Comment createComment(final int rendezvousId) {
 		Comment res = new Comment();
-		User u = userService.findByPrincipal();
+		User u = this.userService.findByPrincipal();
 		Assert.isTrue(rendezvousId != 0);
-		Rendezvous rendezvous = rendezvousService.findOne(rendezvousId);
+		Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
 		Assert.notNull(rendezvous);
 		Assert.notNull(u);
-		
+
 		res.setRendezvous(rendezvous);
 		res.setReplies(new ArrayList<Comment>());
 		res.setCreationMoment(new Date(System.currentTimeMillis()-1000));
 		res.setUser(u);
-		res.setinappropriate(false);
+		res.setInappropriate(false);
 
 		return res;
 	}
-	
-	public Comment createReply(int commentId){
+
+	public Comment createReply(final int commentId){
 		Comment res = new Comment();
-		User u = userService.findByPrincipal();
-		Comment aux = commentRepository.findOne(commentId);
-		
+		User u = this.userService.findByPrincipal();
+		Comment aux = this.commentRepository.findOne(commentId);
+
 
 		Assert.notNull(aux);
 		Assert.notNull(u);
 		Assert.isNull(aux.getReplyingTo());
-		Assert.isTrue(rendezvousService.getRSVPRendezvousesForUser(u).contains(aux.getRendezvous()));
-		
+		Assert.isTrue(this.rendezvousService.getRSVPRendezvousesForUser(u).contains(aux.getRendezvous()));
+
 		res.setRendezvous(null);
 		res.setReplies(null);
 		res.setCreationMoment(new Date(System.currentTimeMillis()-1000));
 		res.setReplyingTo(aux);
 		res.setUser(u);
-		res.setinappropriate(false);
-		
+		res.setInappropriate(false);
+
 		return res;
 	}
 
-	public Comment findOne(int commentId) {
+	public Comment findOne(final int commentId) {
 		Assert.isTrue(commentId != 0);
-		Comment res = commentRepository.findOne(commentId);
+		Comment res = this.commentRepository.findOne(commentId);
 		Assert.notNull(res);
 		return res;
 	}
 
-	public Comment save(Comment comment) {
-		User u = userService.findByPrincipal();
+	public Comment save(final Comment comment) {
 		Assert.notNull(comment);
+		User u = this.userService.findByPrincipal();
 		Assert.notNull(u);
-		comment.setCreationMoment(new Date(System.currentTimeMillis()-1000));
+
+		Assert.isTrue(comment.getUser().equals(u));					//#
+		Assert.isTrue(comment.getId() == 0);						//#
+
+		Assert.notNull(comment.getText());							//#
+		Assert.isTrue(!comment.getText().isEmpty());				//#
+
+
+
+		Assert.isTrue(comment.getReplyingTo() == null ^ comment.getRendezvous() == null);
+
 		if(comment.getReplyingTo() == null){
 			Assert.notNull(comment.getRendezvous());
-			Assert.isTrue(rendezvousService.getRSVPRendezvousesForUser(u).contains(comment.getRendezvous()));
+			Assert.isTrue(this.rendezvousService.getRSVPRendezvousesForUser(u).contains(comment.getRendezvous()));
 		}
+
 		if(comment.getRendezvous() == null){
 			Assert.notNull(comment.getReplyingTo());
+			Assert.isTrue(this.rendezvousService.getRSVPRendezvousesForUser(u).contains(comment.getReplyingTo().getRendezvous())); 	//#
 		}
-		Assert.isTrue(comment.getReplyingTo() == null ^ comment.getRendezvous() == null);
-		return commentRepository.save(comment);
-	}
-	
-	public Comment deleteByAdmin(final Comment comment) {
-		Admin a = adminService.findByPrincipal();
-		Assert.notNull(a);
-		comment.setinappropriate(true);
-		return commentRepository.save(comment);
-	}
-	
-	//Other Business Methods --------------------------------
-	
-	public Double[] getCommentRepliesStats() {
-		return commentRepository.getCommentRepliesStats();
+
+
+		comment.setCreationMoment(new Date(System.currentTimeMillis()-1000));
+
+		return this.commentRepository.save(comment);
 	}
 
-	public Collection<Comment> getRendezvousCommentsSorted(int rendezvousId) {
-		return commentRepository.getRendezvousCommentsSorted(rendezvousId);
+	public Comment deleteByAdmin(final Comment comment) {
+		Admin a = this.adminService.findByPrincipal();
+		Assert.notNull(a);
+		comment.setInappropriate(true);
+		return this.commentRepository.save(comment);
+	}
+
+	//Other Business Methods --------------------------------
+
+	public Double[] getCommentRepliesStats() {
+		return this.commentRepository.getCommentRepliesStats();
+	}
+
+	public Collection<Comment> getRendezvousCommentsSorted(final int rendezvousId) {
+		return this.commentRepository.getRendezvousCommentsSorted(rendezvousId);
 	}
 }
