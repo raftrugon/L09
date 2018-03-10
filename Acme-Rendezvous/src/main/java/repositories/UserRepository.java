@@ -23,4 +23,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	Collection<Rendezvous> getRequestableRendezvouses(User findByPrincipal);
 
 
+
 }

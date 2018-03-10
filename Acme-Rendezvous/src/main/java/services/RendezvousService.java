@@ -14,7 +14,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.RendezvousRepository;
+import utilities.internal.SchemaPrinter;
 import domain.Announcement;
+import domain.Category;
 import domain.Comment;
 import domain.Rendezvous;
 import domain.Rsvp;
@@ -39,13 +41,15 @@ public class RendezvousService {
 	private Validator				validator;
 	@Autowired
 	private RsvpService				rsvpService;
+	@Autowired
+	private CategoryService			categoryService;
 
 
 	// Simple CRUD methods ----------------------------------------------------
 
 	public Rendezvous create() {
 		Rendezvous res = new Rendezvous();
-		User user = this.userService.findByPrincipal();
+		User user = userService.findByPrincipal();
 		Assert.notNull(user);
 		res.setUser(user);
 		res.setAdultOnly(false);
@@ -62,7 +66,7 @@ public class RendezvousService {
 
 	public Rendezvous findOne(final int rendezvousId) {
 		Assert.isTrue(rendezvousId != 0);
-		Rendezvous res = this.rendezvousRepository.findOne(rendezvousId);
+		Rendezvous res = rendezvousRepository.findOne(rendezvousId);
 		Assert.notNull(res);
 		return res;
 	}
@@ -70,24 +74,24 @@ public class RendezvousService {
 	public Collection<Rendezvous> findAll() {
 		return rendezvousRepository.findAll();
 	}
-	
+
 	public Collection<Rendezvous> findAllUnder18() {
 		return rendezvousRepository.findAllUnder18();
 	}
 
 	public Rendezvous save(final Rendezvous rendezvous) {
 		Assert.notNull(rendezvous);
-		Assert.isTrue(rendezvous.getUser().equals(this.userService.findByPrincipal()));
+		Assert.isTrue(rendezvous.getUser().equals(userService.findByPrincipal()));
 		Assert.isTrue(rendezvous.getOrganisationMoment().after(new Date()));
-		
+
 		//Checkeos contra base de datos
 		if (rendezvous.getId() != 0) {
-			Rendezvous bd = this.findOne(rendezvous.getId());
+			Rendezvous bd = findOne(rendezvous.getId());
 			Assert.isTrue(!bd.getFinalMode() && !bd.getDeleted());
-			Assert.isTrue(bd.getUser().equals(this.userService.findByPrincipal()));
+			Assert.isTrue(bd.getUser().equals(userService.findByPrincipal()));
 		}
 
-		Rendezvous saved = this.rendezvousRepository.save(rendezvous);
+		Rendezvous saved = rendezvousRepository.save(rendezvous);
 
 		//Añadir rendezvous al user si es nuevo
 		//RSVP automático para el creador
@@ -101,67 +105,67 @@ public class RendezvousService {
 	public Rendezvous deleteByAdmin(final Rendezvous rendezvous) {
 		Assert.notNull(rendezvous);
 		Assert.isTrue(rendezvous.getId() != 0);
-		Assert.notNull(this.adminService.findByPrincipal());
+		Assert.notNull(adminService.findByPrincipal());
 		rendezvous.setinappropriate(true);
 		rendezvous.setPicture(null);
 		return rendezvousRepository.save(rendezvous);
 	}
 
 	public Rendezvous deleteByUser(final int rendezvousId) {
-		Rendezvous rendezvous = this.findOne(rendezvousId);
+		Rendezvous rendezvous = findOne(rendezvousId);
 		Assert.notNull(rendezvous);
-		Assert.isTrue(rendezvous.getUser().equals(this.userService.findByPrincipal()));
+		Assert.isTrue(rendezvous.getUser().equals(userService.findByPrincipal()));
 		Assert.isTrue(!rendezvous.getFinalMode());
 		Assert.isTrue(rendezvous.getOrganisationMoment().after(new Date()));
 		rendezvous.setDeleted(true);
-		return this.rendezvousRepository.save(rendezvous);
+		return rendezvousRepository.save(rendezvous);
 	}
 
 	//Other Business Methods --------------------------------
 
 	public Collection<Rendezvous> getRSVPRendezvousesForUser(final User user) {
-		return this.rendezvousRepository.getRSVPRendezvousesForUser(user);
+		return rendezvousRepository.getRSVPRendezvousesForUser(user);
 	}
 
 	public Double[] getRendezvousStats() {
-		return this.rendezvousRepository.getRendezvousStats();
+		return rendezvousRepository.getRendezvousStats();
 	}
 
 	public Double getRatioOfUsersWhoHaveCreatedRendezvouses() {
-		return this.rendezvousRepository.getRatioOfUsersWhoHaveCreatedRendezvouses();
+		return rendezvousRepository.getRatioOfUsersWhoHaveCreatedRendezvouses();
 	}
 
 	public Double[] getRendezvousUserStats() {
-		return this.rendezvousRepository.getRendezvousUserStats();
+		return rendezvousRepository.getRendezvousUserStats();
 	}
 
 
 	public Double[] getUserRendezvousesStats() {
-		return this.rendezvousRepository.getUserRendezvousesStats();
+		return rendezvousRepository.getUserRendezvousesStats();
 	}
 
 	public Collection<Rendezvous> getTop10RendezvousByRSVPs() {
-		return this.rendezvousRepository.getTop10RendezvousByRSVPs();
+		return rendezvousRepository.getTop10RendezvousByRSVPs();
 	}
 
 	public Double[] getRendezvousAnnouncementStats() {
-		return this.rendezvousRepository.getRendezvousAnnouncementStats();
+		return rendezvousRepository.getRendezvousAnnouncementStats();
 	}
 
 	public Collection<Rendezvous> getRendezvousesWithNumberOfAnnouncementsOver75PerCentAvg() {
-		return this.rendezvousRepository.getRendezvousesWithNumberOfAnnouncementsOver75PerCentAvg();
+		return rendezvousRepository.getRendezvousesWithNumberOfAnnouncementsOver75PerCentAvg();
 	}
 
 	public Collection<Rendezvous> getRendezvousesLinkedToMoreThan10PerCentAVGNumberOfRendezvouses() {
-		return this.rendezvousRepository.getRendezvousesLinkedToMoreThan10PerCentAVGNumberOfRendezvouses();
+		return rendezvousRepository.getRendezvousesLinkedToMoreThan10PerCentAVGNumberOfRendezvouses();
 	}
 
 	public Double[] getRendezvousQuestionStats() {
-		return this.rendezvousRepository.getRendezvousQuestionStats();
+		return rendezvousRepository.getRendezvousQuestionStats();
 	}
 
 	public Double[] getAnswersToQuestionsStats() {
-		return this.rendezvousRepository.getAnswersToQuestionsStats();
+		return rendezvousRepository.getAnswersToQuestionsStats();
 	}
 
 	public void link(int sourceId, int targetId){
@@ -170,18 +174,18 @@ public class RendezvousService {
 		Assert.isTrue(source.getUser().equals(userService.findByPrincipal()));
 		source.getRendezvouses().add(target);
 	}
-	
+
 	public Collection<Rendezvous> getRendezvousesToLink(int rendezvousId) {
 		User u = userService.findByPrincipal();
 		Assert.notNull(u);
 		Rendezvous r = findOne(rendezvousId);
 		return rendezvousRepository.getRendezvousesToLink(u,r);
 	}
-	
+
 	public Collection<Rendezvous> getRendezvousesToLink() {
 		return rendezvousRepository.getRendezvousesToLink();
 	}
-	
+
 	public Rendezvous reconstructNew(Rendezvous res, BindingResult binding){
 		res.setId(0);
 		res.setVersion(0);
@@ -191,14 +195,13 @@ public class RendezvousService {
 		res.setRsvps(new ArrayList<Rsvp>());
 		res.setinappropriate(false);
 		res.setUser(userService.findByPrincipal());
-		if(!userService.isAdult()){
+		if(!userService.isAdult())
 			res.setAdultOnly(false);
-		}
-		this.validator.validate(res, binding);
-		
+		validator.validate(res, binding);
+
 		return res;
 	}
-	
+
 	public Rendezvous reconstruct(Rendezvous res, BindingResult binding) {
 		Rendezvous rendezvous = findOne(res.getId());
 		res.setVersion(rendezvous.getVersion());
@@ -208,20 +211,59 @@ public class RendezvousService {
 		res.setRsvps(rendezvous.getRsvps());
 		res.setinappropriate(false);
 		res.setUser(rendezvous.getUser());
-		if(!userService.isAdult()){
+		if(!userService.isAdult())
 			res.setAdultOnly(false);
-		}
-		this.validator.validate(res, binding);
+		validator.validate(res, binding);
 		return res;
 	}
-	
-	
+
+
 	public void deleteLink(int rendezvousId, int linkId) {
 		Rendezvous r = rendezvousRepository.findOne(rendezvousId);
 		Rendezvous link = rendezvousRepository.findOne(linkId);
 		List<Rendezvous> rendezvouses = new ArrayList<Rendezvous>(r.getRendezvouses());
 		rendezvouses.remove(link);
 		r.setRendezvouses(rendezvouses);
-		
+
+	}
+
+	//Rendezvous list with filters
+
+	public Collection<Rendezvous> listRendezvouses(Integer type, Collection<Category> categories){
+		Collection<Rendezvous> rendezvouses = new ArrayList<Rendezvous>();
+		User u = userService.findByPrincipal();
+		if(type==null)type=0;
+		switch(type){
+		case 1:
+			rendezvouses.addAll(u.getRendezvouses());
+			break;
+		case 2:
+			rendezvouses.addAll(rendezvousRepository.getRSVPRendezvousesForUser(u));
+			break;
+		case 3:
+			rendezvouses.addAll(rendezvousRepository.getExploreRendezvouses());
+			rendezvouses.removeAll(rendezvousRepository.getRSVPRendezvousesForUser(u));
+			SchemaPrinter.print(rendezvousRepository.getExploreRendezvouses());
+			SchemaPrinter.print(rendezvousRepository.getRSVPRendezvousesForUser(u));
+			SchemaPrinter.print(rendezvouses);
+			break;
+		default:
+			rendezvouses.addAll(rendezvousRepository.findAll());
+		}
+		if(!userService.isAdult()) rendezvouses.removeAll(rendezvousRepository.findAllOver18());
+		if(categories != null && !categories.isEmpty()){
+			Collection<Category> categoriesAndNested = categoryService.getSelectedTree(categories);
+			rendezvouses.retainAll(rendezvousRepository.getRendezvousForCategories(categoriesAndNested));
+		}
+		return rendezvouses;
+	}
+
+	public Collection<Rendezvous> listRendezvousesAnonymous(Collection<Category> categories) {
+		Collection<Rendezvous> rendezvouses = rendezvousRepository.findAllUnder18();
+		if(categories != null && !categories.isEmpty()){
+			Collection<Category> categoriesAndNested = categoryService.getSelectedTree(categories);
+			rendezvouses.retainAll(rendezvousRepository.getRendezvousForCategories(categoriesAndNested));
+		}
+		return rendezvouses;
 	}
 }

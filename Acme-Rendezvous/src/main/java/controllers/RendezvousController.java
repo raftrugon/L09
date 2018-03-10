@@ -37,7 +37,7 @@ public class RendezvousController extends AbstractController {
 	public RendezvousController() {
 		super();
 	}
-	
+
 	@RequestMapping("/display")
 	public ModelAndView display(@RequestParam(required=true) final int rendezvousId, RedirectAttributes redir){
 		ModelAndView result = new ModelAndView("rendezvous/display");
@@ -63,24 +63,14 @@ public class RendezvousController extends AbstractController {
 		}
 		return result;
 	}
+
 	@RequestMapping("/list")
 	public ModelAndView list() {
 		ModelAndView result = new ModelAndView("rendezvous/list");
-		List<Rendezvous> rendezvouss = null;
-		try{
-			if(userService.isAdult())
-				rendezvouss = new ArrayList<Rendezvous>(rendezvousService.findAll());
-			else
-				rendezvouss = new ArrayList<Rendezvous>(rendezvousService.findAllUnder18());
-			result.addObject("rsvpdRendezvouses", rendezvousService.getRSVPRendezvousesForUser(userService.findByPrincipal()));
-		}catch(Throwable oops){
-			rendezvouss = new ArrayList<Rendezvous>(rendezvousService.findAllUnder18());
-		}
-		result.addObject("rendezvouss", rendezvouss);
 		result.addObject("requestUri", "rendezvous/list.do");
 		return result;
 	}
-	
+
 	@RequestMapping("/{userId}/list")
 	public ModelAndView listRSVP(@PathVariable int userId) {
 		ModelAndView result;
@@ -90,5 +80,5 @@ public class RendezvousController extends AbstractController {
 		result.addObject("requestUri", "rendezvous/{userId}/list.do");
 		return result;
 	}
-	
+
 }

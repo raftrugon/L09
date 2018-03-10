@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,6 +15,7 @@ import services.CommentService;
 import services.RendezvousService;
 import services.RsvpService;
 import services.UserService;
+import domain.Category;
 import domain.Rendezvous;
 import domain.Rsvp;
 import domain.User;
@@ -141,5 +144,24 @@ public class AjaxController {
 	@RequestMapping(value = "category/getSubCategories", method = RequestMethod.GET)
 	public String getSubCategories(@RequestParam(required=false) final Integer categoryId){
 		return categoryService.getCategoriesJson(null).toString();
+	}
+
+	@RequestMapping(value = "/rendezvous/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam(required=false,defaultValue="0")final Integer type,@RequestParam(value="categories[]",required=false)final Collection<Category> categories) {
+		ModelAndView result = new ModelAndView("rendezvous/subList");
+		Collection<Rendezvous> rendezvouss = null;
+		try{
+			userService.findByPrincipal();
+			rendezvouss = rendezvousService.listRendezvouses(type, categories);
+		}catch(Throwable oops){
+			try{
+				rendezvouss = rendezvousService.listRendezvousesAnonymous(categories);
+			}catch(Throwable oops2){
+				oops2.printStackTrace();
+				return new ModelAndView("ajaxException");
+			}
+		}
+		result.addObject("rendezvouss", rendezvouss);
+		return result;
 	}
 }

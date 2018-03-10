@@ -2,6 +2,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
@@ -116,6 +117,16 @@ public class CategoryService {
 			json.add(subJson);
 		}
 		return json;
+	}
+
+	public Collection<Category> getSelectedTree(Collection<Category> categories){
+		Collection<Category> res = new HashSet<Category>();
+		res.addAll(categories);
+		for(Category c: categories)
+			try{
+				res.addAll(getSelectedTree(c.getCategories()));
+			}catch(Throwable oops){}
+		return res;
 	}
 
 }
