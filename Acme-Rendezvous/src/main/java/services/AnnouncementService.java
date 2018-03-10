@@ -26,25 +26,25 @@ public class AnnouncementService {
 	@Autowired
 	private AnnouncementRepository			announcementRepository;
 	@Autowired
-	private UserService			userService;
+	private UserService						userService;
 	@Autowired
-	private RendezvousService			rendezvousService;
+	private RendezvousService				rendezvousService;
 	@Autowired
-	private AdminService adminService;
+	private AdminService 					adminService;
 	@Autowired
-	private Validator	validator;
-	
-	
+	private Validator						validator;
+
+
 
 	// Supporting services ----------------------------------------------------
 
 
 	// Simple CRUD methods ----------------------------------------------------
 
-	public Announcement create(int rendezvousId) {
+	public Announcement create(final int rendezvousId) {
 		Announcement res = new Announcement();
-		Rendezvous r = rendezvousService.findOne(rendezvousId);
-		User u = userService.findByPrincipal();
+		Rendezvous r = this.rendezvousService.findOne(rendezvousId);
+		User u = this.userService.findByPrincipal();
 		Assert.notNull(u);
 		Assert.isTrue(u == r.getUser());
 		res.setCreationMoment(new Date(System.currentTimeMillis()-1000));
@@ -53,77 +53,78 @@ public class AnnouncementService {
 		return res;
 	}
 
-	public Announcement findOne(int announcementId) {
+	public Announcement findOne(final int announcementId) {
 		Assert.isTrue(announcementId != 0);
-		Announcement res = announcementRepository.findOne(announcementId);
+		Announcement res = this.announcementRepository.findOne(announcementId);
 		Assert.notNull(res);
 		return res;
 	}
-	
 
 
-	public Announcement save(Announcement announcement) {
+
+	public Announcement save(final Announcement announcement) {
 		Assert.notNull(announcement);
-		User u = userService.findByPrincipal();
+		User u = this.userService.findByPrincipal();
 		Assert.notNull(u);
-		
+		Assert.isTrue(announcement.getId() == 0);
+
 		announcement.setCreationMoment(new Date(System.currentTimeMillis()-1000));
-		Announcement res = announcementRepository.save(announcement);
+		Announcement res = this.announcementRepository.save(announcement);
 		res.getRendezvous().getAnnouncements().add(res);
 		return res;
 	}
 
 	public Announcement deleteByAdmin(final Announcement announcement) {
 		Assert.notNull(announcement);
-		Admin a = adminService.findByPrincipal();
+		Admin a = this.adminService.findByPrincipal();
 		Assert.notNull(a);
 		announcement.setinappropriate(true);
-		return announcementRepository.save(announcement);
+		return this.announcementRepository.save(announcement);
 
 	}
-	
+
 	public Announcement reconstructNew(final Announcement announcement, final BindingResult binding){
 		announcement.setId(0);
 		announcement.setVersion(0);
 		announcement.setCreationMoment(new Date(System.currentTimeMillis()-1000));
 		announcement.setinappropriate(false);
-		validator.validate(announcement,binding);
+		this.validator.validate(announcement,binding);
 		return announcement;
 	}
 	//Other Business Methods --------------------------------
-	
+
 
 	public Collection<Announcement> findAllOrdered() {
-		return announcementRepository.findAllOrdered();
+		return this.announcementRepository.findAllOrdered();
 	}
-	
-	public Collection<Announcement> getRSVPAnnouncementsForUser(User user) {
-		return announcementRepository.getRSVPAnnouncementsForUser(user);
+
+	public Collection<Announcement> getRSVPAnnouncementsForUser(final User user) {
+		return this.announcementRepository.getRSVPAnnouncementsForUser(user);
 	}
-	
-	public Collection<Announcement> getMyAnnouncements(User user) {
-		return announcementRepository.getMyAnnouncements(user);
+
+	public Collection<Announcement> getMyAnnouncements(final User user) {
+		return this.announcementRepository.getMyAnnouncements(user);
 	}
-	
-	public Collection<Announcement> getRendezvousAnnouncementsSorted(int rendezvousId){
-		return announcementRepository.getRendezvousAnnouncementsSorted(rendezvousId);
+
+	public Collection<Announcement> getRendezvousAnnouncementsSorted(final int rendezvousId){
+		return this.announcementRepository.getRendezvousAnnouncementsSorted(rendezvousId);
 	}
-	
+
 	public Collection<Announcement> findAllOrderedNotInappropriate(){
-		return announcementRepository.findAllOrderedNotInappropriate();
+		return this.announcementRepository.findAllOrderedNotInappropriate();
 	}
 
-	public Collection<Announcement> getRSVPAnnouncementsForUserNotInappropriate(User user){
-		return announcementRepository.getRSVPAnnouncementsForUserNotInappropriate(user);
+	public Collection<Announcement> getRSVPAnnouncementsForUserNotInappropriate(final User user){
+		return this.announcementRepository.getRSVPAnnouncementsForUserNotInappropriate(user);
 	}
 
-	public Collection<Announcement> getMyAnnouncementsNotInappropriate(User user){
-		return announcementRepository.getMyAnnouncementsNotInappropriate(user);
+	public Collection<Announcement> getMyAnnouncementsNotInappropriate(final User user){
+		return this.announcementRepository.getMyAnnouncementsNotInappropriate(user);
 	}
 
-	public Collection<Announcement> getRendezvousAnnouncementsSortedNotInappropriate(int rendezvousId){
-		return announcementRepository.getRendezvousAnnouncementsSortedNotInappropriate(rendezvousId);
+	public Collection<Announcement> getRendezvousAnnouncementsSortedNotInappropriate(final int rendezvousId){
+		return this.announcementRepository.getRendezvousAnnouncementsSortedNotInappropriate(rendezvousId);
 	}
 
-	
+
 }

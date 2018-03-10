@@ -5,15 +5,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import services.AnnouncementService;
+import services.CategoryService;
 import services.CommentService;
 import services.RendezvousService;
 import services.ZerviceService;
 import domain.Announcement;
 import domain.Comment;
 import domain.Rendezvous;
-import domain.Zervice;
 
 @RestController
 @RequestMapping("/admin/ajax")
@@ -27,6 +28,8 @@ public class AdminAjaxController {
 	private RendezvousService rendezvousService;
 	@Autowired
 	private ZerviceService zerviceService;
+	@Autowired
+	private CategoryService categoryService;
 
 	@RequestMapping(value="/rendezvous/delete", method=RequestMethod.POST)
 	public String deleteRendezvous(@RequestParam(required = true) int rendezvousId) {
@@ -69,5 +72,12 @@ public class AdminAjaxController {
 		} catch(Throwable oops) {
 			return "2";
 		}
+	}
+	
+	@RequestMapping(value="/category/edit", method=RequestMethod.GET)
+	public ModelAndView editCategory(@RequestParam(required = true) int categoryId) {
+		ModelAndView res = new ModelAndView("category/edit");
+		res.addObject("category", categoryService.findOne(categoryId));
+		return res;
 	}
 }
