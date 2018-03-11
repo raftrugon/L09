@@ -6,6 +6,8 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="lib" tagdir="/WEB-INF/tags/myTagLib" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <script>
 	$(function(){
@@ -50,157 +52,135 @@
 			   {label: '<spring:message code="admin.ratio.have"/>', value: <jstl:out value="${ratioOfUsersWhoCreatedRendezvouses}"></jstl:out>*100}    ,
 			   {label: '<spring:message code="admin.ratio.havenot"/>', value: havenotCreated*100}
 		       ],
-	       colors: ['#38bc31','#ad2b2b']
+	       colors: ['#38bc31','#ad2b2b'],
+	       resize:true
 		});
 		donut.select(0);
 	});	
 </script>
-<div class=center-text>
-<%-- 
-<display:table pagesize="7" class="displaytag" keepStatus="true" name="list" id="row">
-	 <display:caption> 
-	 	<spring:message code='admin.title1'/>
-	 </display:caption>
-	<display:column>
-	<jstl:choose>
-		<jstl:when test="${row_rowNum == 1}">
-			<spring:message code="admin.dash1"/>
-		</jstl:when>
-		<jstl:when test="${row_rowNum == 2}">
-			<spring:message code="admin.dash2"/>
-		</jstl:when>
-		<jstl:when test="${row_rowNum == 3}">
-			<spring:message code="admin.dash3"/>
-		</jstl:when>
-		<jstl:when test="${row_rowNum == 4}">
-			<spring:message code="admin.dash4"/>
-		</jstl:when>
-		<jstl:when test="${row_rowNum == 5}">
-			<spring:message code="admin.dash5"/>
-		</jstl:when>
-		<jstl:when test="${row_rowNum == 6}">
-			<spring:message code="admin.dash6"/>
-		</jstl:when>
-		<jstl:when test="${row_rowNum == 7}">
-			<spring:message code="admin.dash7"/>
-		</jstl:when>
-	
-	</jstl:choose>	
-	</display:column>
+<script>
+	$(function(){
+		$('.pillBtn').click(function(){
+			if($(this).attr('href') === '#pill1'){
+				$('#pill1').show();
+			}else{
+				$('#pill1').hide();
+			}
+		});
+	});
+</script>
 
-	<jstl:forEach items="${row}" var="x" varStatus="count">
-		<jstl:choose>
-			<jstl:when test="${count.index==0 }">
-				<spring:message code="admin.avg" var="title"/>
-			</jstl:when>
-			<jstl:when test="${count.index==1 }">
-				<spring:message code="admin.std" var="title"/>
-			</jstl:when>
-		</jstl:choose>
-		<display:column title="${title}">${x}</display:column>
-	</jstl:forEach>
-	
-	<display:setProperty name="paging.banner.onepage" value=""/>
-    <display:setProperty name="paging.banner.placement" value="bottom"/>
-    <display:setProperty name="paging.banner.all_items_found" value=""/>
-    <display:setProperty name="paging.banner.one_item_found" value=""/>
-    <display:setProperty name="paging.banner.no_items_found" value=""/>
-
-</display:table>
---%>
-
-<div class="col-md-8" style="margin-top:10px;margin-bottom:10px;">
-	<canvas id="radarChart"></canvas>
+<div class="col-xs-12" style="margin-bottom:10px">
+	<ul class="nav nav-pills nav-justified">
+    <li class="active"><a class="pillBtn" data-toggle="pill" href="#pill1"><spring:message code="admin.dashboard.graphs"/></a></li>
+    <li><a class="pillBtn" data-toggle="pill" href="#pill2"><spring:message code="admin.dashboard.lists"/></a></li>
+  </ul>
 </div>
-<div id="morrisDonut" class="col-md-4" style="height:300px;"></div>
-<%-- 
-	<div class="well well-sm col-xs-12" style="width:95%">
-		<strong>
-		<spring:message code="admin.ratio"/></strong> <jstl:out value="${ratioOfUsersWhoCreatedRendezvouses}"></jstl:out>
-		
+<div id="tab-content">
+	<div id="pill1" class="tab-pane fade in active">
+		<div class="col-md-8" style="margin-top:10px;margin-bottom:10px;">
+			<canvas id="radarChart"></canvas>
+		</div>
+		<div id="morrisDonut" class="col-md-4" style="height:300px;"></div>
+	</div>	
+	<div id="pill2" class="tab-pane fade">
+		<div class="col-sm-3">
+			<ul class="nav nav-tabs tabs-left">
+			    <li class="active"><a data-toggle="tab" href="#tab1"><spring:message code='admin.title2'/></a></li>
+			    <li><a data-toggle="tab" href="#tab2"><spring:message code='admin.title3'/></a></li>
+			    <li><a data-toggle="tab" href="#tab3"><spring:message code='admin.title4'/></a></li>
+			    <li><a data-toggle="tab" href="#tab4">asdfasd</a></li>
+			    <li><a data-toggle="tab" href="#tab5">asdfasdfasdasd</a></li>
+			</ul>
+		</div>
+		<div class="col-sm-9">
+			<div class="tab-content">
+				<div id="tab1" class="tab-pane fade in active">
+					<div class="list-group">
+					<jstl:forEach items="${top10RnedezVouses}" var="r">
+						<a href="rendezvous/display.do?rendezvousId=${r.id}" class="list-group-item">
+							<span class="label label-info" style="position:absolute;right:10px"><spring:message code="rendezvous.rsvp"/>s: ${fn:length(r.rsvps)}</span>
+							<h4 class="list-group-item-heading"><strong>${r.name}</strong></h4>
+							<p class="list-group-item-text">${r.description}</p>
+						</a>
+					</jstl:forEach>
+					</div>
+				</div>
+				<div id="tab2" class="tab-pane fade">
+					<div class="list-group">
+					<jstl:forEach items="${rendezvousWithAnnouncementsOverAvg}" var="r2">
+						<a href="rendezvous/display.do?rendezvousId=${r2.id}" class="list-group-item">
+							<span class="label label-info" style="position:absolute;right:10px"><spring:message code="rendezvous.announcements.tab"/>: ${fn:length(r2.announcements)}</span>
+							<h4 class="list-group-item-heading"><strong>${r2.name}</strong></h4>
+							<p class="list-group-item-text">${r2.description}</p>
+						</a>
+					</jstl:forEach>
+					</div>
+				</div>
+				<div id="tab3" class="tab-pane fade">
+					<div class="list-group">
+					<jstl:forEach items="${rendezvousesLinkedToMoreThan110PerCent}" var="r3">
+						<a href="rendezvous/display.do?rendezvousId=${r3.id}" class="list-group-item">
+							<span class="label label-info" style="position:absolute;right:10px"><spring:message code="rendezvous.announcements.tab"/>: ${fn:length(r3.rendezvouses)}</span>
+							<h4 class="list-group-item-heading"><strong>${r3.name}</strong></h4>
+							<p class="list-group-item-text">${r3.description}</p>
+						</a>
+					</jstl:forEach>
+					</div>
+				</div>
+				<div id="tab4" class="tab-pane fade">
+					<jsp:useBean id="now" class="java.util.Date" />
+					<jstl:forEach items="${bestSellingZervices}" var="zervice">
+					
+					<jstl:set var="inappropriateStyle" value=""/>
+					<div class="col-lg-3 col-sm-6 col-xs-12 cardContainer" id="zervicesContainer">
+								<jstl:if test="${zervice.inappropriate eq true}">
+									<jstl:set var="inappropriateStyle" value="filter: blur(5px);-webkit-filter: blur(5px);"/>
+									<div class="alert alert-danger" style="position:absolute;top:40%;right:10%;left:10%;text-align:center;z-index:500;"><strong><spring:message code="zervice.inappropriate.alert"/></strong></div>
+								</jstl:if>
+								
+						<div class="card" style="${inappropriateStyle}">
+							<div style="height:100%;">
+								<jstl:if test="${empty zervice.picture}">
+									<div class="nopicContainer">
+										<img src="images/nopic2.jpg" style="object-fit:cover;height:200px;width:100%" class="nopic"/>
+										<div class="nopicCaption2 alert alert-warning"><spring:message code="master.page.nopic"/></div>
+									</div>
+								</jstl:if>
+								<jstl:if test="${not empty zervice.picture}">
+									<img src="${zervice.picture}" style="object-fit:cover;height:200px;width:100%">
+								</jstl:if>
+						        <h1>
+						        	<jstl:out value="${zervice.name}"/>
+						        </h1>
+						        	<span class="label label-primary"><jstl:out value="${zervice.category.name}"/></span>
+						        <div style="text-align:center;margin-top:5px;" class="cardDate">
+									<jstl:out value="${zervice.description}"/>
+						        </div>
+							</div>
+						</div>
+					</div>
+					</jstl:forEach>
+				</div>
+				<div id="tab5" class="tab-pane fade">
+					<jstl:forEach items="${managersMoreZervicesAvg}" var="manager">
+					<jstl:set var="rand"><%= java.lang.Math.round(java.lang.Math.random() * 9) + 1 %></jstl:set>
+					<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="userCard" style="overflow:hidden;height:450px">
+							  <img src="images/kS${rand}.png" style="width:100%;margin-top:-25px;max-height:55%">
+							  <button class="cardUserButton" style="margin-top:-25px;"><jstl:out value="${manager.name} ${manager.surnames}"/></button>
+							  <p><strong><spring:message code="user.address" /></strong></p>
+							  <p><jstl:if test="${manager.address eq null}">-</jstl:if><jstl:out value="${manager.address}"/></p>
+							  <p><strong><spring:message code="user.phoneNumber" /></strong></p>
+							  <p><jstl:if test="${manager.phoneNumber eq null}">-</jstl:if><jstl:out value="${manager.phoneNumber}"/></p>
+							  <p><strong><spring:message code="user.email" /></strong></p>
+							  <p><jstl:out value="${manager.email}"/></p>
+						</div>
+					</div>
+					</jstl:forEach>
+				</div>
+			</div>
+		</div>
 	</div>
---%>		
-
-<display:table pagesize="10" class="displaytag" keepStatus="true" name="top10RnedezVouses" id="row1">
-	 <display:caption> 
-	 	<spring:message code='admin.title2'/>
-	 </display:caption>
-
-	<jstl:set var="model" value="rendezvous" scope="request"/>
-	<!-- Attributes -->
-  	<lib:column name="name" link="rendezvous/display.do?rendezvousId=${row1.id}" linkName="${row1.name}"/>
-	<lib:column name="description"/>
-	<lib:column name="organisationMoment" format="{0,date,dd/MM/yy HH:mm}"/>
-	<jstl:if test="${row1.picture ne null}">
-		<lib:column name="picture" photoUrl="${row1.picture}"/>
-	</jstl:if>
-	<jstl:if test="${row1.picture eq null}">
-		<lib:column name="picture" photoUrl="images/nopic.jpg" nopic="1"/>
-	</jstl:if>
-	<lib:column name="coordinates" value="[${row1.longitude},${row1.latitude}]"/>
-	<lib:column name="user" link="user-display.do?userId=${row1.user.id}" linkName="${row1.user.name} ${row1.user.surnames}"/>
-
-<display:setProperty name="paging.banner.onepage" value=""/>
-    <display:setProperty name="paging.banner.placement" value="bottom"/>
-    <display:setProperty name="paging.banner.all_items_found" value=""/>
-    <display:setProperty name="paging.banner.one_item_found" value=""/>
-    <display:setProperty name="paging.banner.no_items_found" value=""/>
-
-</display:table>
-
-<display:table pagesize="10" class="displaytag" keepStatus="true" name="rendezvousWithAnnouncementsOverAvg" id="row2">
-	 <display:caption> 
-	 	<spring:message code='admin.title3'/>
-	 </display:caption>
-	<jstl:set var="model" value="rendezvous" scope="request"/>
-	<!-- Attributes -->
-  	<lib:column name="name" link="rendezvous/display.do?rendezvousId=${row2.id}" linkName="${row2.name}"/>
-	<lib:column name="description"/>
-	<lib:column name="organisationMoment" format="{0,date,dd/MM/yy HH:mm}"/>
-	<jstl:if test="${row2.picture ne null}">
-		<lib:column name="picture" photoUrl="${row2.picture}"/>
-	</jstl:if>
-	<jstl:if test="${row2.picture eq null}">
-		<lib:column name="picture" photoUrl="images/nopic.jpg" nopic="1"/>
-	</jstl:if>
-	<lib:column name="coordinates" value="[${row2.longitude},${row2.latitude}]"/>
-	<lib:column name="user" link="user-display.do?userId=${row2.user.id}" linkName="${row2.user.name} ${row2.user.surnames}"/>
-
-<display:setProperty name="paging.banner.onepage" value=""/>
-    <display:setProperty name="paging.banner.placement" value="bottom"/>
-    <display:setProperty name="paging.banner.all_items_found" value=""/>
-    <display:setProperty name="paging.banner.one_item_found" value=""/>
-    <display:setProperty name="paging.banner.no_items_found" value=""/>
-
-</display:table>
-
-
-<display:table pagesize="10" class="displaytag" keepStatus="true" name="rendezvousesLinkedToMoreThan110PerCent" id="row3">
-	 <display:caption> 
-	 	<spring:message code='admin.title4'/>
-	 </display:caption>
-
-	<jstl:set var="model" value="rendezvous" scope="request"/>
-	<!-- Attributes -->
-  	<lib:column name="name" link="rendezvous/display.do?rendezvousId=${row3.id}" linkName="${row3.name}"/>
-	<lib:column name="description"/>
-	<lib:column name="organisationMoment" format="{0,date,dd/MM/yy HH:mm}"/>
-	<jstl:if test="${row3.picture ne null}">
-		<lib:column name="picture" photoUrl="${row3.picture}"/>
-	</jstl:if>
-	<jstl:if test="${row3.picture eq null}">
-		<lib:column name="picture" photoUrl="images/nopic.jpg" nopic="1"/>
-	</jstl:if>
-	<lib:column name="coordinates" value="[${row3.longitude},${row3.latitude}]"/>
-	<lib:column name="user" link="user-display.do?userId=${row3.user.id}" linkName="${row3.user.name} ${row3.user.surnames}"/>
-
-<display:setProperty name="paging.banner.onepage" value=""/>
-    <display:setProperty name="paging.banner.placement" value="bottom"/>
-    <display:setProperty name="paging.banner.all_items_found" value=""/>
-    <display:setProperty name="paging.banner.one_item_found" value=""/>
-    <display:setProperty name="paging.banner.no_items_found" value=""/>
-
-</display:table> 
-
-
 </div>
+

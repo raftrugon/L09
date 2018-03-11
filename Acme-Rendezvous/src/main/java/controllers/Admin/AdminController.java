@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.CommentService;
+import services.ManagerService;
 import services.RendezvousService;
 import services.SystemConfigService;
+import services.ZerviceService;
 import controllers.AbstractController;
 import domain.Rendezvous;
 import domain.SystemConfig;
@@ -41,14 +43,18 @@ public class AdminController extends AbstractController {
 	private CommentService commentService;
 	@Autowired
 	private SystemConfigService systemConfigService;
-	
+	@Autowired
+	private ZerviceService	zerviceService;
+	@Autowired
+	private ManagerService	managerService;
+
 	// Constructors -----------------------------------------------------------
 
 	public AdminController() {
 		super();
 	}
 
-	// Dashboard ---------------------------------------------------------------		
+	// Dashboard ---------------------------------------------------------------
 	@RequestMapping("/dashboard")
 	public ModelAndView dashboard() {
 		ModelAndView result;
@@ -64,29 +70,33 @@ public class AdminController extends AbstractController {
 		list.add(Arrays.asList(rendezvousService.getAnswersToQuestionsStats()));
 		list.add(Arrays.asList(commentService.getCommentRepliesStats()));
 		result.addObject("list", list);
-		
-		//Another table to show ratio of users have ever created a rendezvous versus the users 
+
+		//Another table to show ratio of users have ever created a rendezvous versus the users
 		//who have never created any rendezvouses
 		result.addObject("ratioOfUsersWhoCreatedRendezvouses", rendezvousService.getRatioOfUsersWhoHaveCreatedRendezvouses());
-		
+
 		//Another table with the top 10 rendezvouses by RSVPs
 		List<Rendezvous> top10Rendezvouses = new ArrayList<Rendezvous>();
 		top10Rendezvouses.addAll(rendezvousService.getTop10RendezvousByRSVPs());
 		result.addObject("top10RnedezVouses",top10Rendezvouses);
-		
+
 		//Another table to show the rendezvouses with the number of announcements over
 		//the 75% avg
 		List<Rendezvous> rendezvousWithAnnouncementsOverAvg = new ArrayList<Rendezvous>();
 		rendezvousWithAnnouncementsOverAvg.addAll(rendezvousService.getRendezvousesWithNumberOfAnnouncementsOver75PerCentAvg());
 		result.addObject("rendezvousWithAnnouncementsOverAvg", rendezvousWithAnnouncementsOverAvg);
 
-		//Another table to show the rendezvouses linked to a number of rendezvouses that 
+		//Another table to show the rendezvouses linked to a number of rendezvouses that
 		//is greater than the average plus 10%.
 		List<Rendezvous> rendezvousesLinkedToMoreThan110PerCent = new ArrayList<Rendezvous>();
 		rendezvousesLinkedToMoreThan110PerCent.addAll(rendezvousService.getRendezvousesLinkedToMoreThan10PerCentAVGNumberOfRendezvouses());
 		result.addObject("rendezvousesLinkedToMoreThan110PerCent", rendezvousService.getRendezvousesLinkedToMoreThan10PerCentAVGNumberOfRendezvouses());
 
+		//Best-selling service
+		result.addObject("bestSellingZervices",zerviceService.getBestSellingZervices());
 
+		//Manager who provide more services than the average
+		result.addObject("managersMoreZervicesAvg",managerService.getManagersWhoProvideMoreServicesThanAvg());
 
 		return result;
 	}
@@ -97,7 +107,7 @@ public class AdminController extends AbstractController {
 		res.addObject("systemConfig", systemConfigService.get());
 		return res;
 	}
-	
+
 	@RequestMapping(value="/systemConfig/edit", method=RequestMethod.POST, params = "save")
 	public ModelAndView saveSystemConfig(@Valid final SystemConfig systemConfig, final BindingResult binding) {
 		ModelAndView res;

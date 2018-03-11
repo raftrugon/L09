@@ -106,4 +106,7 @@ public class ZerviceService {
 
 	// Other Business Methods --------------------------------
 
+	public Collection<Zervice> getBestSellingZervices(){
+		return zerviceRepository.getBestSellingZervices();
+	}
 }

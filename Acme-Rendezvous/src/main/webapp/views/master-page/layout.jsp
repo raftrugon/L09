@@ -52,6 +52,7 @@
 <link rel="stylesheet" href="styles/other.css" type="text/css">
 <link rel="stylesheet" href="styles/timeline.css" type="text/css">
 <link rel="stylesheet" href="styles/card.css" type="text/css">
+<link rel="stylesheet" href="styles/vertical-tabs.min.css" type="text/css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.css" />

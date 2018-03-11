@@ -1,0 +1,18 @@
+.tabs-left{
+	border: none !important;
+}
+
+.tabs-left li{
+	width:100%;
+}
+.tabs-left li.active a{
+	border-top: 1px solid #ddd !important;
+	border-left: 1px solid #ddd !important;
+	border-bottom: 1px solid #ddd !important;
+	border-right:none !important;
+	border-radius: 4px 0 0 4px !important;
+}
+
+.tabs-left li:not(.active){
+	border-right: 1px #ddd solid;
+}
