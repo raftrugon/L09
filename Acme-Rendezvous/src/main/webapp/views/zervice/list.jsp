@@ -37,6 +37,9 @@
 	        <div style="text-align:center;margin-top:5px;" class="cardDate">
 				<jstl:out value="${zervice.description}"/>
 	        </div>
+	        <div class="bg-info" style="text-align:center;">
+	        	<fmt:formatNumber value="${zervice.price}" type="currency" currencySymbol="&euro;"/>
+	        </div>
 		</div>
 		<security:authorize access="hasRole('USER')">
 			<jstl:if test="${not zervice.inappropriate}">

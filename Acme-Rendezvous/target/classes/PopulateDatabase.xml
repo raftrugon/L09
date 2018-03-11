@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 
 <!-- * PopulateDatabase.xml * * Copyright (C) 2017 Universidad de Sevilla
  * * The use of this project is hereby constrained to the conditions of the
@@ -493,6 +492,7 @@
         <property name="description" value="Servicio de catering" />
         <property name="picture" value="http://www.furgocar.es/blog/wp-content/uploads/2017/01/catering.jpg" />
         <property name="inappropriate" value="false" />
+        <property name="price" value="13" />
         <property name="manager" ref="manager1" />
         <property name="category" ref="category2" />
         <property name="requests">
@@ -509,6 +509,7 @@
         <property name="description" value="Disponible material fotográfico" />
         <property name="picture" value="https://365enfoques.com/wp-content/uploads/2016/03/ahorrar-dinero-como-fotografo.jpg" />
         <property name="inappropriate" value="false" />
+        <property name="price" value="26.85" />
         <property name="manager" ref="manager2" />
         <property name="category" ref="category2" />
         <property name="requests">
@@ -522,6 +523,7 @@
         <property name="description" value="Disponible material de lectura" />
         <property name="picture" value="" />
         <property name="inappropriate" value="false" />
+        <property name="price" value="40.12" />
         <property name="manager" ref="manager1" />
         <property name="category" ref="category2" />
         <property name="requests">
@@ -536,6 +538,7 @@
         <property name="description" value="Beber siempre con moderación" />
         <property name="picture" value="" />
         <property name="inappropriate" value="true" />
+        <property name="price" value="16.30" />
         <property name="manager" ref="manager4" />
         <property name="category" ref="category2" />
         <property name="requests">
@@ -549,6 +552,7 @@
         <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
         <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
         <property name="inappropriate" value="false" />
+        <property name="price" value="15.23" />
         <property name="manager" ref="manager5" />
         <property name="category" ref="category2" />
         <property name="requests">
@@ -565,6 +569,7 @@
         <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
         <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
         <property name="inappropriate" value="false" />
+        <property name="price" value="19.02" />
         <property name="manager" ref="manager2" />
         <property name="category" ref="category3" />
         <property name="requests">
@@ -580,6 +585,7 @@
         <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
         <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
         <property name="inappropriate" value="false" />
+        <property name="price" value="16.09" />
         <property name="manager" ref="manager4" />
         <property name="category" ref="category3" />
         <property name="requests">
@@ -595,6 +601,7 @@
         <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
         <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
         <property name="inappropriate" value="false" />
+        <property name="price" value="22.94" />
         <property name="manager" ref="manager1" />
         <property name="category" ref="category4" />
         <property name="requests">
@@ -610,6 +617,7 @@
         <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
         <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
         <property name="inappropriate" value="false" />
+        <property name="price" value="30" />
         <property name="manager" ref="manager2" />
         <property name="category" ref="category4" />
         <property name="requests">
@@ -625,6 +633,7 @@
         <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
         <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
         <property name="inappropriate" value="false" />
+        <property name="price" value="19.53" />
         <property name="manager" ref="manager4" />
         <property name="category" ref="category5" />
         <property name="requests">
@@ -640,6 +649,7 @@
         <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
         <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
         <property name="inappropriate" value="false" />
+        <property name="price" value="5" />
         <property name="manager" ref="manager4" />
         <property name="category" ref="category6" />
         <property name="requests">
@@ -654,6 +664,7 @@
         <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
         <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
         <property name="inappropriate" value="false" />
+        <property name="price" value="9.99" />
         <property name="manager" ref="manager5" />
         <property name="category" ref="category8" />
         <property name="requests">
@@ -668,6 +679,7 @@
         <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
         <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
         <property name="inappropriate" value="false" />
+        <property name="price" value="43.72" />
         <property name="manager" ref="manager1" />
         <property name="category" ref="category9" />
         <property name="requests">
@@ -682,6 +694,7 @@
         <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
         <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
         <property name="inappropriate" value="false" />
+        <property name="price" value="6.34" />
         <property name="manager" ref="manager2" />
         <property name="category" ref="category9" />
         <property name="requests">
@@ -696,6 +709,7 @@
         <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
         <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
         <property name="inappropriate" value="false" />
+        <property name="price" value="17.54" />
         <property name="manager" ref="manager4" />
         <property name="category" ref="category10" />
         <property name="requests">
