@@ -24,9 +24,9 @@
 		<div class="btn-group">
 			<input class="btn btn-success" id="saveCategoryButton" name="save" value="<spring:message code="category.save"/>" />
 		</div>
-		<jstl:if test="${category.id != 0}">
+		<jstl:if test="${category.id != 0 && empty category.zervices}">
 			<div class="btn-group">
-		   		<input class="btn btn-danger deleteCategoryButton" id="${cetegory.id}" name="delete" value="<spring:message code="category.delete" />" />
+		   		<input class="btn btn-danger deleteCategoryButton" id="${category.id}" name="delete" value="<spring:message code="category.delete" />" />
 			</div>
 	  	</jstl:if>
 	</div>
@@ -41,6 +41,7 @@ $(function(){
 			if(data==1) {
 				notify('success','<spring:message code="category.edit.success"/>');
 				$('#categoryEditModal').modal('hide');
+				loadCategories();
 			}
 			else{
 				notify('danger','<spring:message code="category.edit.error"/>');
@@ -55,11 +56,11 @@ $(function(){
 $(function(){
 	$('.deleteCategoryButton').click(function(e){
 		e.preventDefault();
-		var id =  $(this).attr('id');
-		$.post( "admin/ajax/category/delete.do",{categoryId: id}, function( data ) {
+		$.post( "admin/ajax/category/delete.do",{categoryId: $(this).attr('id')}, function( data ) {
 			if(data==1) {
 				notify('success','<spring:message code="category.delete.success"/>');
 				$('#categoryEditModal').modal('hide');
+				loadCategories();
 			}
 			else{
 				notify('danger','<spring:message code="category.delete.error"/>');

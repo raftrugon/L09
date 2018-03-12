@@ -10,7 +10,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <script>
-	$(function(){
+	function loadCategories(){
+		$("#categoryDiv").html("");
 		$.get('ajax/category/getSubCategories.do?admin=true',function(data){
 			$('#categoryDiv').treeview({
 				data:data,
@@ -25,6 +26,9 @@
 				}	
 			});
 		});
+	};
+	$(function(){
+		loadCategories();
 	});
 </script>
 
