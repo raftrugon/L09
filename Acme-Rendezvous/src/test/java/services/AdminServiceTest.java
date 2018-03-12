@@ -1,6 +1,5 @@
-package services;
 
-import javax.validation.ConstraintViolationException;
+package services;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,369 +14,135 @@ import security.UserAccountService;
 import utilities.AbstractTest;
 import domain.Admin;
 
-
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"classpath:spring/junit.xml"
-	})
+	"classpath:spring/junit.xml"
+})
 @Transactional
 public class AdminServiceTest extends AbstractTest {
 
 	// System under test ------------------------------------------------------
 	@Autowired
-	private AdminService adminService;
-	
+	private AdminService		adminService;
+
 	//Supporting services -----------------------------------------------------
 	@Autowired
-	private UserAccountService userAccountService;
+	private UserAccountService	userAccountService;
 
-	
+
 	// Tests ------------------------------------------------------------------
 	@Test
-	public void driverFindOne(){
+	public void driverFindOne() {
 		// create, findOne, save, delete, findByUserAccount, findByPrincipal
 		Object testingData[][] = {
-				//Positive test
-				{getEntityId("admin"), null},
-				//Find one admin with id=0
-				{adminService.create().getId(), IllegalArgumentException.class},
-				//Find one admin using another role id
-				{getEntityId("user1"), IllegalArgumentException.class},
+			//Positive test
+			{
+				getEntityId("admin"), null
+			},
+
+			//Find one admin using another role id
+			{
+				getEntityId("user1"), IllegalArgumentException.class
+			},
 		};
-		
-		for(int i=0; i<testingData.length; i++)
-			templateFindOne((int)testingData[i][0],(Class<?>)testingData[i][1]);
+
+		for (int i = 0; i < testingData.length; i++)
+			templateFindOne((int) testingData[i][0], (Class<?>) testingData[i][1]);
 	}
-	
-	protected void templateFindOne(int adminId, Class<?> expected){
-		System.out.println("========================");
-		System.out.println("== FIND ONE ADMIN ==");
-		System.out.println("========================");
-		
+
+	protected void templateFindOne(int adminId, Class<?> expected) {
+
 		Class<?> caught = null;
-		
-		try{
+
+		try {
 			Admin res = adminService.findOne(adminId);
-			
-			System.out.println("NOMBRE: " + res.getName() + " APELLIDOS: " + res.getSurnames());
+
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		checkExceptions(expected, caught);
+
+	}
+
+	@Test
+	public void driverFindByUserAccount() {
+		Object testingData[][] = {
+			//Positive test
+			{
+				getEntityId("userAccount1"), null
+			},
+			//UserAccount param is null
+			{
+				null, NullPointerException.class
+			},
+			//UserAccount param belongs to a different role than Admin
+			{
+				getEntityId("userAccount2"), IllegalArgumentException.class
 			}
-		catch(Throwable oops){
-			caught = oops.getClass();
-		}
-		
-		checkExceptions(expected, caught);
-		
-	}
-	
-	@Test
-	public void driverSave(){
-		Object testingData[][] = {
-				//Positive test
-				{"TEST NAME", "TEST SURNAMES", "test@gmail.com",
-					"612345678", "Test Street", null},
-				//Let blank fields
-				{"TEST NAME", "TEST SURNAMES", "test@gmail.com",
-					"", "", null},
-				//One [0..1] field as null
-				{"TEST NAME", "TEST SURNAMES", "test@gmail.com",
-					null, "", null},
-				//Two [0..1] field as null
-				{"TEST NAME", "TEST SURNAMES", "test@gmail.com",
-					null, null, null},
-				//Constraint: name blank
-				{"", "TEST SURNAMES", "test@gmail.com",
-					"612345678", "Test Street", ConstraintViolationException.class},
-				//Constraint: surnames blank
-				{"TEST NAME", "", "test@gmail.com",
-					"612345678", "Test Street", ConstraintViolationException.class},
-				//Constraint: email blank
-				{"TEST NAME", "TEST SURNAMES", "",
-					"612345678", "Test Street", ConstraintViolationException.class},
-				//Constraint: email field is not an email format
-				{"TEST NAME", "TEST SURNAMES", "test",
-					"612345678", "Test Street", ConstraintViolationException.class},
-				//Two required fields are in blank
-				{"", "", "test",
-					"612345678", "Test Street", ConstraintViolationException.class},
-				//All the fields are in blank
-				{"", "", "",
-					"", "", ConstraintViolationException.class},
-				//All the fields are null
-				{null, null, null,
-						null, null, ConstraintViolationException.class},
 		};
-		
-		for(int i=0; i<testingData.length; i++)
-			templateSave((String)testingData[i][0], (String)testingData[i][1],
-					(String)testingData[i][2], (String)testingData[i][3],
-					(String)testingData[i][4], (Class<?>)testingData[i][5]);
+
+		for (int i = 0; i < testingData.length; i++)
+			templateFindByUserAccount((Integer) testingData[i][0], (Class<?>) testingData[i][1]);
 	}
-	
-	protected void templateSave(String name, String surnames, String email,
-			String phone, String address, Class<?> expected){
-		System.out.println("========================");
-		System.out.println("== SAVE ADMIN ==");
-		System.out.println("========================");
-		
+
+	protected void templateFindByUserAccount(Integer entityId, Class<?> expected) {
+
 		Class<?> caught = null;
-		
-		try{
-			Admin res = adminService.findOne(getEntityId("admin"));
-			res.setName("TEST NAME");
-			res.setSurnames("TEST SURNAMES");
-			res.setEmail("test@gmail.com");
-			adminService.save(res);
-			adminService.flush();
-			
-			System.out.println("NOMBRE: " + res.getName() + " APELLIDOS: " + res.getSurnames());
-		}
-		catch(Throwable oops){
-			caught = oops.getClass();
-		}
-		
-		checkExceptions(expected, caught);
-		
-	}
-	
-	@Test
-	public void driverFindByUserAccount(){
-		Object testingData[][] = {
-				//Positive test
-				{getEntityId("userAccount1"), null},
-				//UserAccount param is null
-				{null, IllegalArgumentException.class},
-				//UserAccount param belongs to a different role than Admin
-				{getEntityId("userAccount2"), IllegalArgumentException.class},
-		};
-		
-		for(int i=0; i<testingData.length; i++)
-			templateFindByUserAccount((int)testingData[i][0],(Class<?>)testingData[i][1]);
-	}
-	
-	protected void templateFindByUserAccount(Integer entityId, Class<?> expected){
-		System.out.println("========================");
-		System.out.println("== FINDBYUSERACCOUNT ==");
-		System.out.println("========================");
-		
-		Class<?> caught = null;
-		
-		try{
+
+		try {
 			UserAccount userAccount = null;
-			if(entityId != null)
-				userAccount = userAccountService.findOne(entityId);
+
+			userAccount = userAccountService.findOne(entityId);
 			Admin res = adminService.findByUserAccount(userAccount);
 			Assert.notNull(res);
-			
-			System.out.println("NOMBRE: " + res.getName() + " APELLIDOS: " + res.getSurnames());
-		}
-		catch(Throwable oops){
+
+		} catch (Throwable oops) {
 			caught = oops.getClass();
 		}
-		
+
 		checkExceptions(expected, caught);
-		
+
 	}
-	
+
 	@Test
-	public void driverFindByPrincipal(){
+	public void driverFindByPrincipal() {
 		Object testingData[][] = {
-				//Positive test
-				{"admin", null},
-				//FindByPrincipal with a different role than Admin
-				{"user1", IllegalArgumentException.class},
-				//FindByPrincipal being anonymous
-				{null, IllegalArgumentException.class},
+			//Positive test
+			{
+				"admin", null
+			},
+			//FindByPrincipal with a different role than Admin
+			{
+				"user1", null
+			},
+			//FindByPrincipal being anonymous
+			{
+				null, IllegalArgumentException.class
+			}
+
 		};
-		
-		for(int i=0; i<testingData.length; i++)
-			templateFindByPrincipal((String)testingData[i][0],(Class<?>)testingData[i][1]);
+
+		for (int i = 0; i < testingData.length; i++)
+			templateFindByPrincipal((String) testingData[i][0], (Class<?>) testingData[i][1]);
 	}
-	
-	protected void templateFindByPrincipal(String username, Class<?> expected){
-		System.out.println("========================");
-		System.out.println("== FINDBYPRINCIPAL ==");
-		System.out.println("========================");
-		
+
+	protected void templateFindByPrincipal(String username, Class<?> expected) {
+
 		Class<?> caught = null;
-		
-		try{
-			authenticate(username);
+
+		try {
+			this.authenticate(username);
 			Admin res = adminService.findByPrincipal();
-			authenticate(null);
-			
-			System.out.println("NOMBRE: " + res.getName() + " APELLIDOS: " + res.getSurnames());
-		}
-		catch(Throwable oops){
+			this.unauthenticate();
+
+		} catch (Throwable oops) {
+
 			caught = oops.getClass();
 		}
-		
+
 		checkExceptions(expected, caught);
-		
-	}
-	
-	@Test
-	public void testCreate(){
-		System.out.println("========================");
-		System.out.println("== CREATE ADMIN ==");
-		System.out.println("========================");
-		
-		Admin res = adminService.create();
-		res.setName("TEST NAME");
-		res.setSurnames("TEST SURNAMES");
-		
-		System.out.println("NOMBRE: " + res.getName() + " APELLIDOS: " + res.getSurnames());
-	}
-	
-	@Test
-	public void testDelete(){
-		System.out.println("========================");
-		System.out.println("== DELETE ADMIN ==");
-		System.out.println("========================");
-		
-		Admin res = adminService.findOne(getEntityId("admin"));
-		adminService.delete(res);
-		
-		System.out.println("DELETED ADMIN");
-	}
-	
-	/*@Test
-	public void testFindOne(){
-		System.out.println("========================");
-		System.out.println("== FIND ONE ADMIN ==");
-		System.out.println("========================");
-		
-		Admin res = adminService.findOne(getEntityId("admin"));
-		
-		System.out.println("NOMBRE: " + res.getName() + " APELLIDOS: " + res.getSurnames());
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testFindOneID0(){
-		System.out.println("========================");
-		System.out.println("== FIND ONE ADMIN (ID 0) ==");
-		System.out.println("========================");
-		
-		Admin admin = adminService.create();
-		Admin res = adminService.findOne(admin.getId());
-		
-		System.out.println("NOMBRE: " + res.getName() + " APELLIDOS: " + res.getSurnames());
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testFindOneWrongID(){
-		System.out.println("========================");
-		System.out.println("== FIND ONE ADMIN (Wrong ID) ==");
-		System.out.println("========================");
-		
-		
-		Admin res = adminService.findOne(getEntityId("user1"));
-		
-		System.out.println("NOMBRE: " + res.getName() + " APELLIDOS: " + res.getSurnames());
-	}*/
-	
-	/*@Test
-	public void testSave(){
-		System.out.println("========================");
-		System.out.println("== SAVE ADMIN ==");
-		System.out.println("========================");
-		
-		Admin res = adminService.findOne(getEntityId("admin"));
-		res.setName("TEST NAME");
-		res.setSurnames("TEST SURNAMES");
-		res.setEmail("test@gmail.com");
-		adminService.save(res);
-		
-		System.out.println("NOMBRE: " + res.getName() + " APELLIDOS: " + res.getSurnames());
-	}
 
-	@Test(expected=ConstraintViolationException.class)
-	public void testSaveFailValidation(){
-		System.out.println("========================");
-		System.out.println("== SAVE ADMIN (FAIL VALIDATION) ==");
-		System.out.println("========================");
-		
-		Admin res = adminService.findOne(getEntityId("admin"));
-		res.setName("TEST NAME");
-		res.setSurnames("");
-		res.setEmail("");
-		adminService.save(res);
-		adminService.flush();
-		
-		System.out.println("NOMBRE: " + res.getName() + " APELLIDOS: " + res.getSurnames());
-	}*/
-	
-	/*@Test
-	public void testFindByUserAccount(){
-		System.out.println("========================");
-		System.out.println("== FINDBYUSERACCOUNT ==");
-		System.out.println("========================");
-		
-		UserAccount userAccount = userAccountService.findOne(getEntityId("userAccount1"));
-		Admin res = adminService.findByUserAccount(userAccount);
-		
-		System.out.println("NOMBRE: " + res.getName() + " APELLIDOS: " + res.getSurnames());
-		
 	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testFindByUserAccountNull(){
-		System.out.println("========================");
-		System.out.println("== FINDBYUSERACCOUNT NULL ==");
-		System.out.println("========================");
-		
-		adminService.findByUserAccount(null);
-				
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testFindByUserAccountWrong(){
-		System.out.println("========================");
-		System.out.println("== FINDBYUSERACCOUNT WRONG ==");
-		System.out.println("========================");
-		
-		UserAccount userAccount = userAccountService.findOne(getEntityId("userAccount2"));
-		Admin admin = adminService.findByUserAccount(userAccount);
-		Assert.notNull(admin);
-				
-	}*/
-	
-	/*@Test
-	public void testFindByPrincipal(){
-		System.out.println("========================");
-		System.out.println("== FINDBYPRINCIPAL ==");
-		System.out.println("========================");
-		
-		authenticate("admin");
-		Admin res = adminService.findByPrincipal();
-		authenticate(null);
-		
-		System.out.println("NOMBRE: " + res.getName() + " APELLIDOS: " + res.getSurnames());
-		
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testFindByPrincipalWrong(){
-		System.out.println("========================");
-		System.out.println("== FINDBYPRINCIPAL WRONG ==");
-		System.out.println("========================");
-		
-		authenticate("user1");
-		Admin admin = adminService.findByPrincipal();
-		Assert.notNull(admin);
-		authenticate(null);
-				
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testFindByPrincipalAnonymous(){
-		System.out.println("========================");
-		System.out.println("== FINDBYPRINCIPAL ANONYMOUS ==");
-		System.out.println("========================");
-		
-		Admin admin = adminService.findByPrincipal();
-		Assert.notNull(admin);
-
-	}*/
 
 }
