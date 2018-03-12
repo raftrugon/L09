@@ -142,8 +142,8 @@ public class AjaxController {
 	}
 
 	@RequestMapping(value = "category/getSubCategories", method = RequestMethod.GET)
-	public String getSubCategories(@RequestParam(required=false) final Integer categoryId){
-		return categoryService.getCategoriesJson(null).toString();
+	public String getSubCategories(@RequestParam(required=false,defaultValue="false") final Boolean admin){
+		return categoryService.getCategoriesJson(null,admin).toString();
 	}
 
 	@RequestMapping(value = "/rendezvous/list", method = RequestMethod.GET)

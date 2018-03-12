@@ -50,7 +50,8 @@
 		<h1><spring:message code="master.page.zervice.create" /></h1>
 		<hr>
 		<lib:input name="name" type="text" />
-		<lib:input name="description" type="text" />			
+		<lib:input name="description" type="text" />	
+		<lib:input name="price" type="text" />			
 		<lib:input name="picture" type="text" />
 		<hr> 
 		<div class="form-group">

@@ -15,6 +15,4 @@ public class AdminCategoryController  extends AbstractController {
 	public ModelAndView list() {
 		return new ModelAndView("category/list");
 	}
-	
-	
 }

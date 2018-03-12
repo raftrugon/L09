@@ -20,7 +20,53 @@
 		
 		<lib:input name="name" type="text" />
 		<lib:input name="description" type="text" />
-<div class="form-group">
-	<input id="saveCategoryButton" type="button" class="btn btn-block btn-success" value="<spring:message code='category.save'/> ">
-</div>
+<div class="btn-group btn-group-justified">
+		<div class="btn-group">
+			<input class="btn btn-success" id="saveCategoryButton" name="save" value="<spring:message code="category.save"/>" />
+		</div>
+		<jstl:if test="${category.id != 0 && empty category.zervices}">
+			<div class="btn-group">
+		   		<input class="btn btn-danger deleteCategoryButton" id="${category.id}" name="delete" value="<spring:message code="category.delete" />" />
+			</div>
+	  	</jstl:if>
+	</div>
 </form:form>
+
+
+<script>
+$(function(){
+	$('.saveCategoryButton').click(function(e){
+		e.preventDefault();
+		$.post( "admin/ajax/category/save.do",{category: $('#categoryForm').serialize()}, function( data ) {
+			if(data==1) {
+				notify('success','<spring:message code="category.edit.success"/>');
+				$('#categoryEditModal').modal('hide');
+				loadCategories();
+			}
+			else{
+				notify('danger','<spring:message code="category.edit.error"/>');
+				$('#categoryEditModal').modal('hide');
+			}
+		});
+	});
+});
+</script>
+
+<script>
+$(function(){
+	$('.deleteCategoryButton').click(function(e){
+		e.preventDefault();
+		$.post( "admin/ajax/category/delete.do",{categoryId: $(this).attr('id')}, function( data ) {
+			if(data==1) {
+				notify('success','<spring:message code="category.delete.success"/>');
+				$('#categoryEditModal').modal('hide');
+				loadCategories();
+			}
+			else{
+				notify('danger','<spring:message code="category.delete.error"/>');
+				$('#categoryEditModal').modal('hide');
+			}
+		});
+	});
+});
+</script>
