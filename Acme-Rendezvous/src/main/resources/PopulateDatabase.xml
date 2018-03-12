@@ -257,7 +257,6 @@
             <list>
                 <ref bean="rsvp3" />
                 <ref bean="rsvp5" />
-                <ref bean="rsvp9"/>
                 <ref bean="rsvp12"/>
                 <ref bean="rsvp21"/>
                 <ref bean="rsvp22"/>
@@ -1770,7 +1769,7 @@
     <bean id="rendezvous3" class="domain.Rendezvous">
         <property name="name" value="Quedada en la Alameda de Hércules" />
         <property name="description" value="La Alameda de Hércules es el sitio perfecto para pasar una buena tarde de bares disfrutando conociendo gente." />
-        <property name="organisationMoment" value="05/15/2018 16:30" />
+        <property name="organisationMoment" value="05/15/2019 16:30" />
         <property name="picture" value="http://2.bp.blogspot.com/_ejfsu9g5t-8/S_cojAYoyGI/AAAAAAAAArY/2jSCIzYsO-M/s1600/alameda3.jpg" />
         <property name="latitude" value="41.390205" />
         <property name="longitude" value="2.154007" />
@@ -1803,7 +1802,6 @@
             <list>
                 <ref bean="rsvp3" />
                 <ref bean="rsvp7" />
-                <ref bean="rsvp9" />
             </list>
         </property>
         <property name="announcements">
@@ -1825,7 +1823,7 @@
     <bean id="rendezvous4" class="domain.Rendezvous">
         <property name="name" value="Paseito por El Retiro" />
         <property name="description" value="Una quedada para estirar las piernas y hablar de lo que se nos ocurra. ¡Apúntate!" />
-        <property name="organisationMoment" value="05/15/2018 16:30" />
+        <property name="organisationMoment" value="05/15/2019 16:30" />
         <property name="latitude" value="40.416775" />
         <property name="longitude" value="-3.703790" />
         <property name="finalMode" value="false" />
@@ -1913,7 +1911,7 @@
     <bean id="rendezvous6" class="domain.Rendezvous">
         <property name="name" value="Otra vez la semana santa" />
         <property name="description" value="Son pesaítos, to los años lo mismo, yo prefiero la feria, arsa arsa" />
-        <property name="organisationMoment" value="3/3/2018 00:00" />
+        <property name="organisationMoment" value="3/3/2017 00:00" />
         <property name="picture" value="http://pasion-origin.sevilla.abc.es/pasionensevilla/wp-content/uploads/2016/07/plaza-campana-nueva.jpg" />
         <property name="latitude" value="38.2238" />
         <property name="longitude" value="-3.703790" />
@@ -1956,7 +1954,7 @@
     <bean id="rendezvous7" class="domain.Rendezvous">
         <property name="name" value="Oleeeee mi feria de abril del 2018" />
         <property name="description" value="Arsa arsa, como me gusta el rebujito os invito chavales!!!" />
-        <property name="organisationMoment" value="10/4/2018 00:00" />
+        <property name="organisationMoment" value="10/4/2019 00:00" />
         <property name="picture" value="https://www.viajablog.com/wp-content/uploads/2017/04/Feria-de-Abril-de-Sevilla.jpg" />
         <property name="latitude" value="37.2238" />
         <property name="longitude" value="-5.5912" />
@@ -2086,7 +2084,7 @@
     <bean id="rendezvous10" class="domain.Rendezvous">
         <property name="name" value="Vamos a ver la Giralda" />
         <property name="description" value="Como somos un grupo más grande nos sale más barato" />
-        <property name="organisationMoment" value="4/4/2018 15:00" />
+        <property name="organisationMoment" value="4/4/2019 15:00" />
         <property name="picture" value="https://cdn.elviajerofisgon.com/wp-content/uploads/2015/05/Giralda-1-iStock-750x390.jpg" />
         <property name="latitude" value="37.2238" />
         <property name="longitude" value="-5.6" />
@@ -2126,7 +2124,7 @@
     <bean id="rendezvous11" class="domain.Rendezvous">
         <property name="name" value="Vamos por el río Guadalquivir" />
         <property name="description" value="Podemos ver esta preciosa ciudad desde el río" />
-        <property name="organisationMoment" value="6/6/2018 16:00" />
+        <property name="organisationMoment" value="6/6/2019 16:00" />
         <property name="latitude" value="37.2238" />
         <property name="longitude" value="-5.6" />
         <property name="finalMode" value="false" />
@@ -2166,7 +2164,7 @@
     <bean id="rendezvous12" class="domain.Rendezvous">
         <property name="name" value="Vamonos al colores" />
         <property name="description" value="jejeje" />
-        <property name="organisationMoment" value="3/3/2018 00:00" />
+        <property name="organisationMoment" value="3/3/2017 00:00" />
         
         <property name="latitude" value="39.00" />
         <property name="longitude" value="-4.0" />
@@ -2249,7 +2247,7 @@
     <bean id="rendezvous14" class="domain.Rendezvous">
         <property name="name" value="Vamos a visitar el Benito Villamarín" />
         <property name="description" value="Vamos a unir a todos los béticos de Sevilla" />
-        <property name="organisationMoment" value="3/5/2018 12:00" />
+        <property name="organisationMoment" value="3/5/2017 12:00" />
         <property name="picture" value="https://thebestfutbol.com/wp-content/uploads/2018/01/Villamarin.jpg"/>
         <property name="latitude" value="37.2238" />
         <property name="longitude" value="-5.4" />
@@ -2381,16 +2379,7 @@
         <property name="user" ref="user3" />
     </bean>
     
-    <bean id="rsvp9" class="domain.Rsvp">
-        <property name="questionsAndAnswers">
-            <map>
-                <entry key="¿Prefieres la coca cola o la fanta?" value="Lo siento, soy más de agua."/>
-            </map>
-        </property>
-        
-        <property name="rendezvous" ref="rendezvous3" />
-        <property name="user" ref="user2" />
-    </bean>
+
     
     <bean id="rsvp10" class="domain.Rsvp">
         <property name="questionsAndAnswers">
