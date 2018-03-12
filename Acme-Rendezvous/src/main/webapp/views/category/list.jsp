@@ -11,10 +11,11 @@
 
 <script>
 	$(function(){
-		$.get('ajax/category/getSubCategories.do',function(data){
+		$.get('ajax/category/getSubCategories.do?admin=true',function(data){
 			$('#categoryDiv').treeview({
 				data:data,
 				showTags:true,
+				highlightSelected:false,
 				onNodeSelected: function(event,node){
 					$(node).attr("categoryId");
 					$.get('admin/ajax/category/edit.do',{categoryId: $(node).attr("categoryId")}, function(data){
@@ -31,14 +32,14 @@
 	<div id="categoryDiv" class="form-group">
 	</div>
 	
-	<div id="categoryEditModal" class="modal fade" role="dialog">
+	<div id="categoryEditModal" class="modal fade categoryEditModal" role="dialog">
 	  <div class="modal-dialog modal-lg" style="margin-top:10vh">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	        <h4 class="modal-title"><spring:message code="category.edit"/></h4>
 	      </div>
-	      <div class="modal-body" style="height:70vh;overflow-y:auto">
+	      <div class="modal-body" style="overflow-y:auto">
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -47,5 +48,22 @@
 	  </div>
 	</div>
 </div>
-
+<script>
+$(function(){
+	$('.deleteCategory').click(function(e){
+		e.stopPropagation();
+		e.preventDefault();
+		$.post( "admin/ajax/category/delete.do",{categoryId: $(this).attr('id')}, function( data ) {
+			if(data==1) {
+				notify('success','<spring:message code="category.edit.success"/>');
+				$('#categoryEditModal').modal('hide');
+			}
+			else{
+				notify('danger','<spring:message code="category.edit.error"/>');
+				$('#categoryEditModal').modal('hide');
+			}
+		});
+	});
+});
+</script>
  
