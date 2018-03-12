@@ -78,6 +78,7 @@ public class UserService {
 
 	public User save(final User user) {
 		Assert.notNull(user);
+		System.out.println(user.getBirthDate());
 		Assert.isTrue(user.getBirthDate().before(new Date()));
 
 		if(user.getId() == 0){
@@ -89,10 +90,6 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	public void delete(final User user) {
-		userRepository.delete(user);
-
-	}
 
 	//Other Business Methods --------------------------------
 
