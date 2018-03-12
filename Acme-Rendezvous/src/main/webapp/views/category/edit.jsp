@@ -8,6 +8,27 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="lib" tagdir="/WEB-INF/tags/myTagLib" %>
 
+<script>
+	$(function(){
+		$.get('ajax/category/getSubCategories.do',function(data){
+			$('#parentDiv').treeview({
+				data:data,
+				showTags:true,
+				onNodeSelected: function(event,node){
+					$('#category').val($(node).attr("categoryId"));
+				}	
+			});
+			var category = $('#category').val();
+			if(typeof(category) !== 'undefined'){
+				var selectNode = jQuery.grep($('#categoryDiv').treeview('getUnselected',null),function(n){
+					return n.categoryId === parseInt($('#category').val());
+				});
+				$('#categoryDiv').treeview('selectNode',[selectNode[0],{silent:true}]);
+			}
+		});
+	});
+</script>
+
 <form:form id="categoryForm" modelAttribute="category">
 
 <!-- Shared Variables -->
@@ -20,6 +41,10 @@
 		
 		<lib:input name="name" type="text" />
 		<lib:input name="description" type="text" />
+		
+		
+		<div id="parentDiv" class="form-group">
+		</div>
 <div class="btn-group btn-group-justified">
 		<div class="btn-group">
 			<input class="btn btn-success" id="saveCategoryButton" name="save" value="<spring:message code="category.save"/>" />
@@ -35,7 +60,7 @@
 
 <script>
 $(function(){
-	$('.saveCategoryButton').click(function(e){
+	$('#saveCategoryButton').click(function(e){
 		e.preventDefault();
 		$.post( "admin/ajax/category/save.do",{category: $('#categoryForm').serialize()}, function( data ) {
 			if(data==1) {

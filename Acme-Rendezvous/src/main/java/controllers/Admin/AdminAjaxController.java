@@ -79,9 +79,12 @@ public class AdminAjaxController {
 	}
 	
 	@RequestMapping(value="/category/edit", method=RequestMethod.GET)
-	public ModelAndView editCategory(@RequestParam(required = true) int categoryId) {
+	public ModelAndView editCategory(@RequestParam(required = false) Integer categoryId) {
 		ModelAndView res = new ModelAndView("category/edit");
-		res.addObject("category", categoryService.findOne(categoryId));
+		if(categoryId!=null)
+			res.addObject("category", categoryService.findOne(categoryId));
+		else
+			res.addObject("category", categoryService.create());
 		return res;
 	}
 	

@@ -35,6 +35,11 @@
 <div class="well col-md-6 col-md-offset-3">
 	<div id="categoryDiv" class="form-group">
 	</div>
+	<div class="btn-group btn-group-justified">
+		<div class="btn-group">
+			<button class="btn btn-primary newCategory" id="newCategory"><spring:message code="category.new"/></button>
+		</div>
+	</div>
 	
 	<div id="categoryEditModal" class="modal fade categoryEditModal" role="dialog">
 	  <div class="modal-dialog modal-lg" style="margin-top:10vh">
@@ -54,20 +59,13 @@
 </div>
 <script>
 $(function(){
-	$('.deleteCategory').click(function(e){
-		e.stopPropagation();
+	$('#newCategory').click(function(e){
 		e.preventDefault();
-		$.post( "admin/ajax/category/delete.do",{categoryId: $(this).attr('id')}, function( data ) {
-			if(data==1) {
-				notify('success','<spring:message code="category.edit.success"/>');
-				$('#categoryEditModal').modal('hide');
-			}
-			else{
-				notify('danger','<spring:message code="category.edit.error"/>');
-				$('#categoryEditModal').modal('hide');
-			}
+		$.get('admin/ajax/category/edit.do',{}, function(data){
+			$('#categoryEditModal .modal-body').html(data);
+			$('#categoryEditModal').modal('show');
+		});
 		});
 	});
-});
 </script>
  
