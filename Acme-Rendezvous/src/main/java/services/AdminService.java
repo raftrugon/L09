@@ -21,11 +21,8 @@ public class AdminService {
 	private AdminRepository			adminRepository;
 
 	// Supporting services ----------------------------------------------------
-
-
+	
 	// Simple CRUD methods ----------------------------------------------------
-
-
 
 	public Admin findOne(int adminId) {
 		Assert.isTrue(adminId != 0);
@@ -34,8 +31,6 @@ public class AdminService {
 		return res;
 	}
 
-
-	
 	public void flush() {
 		adminRepository.flush();
 	}

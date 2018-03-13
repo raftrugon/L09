@@ -33,7 +33,11 @@ public class AdminServiceTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 	@Test
 	public void driverFindOne() {
-		// create, findOne, save, delete, findByUserAccount, findByPrincipal
+		
+		System.out.println("===============================================================================================================");
+		System.out.println("=====================================TEST FIND ONE ADMIN==================================================");
+		System.out.println("===============================================================================================================\r");
+
 		Object testingData[][] = {
 			//Positive test
 			{
@@ -55,7 +59,7 @@ public class AdminServiceTest extends AbstractTest {
 		Class<?> caught = null;
 
 		try {
-			Admin res = adminService.findOne(adminId);
+			adminService.findOne(adminId);
 
 		} catch (Throwable oops) {
 			caught = oops.getClass();
@@ -67,6 +71,11 @@ public class AdminServiceTest extends AbstractTest {
 
 	@Test
 	public void driverFindByUserAccount() {
+		
+		System.out.println("===============================================================================================================");
+		System.out.println("=====================================TEST FINDBYUSERACCOUNT ADMIN==================================================");
+		System.out.println("===============================================================================================================\r");
+		
 		Object testingData[][] = {
 			//Positive test
 			{
@@ -107,6 +116,11 @@ public class AdminServiceTest extends AbstractTest {
 
 	@Test
 	public void driverFindByPrincipal() {
+		
+		System.out.println("===============================================================================================================");
+		System.out.println("=====================================TEST FINDBYPRINCIPAL ADMIN==================================================");
+		System.out.println("===============================================================================================================\r");
+		
 		Object testingData[][] = {
 			//Positive test
 			{
@@ -133,7 +147,7 @@ public class AdminServiceTest extends AbstractTest {
 
 		try {
 			this.authenticate(username);
-			Admin res = adminService.findByPrincipal();
+			adminService.findByPrincipal();
 			this.unauthenticate();
 
 		} catch (Throwable oops) {
