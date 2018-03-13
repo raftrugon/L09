@@ -21,15 +21,8 @@ public class AdminService {
 	private AdminRepository			adminRepository;
 
 	// Supporting services ----------------------------------------------------
-
-
+	
 	// Simple CRUD methods ----------------------------------------------------
-
-	public Admin create() {
-		Admin res = new Admin();
-
-		return res;
-	}
 
 	public Admin findOne(int adminId) {
 		Assert.isTrue(adminId != 0);
@@ -38,15 +31,6 @@ public class AdminService {
 		return res;
 	}
 
-	public Admin save(Admin admin) {
-		return adminRepository.save(admin);
-	}
-
-	public void delete(final Admin admin) {
-		adminRepository.delete(admin);
-
-	}
-	
 	public void flush() {
 		adminRepository.flush();
 	}

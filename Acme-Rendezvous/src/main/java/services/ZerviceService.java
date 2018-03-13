@@ -39,6 +39,8 @@ public class ZerviceService {
 
 	public Zervice create() {
 		Zervice res = new Zervice();
+		Manager m = managerService.findByPrincipal();
+		Assert.notNull(m);
 		res.setManager(managerService.findByPrincipal());
 		res.setInappropriate(false);
 		res.setRequests(new ArrayList<Request>());

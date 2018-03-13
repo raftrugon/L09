@@ -95,8 +95,11 @@ public class CategoryService {
 		return nameClashes(c);
 	}
 
-
 	public JsonArray getCategoriesJson(Category category){
+		return getCategoriesJson(category, false);
+	}
+	
+	public JsonArray getCategoriesJson(Category category, Boolean admin){
 		JsonArray json = new JsonArray();
 		Collection<Category> subCategories;
 		if(category == null)
@@ -106,10 +109,12 @@ public class CategoryService {
 		for(Category c: subCategories){
 			JsonObject subJson = new JsonObject();
 			subJson.addProperty("text", c.getName());
-			subJson.addProperty("selectedIcon", "glyphicon glyphicon-ok");
+			if(!admin){
+				subJson.addProperty("selectedIcon", "glyphicon glyphicon-ok");
+			}
 			subJson.addProperty("categoryId",c.getId());
 			if(!c.getCategories().isEmpty()){
-				subJson.add("nodes", getCategoriesJson(c));
+				subJson.add("nodes", getCategoriesJson(c,admin));
 				JsonArray tags = new JsonArray();
 				tags.add(c.getCategories().size());
 				subJson.add("tags", tags);

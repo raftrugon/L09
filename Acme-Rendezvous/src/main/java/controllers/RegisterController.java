@@ -65,7 +65,7 @@ public class RegisterController extends AbstractController {
 		} else
 			try {
 				Manager saved = this.managerService.save(manager);
-				result = new ModelAndView("redirect:../manager-display.do?managerId=" + saved.getId());
+				result = new ModelAndView("redirect:../");
 			} catch (Throwable oops) {
 				result = this.newEditModelAndView(manager);
 				result.addObject("message", "user.commitError");
