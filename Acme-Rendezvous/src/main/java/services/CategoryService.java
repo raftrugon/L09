@@ -129,4 +129,8 @@ public class CategoryService {
 		return res;
 	}
 
+	public Double getAvgRatioOfZervicesInEachCategory() {
+		return categoryRepository.getAvgRatioOfZervicesInEachCategory();
+	}
+
 }

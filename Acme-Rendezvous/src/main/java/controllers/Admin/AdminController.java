@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.CategoryService;
 import services.CommentService;
 import services.ManagerService;
 import services.RendezvousService;
@@ -47,6 +48,8 @@ public class AdminController extends AbstractController {
 	private ZerviceService	zerviceService;
 	@Autowired
 	private ManagerService	managerService;
+	@Autowired
+	private CategoryService	categoryService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -69,11 +72,21 @@ public class AdminController extends AbstractController {
 		list.add(Arrays.asList(rendezvousService.getRendezvousQuestionStats()));
 		list.add(Arrays.asList(rendezvousService.getAnswersToQuestionsStats()));
 		list.add(Arrays.asList(commentService.getCommentRepliesStats()));
+		list.add(Arrays.asList(zerviceService.getZerviceAvgStdPerRendezvous()));
 		result.addObject("list", list);
 
 		//Another table to show ratio of users have ever created a rendezvous versus the users
 		//who have never created any rendezvouses
 		result.addObject("ratioOfUsersWhoCreatedRendezvouses", rendezvousService.getRatioOfUsersWhoHaveCreatedRendezvouses());
+
+		//Ratio of services in each category
+		result.addObject("ratioOfServicesPerCategory",categoryService.getAvgRatioOfZervicesInEachCategory());
+
+		//Avg of categories per rendezvous
+		result.addObject("ratioOfCategoriesPerRendezvous",rendezvousService.getAvgCategoriesPerRendezvous());
+
+		//MinMax of zervices per rendezvous
+		result.addObject("minMaxZervicesPerRendezvous",zerviceService.getZerviceMinMaxPerRendezvous());
 
 		//Another table with the top 10 rendezvouses by RSVPs
 		List<Rendezvous> top10Rendezvouses = new ArrayList<Rendezvous>();
@@ -97,6 +110,9 @@ public class AdminController extends AbstractController {
 
 		//Manager who provide more services than the average
 		result.addObject("managersMoreZervicesAvg",managerService.getManagersWhoProvideMoreServicesThanAvg());
+
+		//Top managers with cancelled service
+		result.addObject("managersCancelledZervices",managerService.getManagersWithMoreCancelledZervices(10));
 
 		return result;
 	}

@@ -22,6 +22,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select r from Rendezvous r where r.user = ?1 and r.inappropriate is false and r.deleted is false and r.organisationMoment > CURRENT_TIMESTAMP")
 	Collection<Rendezvous> getRequestableRendezvouses(User findByPrincipal);
 
+	//@Query("select r from Rendezvous r where r.user = ?1 and r.inappropriate is false and r.deleted is false and r.organisationMoment > CURRENT_TIMESTAMP")
+	//Collection<Rendezvous> getRequestableRendezvousesForZervice(User findByPrincipal,Zervice zervice);
+
 
 
 }

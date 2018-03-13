@@ -1,7 +1,11 @@
 package services;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -124,6 +128,13 @@ public class ManagerService {
 
 	public Collection<Manager> getManagersWhoProvideMoreServicesThanAvg(){
 		return managerRepository.getManagersWhoProvideMoreServicesThanAvg();
+	}
+
+	public Map<Manager,Integer> getManagersWithMoreCancelledZervices(int limit){
+		List<Object[]> query = managerRepository.getManagersWithMoreCancelledZervices(limit);
+		Map<Manager,Integer> res = new LinkedHashMap<Manager,Integer>();
+		for(Object[] obj: query) res.put(findOne(((Integer) obj[0]).intValue()), ((BigDecimal) obj[1]).intValueExact());
+		return res;
 	}
 
 }

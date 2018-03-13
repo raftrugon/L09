@@ -1,6 +1,7 @@
 package controllers.Admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import services.ZerviceService;
 import domain.Announcement;
 import domain.Comment;
 import domain.Rendezvous;
+import domain.Zervice;
 
 @RestController
 @RequestMapping("/admin/ajax")
@@ -40,8 +42,8 @@ public class AdminAjaxController {
 		} catch(Throwable oops) {
 			return "2";
 		}
-	}	
-	
+	}
+
 	@RequestMapping(value="/announcement/delete", method=RequestMethod.POST)
 	public String deleteAnnouncement(@RequestParam(required = true) int announcementId) {
 		Announcement a = announcementService.findOne(announcementId);
@@ -51,8 +53,8 @@ public class AdminAjaxController {
 		} catch(Throwable oops) {
 			return "2";
 		}
-	}	
-	
+	}
+
 	@RequestMapping(value="/comment/delete", method=RequestMethod.POST)
 	public String deleteComment(@RequestParam(required = true) int commentId) {
 		Comment c = commentService.findOne(commentId);
@@ -63,7 +65,7 @@ public class AdminAjaxController {
 			return "2";
 		}
 	}
-	
+
 	@RequestMapping(value="/zervice/delete", method=RequestMethod.POST)
 	public String deleteZervice(@RequestParam(required = true) int zerviceId) {
 		try{
@@ -73,11 +75,28 @@ public class AdminAjaxController {
 			return "2";
 		}
 	}
-	
+
 	@RequestMapping(value="/category/edit", method=RequestMethod.GET)
 	public ModelAndView editCategory(@RequestParam(required = true) int categoryId) {
 		ModelAndView res = new ModelAndView("category/edit");
 		res.addObject("category", categoryService.findOne(categoryId));
+		return res;
+	}
+
+	@RequestMapping(value="/dashboard/topzervices", method=RequestMethod.GET)
+	public ModelAndView topZervices(@RequestParam(required=true)int pageNumber,@RequestParam(required=true)int pageSize){
+		ModelAndView res;
+		try{
+			res = new ModelAndView("admin/topzervices");
+			Page<Zervice> page = zerviceService.getTopSellingZervices(pageNumber, pageSize);
+			res.addObject("zervices",page.getContent());
+			res.addObject("totalPages",page.getTotalPages());
+			res.addObject("isFirst",page.isFirstPage());
+			res.addObject("isLast",page.isLastPage());
+		}catch(Throwable oops){
+			oops.printStackTrace();
+			res = new ModelAndView("ajaxException");
+		}
 		return res;
 	}
 }

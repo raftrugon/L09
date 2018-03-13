@@ -26,7 +26,7 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select coalesce(avg(u.rendezvouses.size),0), coalesce(stddev(u.rendezvouses.size),0) from User u")
 	Double[] getRendezvousStats();
 
-	@Query("select coalesce((count(u)*1.0)/(select count(x) from User x where x.rendezvouses is empty),0) from User u where u.rendezvouses is not empty")
+	@Query("select coalesce((count(u)*1.0)/(select count(x) from User x),0) from User u where u.rendezvouses is not empty")
 	Double getRatioOfUsersWhoHaveCreatedRendezvouses();
 
 	@Query("select coalesce(avg(r.rsvps.size),0), coalesce(stddev(r.rsvps.size),0) from Rendezvous r")
@@ -67,5 +67,8 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 
 	@Query("select distinct r from Rendezvous r join r.requests reqs join reqs.zervice z join z.category c where c in ?1")
 	Collection<Rendezvous> getRendezvousForCategories(Collection<Category> categories);
+
+	@Query(value="select avg(count) from (select count(distinct category.id) as count from rendezvous join request on rendezvous.id = request.rendezvous_id join zervice on request.zervice_id = zervice.id join category on zervice.category_id = category.id group by rendezvous.id) as temp", nativeQuery=true)
+	Double getAvgCategoriesPerRendezvous();
 
 }

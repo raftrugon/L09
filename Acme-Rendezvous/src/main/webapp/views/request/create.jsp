@@ -7,6 +7,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="lib" tagdir="/WEB-INF/tags/myTagLib" %>
 
+
 <div class="col-md-12">
 <div id="numberAlert" style="display:none" class="alert alert-danger">
 	<strong>Error!</strong> <spring:message code="request.creditCard.invalidNumber"/>
@@ -15,7 +16,7 @@
 	<strong>Error!</strong> <spring:message code="request.creditCard.timedOut"/>
 </div>
 
-<form:form id="form" action="javascript:void(0);" modelAttribute="request">
+<form:form id="form" modelAttribute="request">
 		
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
@@ -81,7 +82,7 @@
 		<form:label class="control-label" path="creditCard.holderName">
 			<spring:message code="request.creditCard.holderName" />:
 		</form:label>
-		<form:input name="name" class="form-control" path="creditCard.holderName" />
+		<input id="holderName" name="creditCard.holderName" class="form-control" value="${creditCard.holderName}" />
 		<form:errors cssClass="error" path="creditCard.holderName" />	
 	</div>
 	
@@ -89,7 +90,7 @@
 		<form:label class="control-label" path="creditCard.number">
 			<spring:message code="request.creditCard.number" />:
 		</form:label>
-		<form:input class="form-control" path="creditCard.number" />
+		<input id="number" name="creditCard.number" class="form-control" value="${creditCard.number}" />
 		<form:errors cssClass="error" path="creditCard.number" />	
 	</div>
 	
@@ -97,7 +98,7 @@
 		<form:label class="control-label" path="creditCard.brandName">
 			<spring:message code="request.creditCard.brandName" />:
 		</form:label>
-		<input class="form-control" id="brandName" name="brandName" readonly="readonly" value="${creditCard.brandName}"/>
+		<input class="form-control" id="brandName" name="creditCard.brandName" readonly="readonly" value="${creditCard.brandName}"/>
 		<form:errors cssClass="error" path="creditCard.brandName" />	
 	</div>
 	
@@ -113,7 +114,7 @@
 		<form:label class="control-label" path="creditCard.cvvCode">
 			<spring:message code="request.creditCard.cvvCode" />:
 		</form:label>
-		<form:input class="form-control" path="creditCard.cvvCode"/>
+		<input id="cvvCode" name="creditCard.cvvCode" class="form-control" value="${creditCard.cvvCode}" />
 		<form:errors cssClass="error" path="creditCard.cvvCode" />	
 	</div>
 	
@@ -143,6 +144,7 @@ $(document).ready(function(){
 		$('#brandName').val($.payment.cardType($('#number').val()));
 	});
 	$('#form').submit(function(e){
+		e.preventDefault();
 		var renSelect = $('#rendezvousSelect');
 		var zerSelect = $('#zerviceSelect');
 		$('#rendezvousError').hide();
@@ -157,30 +159,34 @@ $(document).ready(function(){
 		$('#expirationYear').val("20" + date[1]);
 		if(!$.payment.validateCardNumber($('#number').val())){
 			$('#numberAlert').show();
-			e.preventDefault();
 			submitting = false;
 		}
 		if(!$.payment.validateCardExpiry(date[0],date[1])){
 			$('#dateAlert').show();
-			e.preventDefault();
 			submitting = false;
 		}
 		if(renSelect.val() === null){
 			renSelect.parent().parent().addClass('has-error');	
 			$('#rendezvousError').show();
-			e.preventDefault();
 			submitting = false;
 		}
 		if(zerSelect.val() === null){
 			zerSelect.parent().parent().addClass('has-error');
 			$('#zerviceError').show();
-			e.preventDefault();
 			submitting = false;
 		}
 		
 		if(submitting){
 			var noSpaceNumber = $('#number').val().replace(/ /g,"");
 			$('#number').val(noSpaceNumber);
+			$.post('user/request/save.do',{request:$('#form').serialize()}, function(data){
+				if(data === '0') notify('danger','binding');
+				else if(data === '1'){
+					notify('success','guay');
+					$('#requestModal').modal('hide');
+				}
+				else notify('danger','commit');
+			});
 		}
 	});
 });

@@ -21,4 +21,6 @@
 		<put-attribute name="body" value="/views/admin/dashboard.jsp" />
 	</definition>
 	
+	<definition name="admin/topzervices" template="/views/admin/topzervices.jsp"/>
+	
 </tiles-definitions>

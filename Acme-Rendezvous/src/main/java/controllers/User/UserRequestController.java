@@ -1,6 +1,9 @@
 package controllers.User;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,6 +44,18 @@ public class UserRequestController {
 		}
 	}
 
+	@RequestMapping(value="/save", method = RequestMethod.POST)
+	public String save(@Valid final Request request, final BindingResult binding){
+		if(binding.hasErrors()) return "0";
+		else
+			try{
+				requestService.save(request);
+				return "1";
+			}catch (Throwable oops){
+				return "2";
+			}
+	}
+
 	protected ModelAndView newEditModelAndView(Integer rendezvousId,Integer zerviceId, Request request) {
 		ModelAndView result = newEditModelAndView(request);
 		if (rendezvousId != null) result.addObject("selectedRendezvous",rendezvousService.findOne(rendezvousId));
@@ -55,4 +70,6 @@ public class UserRequestController {
 		result.addObject("zervices", zerviceService.findAllNotInappropriate());
 		return result;
 	}
+
+
 }

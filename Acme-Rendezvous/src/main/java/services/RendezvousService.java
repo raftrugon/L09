@@ -266,4 +266,8 @@ public class RendezvousService {
 		}
 		return rendezvouses;
 	}
+
+	public Double getAvgCategoriesPerRendezvous(){
+		return rendezvousRepository.getAvgCategoriesPerRendezvous();
+	}
 }

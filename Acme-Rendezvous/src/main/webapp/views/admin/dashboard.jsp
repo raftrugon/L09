@@ -11,13 +11,14 @@
 
 <script>
 	$(function(){
+		$('#pill2').hide();
 		var ctx = document.getElementById('radarChart');
 		var myRadarChart = new Chart(ctx, {
 			type: 'radar',
 			data: {
 				labels: ['<spring:message code="admin.dash1"/>','<spring:message code="admin.dash2"/>','<spring:message code="admin.dash3"/>',
 				         '<spring:message code="admin.dash4"/>','<spring:message code="admin.dash5"/>','<spring:message code="admin.dash6"/>',
-				         '<spring:message code="admin.dash7"/>'],
+				         '<spring:message code="admin.dash7"/>','<spring:message code="admin.dash8"/>'],
 		        datasets: [
 	                	{
                 		label: '<spring:message code="admin.avg"/>',
@@ -63,8 +64,10 @@
 		$('.pillBtn').click(function(){
 			if($(this).attr('href') === '#pill1'){
 				$('#pill1').show();
+				$('#pill2').hide();
 			}else{
 				$('#pill1').hide();
+				$('#pill2').show();
 			}
 		});
 	});
@@ -72,8 +75,8 @@
 
 <div class="col-xs-12" style="margin-bottom:10px">
 	<ul class="nav nav-pills nav-justified">
-    <li class="active"><a class="pillBtn" data-toggle="pill" href="#pill1"><spring:message code="admin.dashboard.graphs"/></a></li>
-    <li><a class="pillBtn" data-toggle="pill" href="#pill2"><spring:message code="admin.dashboard.lists"/></a></li>
+    <li class="active  col-sm-6"><a class="pillBtn" style="border: 1px solid #337ab7;" data-toggle="pill" href="#pill1"><spring:message code="admin.dashboard.graphs"/></a></li>
+    <li class="col-sm-6"><a class="pillBtn" style="border: 1px solid #337ab7;" data-toggle="pill" href="#pill2"><spring:message code="admin.dashboard.lists"/></a></li>
   </ul>
 </div>
 <div id="tab-content">
@@ -81,7 +84,27 @@
 		<div class="col-md-8" style="margin-top:10px;margin-bottom:10px;">
 			<canvas id="radarChart"></canvas>
 		</div>
-		<div id="morrisDonut" class="col-md-4" style="height:300px;"></div>
+		<div class="col-md-4">
+		<div  class="col-md-12">
+			<h2 style="text-align:center"><strong><spring:message code="admin.ratio"/></strong></h2>
+			<div id="morrisDonut" style="height:300px;"></div>
+		</div>
+		<div style="text-align:center;margin-top:20px" class="col-md-12">
+			<div class="col-md-6">
+				<h4><strong><spring:message code="admin.title8"/></strong></h4>
+				<h3 class="bg-primary"><jstl:out value="${ratioOfCategoriesPerRendezvous}"/></h3>
+			</div>
+			<div class="col-md-6">
+				<h4><strong><spring:message code="admin.title9"/></strong></h4>
+				<h3 class="bg-primary"><jstl:out value="${ratioOfServicesPerCategory}"/></h3>
+			</div>
+			<div class="col-md-12" style="margin-top:10px">
+				<h4><strong><spring:message code="admin.title10b"/></strong></h4>
+				<h3 class="bg-primary col-xs-6"><strong>Min:</strong> <jstl:out value="${minMaxZervicesPerRendezvous[0]}"/></h3>
+				<h3 class="bg-primary col-xs-6"><strong>Max:</strong> <jstl:out value="${minMaxZervicesPerRendezvous[1]}"/></h3>
+			</div>
+		</div>
+		</div>
 	</div>	
 	<div id="pill2" class="tab-pane fade">
 		<div class="col-sm-3">
@@ -89,8 +112,10 @@
 			    <li class="active"><a data-toggle="tab" href="#tab1"><spring:message code='admin.title2'/></a></li>
 			    <li><a data-toggle="tab" href="#tab2"><spring:message code='admin.title3'/></a></li>
 			    <li><a data-toggle="tab" href="#tab3"><spring:message code='admin.title4'/></a></li>
-			    <li><a data-toggle="tab" href="#tab4">asdfasd</a></li>
-			    <li><a data-toggle="tab" href="#tab5">asdfasdfasdasd</a></li>
+			    <li><a data-toggle="tab" href="#tab4"><spring:message code='admin.title5'/></a></li>
+			    <li><a data-toggle="tab" href="#tab5"><spring:message code='admin.title6'/></a></li>
+			    <li><a data-toggle="tab" href="#tab6"><spring:message code='admin.title7'/></a></li>
+			    <li><a data-toggle="tab" href="#tab7"><spring:message code='admin.title11'/></a></li>
 			</ul>
 		</div>
 		<div class="col-sm-9">
@@ -99,7 +124,7 @@
 					<div class="list-group">
 					<jstl:forEach items="${top10RnedezVouses}" var="r">
 						<a href="rendezvous/display.do?rendezvousId=${r.id}" class="list-group-item">
-							<span class="label label-info" style="position:absolute;right:10px"><spring:message code="rendezvous.rsvp"/>s: ${fn:length(r.rsvps)}</span>
+							<h4><span class="label label-info" style="position:absolute;right:10px"><spring:message code="rendezvous.rsvp"/>s: ${fn:length(r.rsvps)}</span></h4>
 							<h4 class="list-group-item-heading"><strong>${r.name}</strong></h4>
 							<p class="list-group-item-text">${r.description}</p>
 						</a>
@@ -110,7 +135,7 @@
 					<div class="list-group">
 					<jstl:forEach items="${rendezvousWithAnnouncementsOverAvg}" var="r2">
 						<a href="rendezvous/display.do?rendezvousId=${r2.id}" class="list-group-item">
-							<span class="label label-info" style="position:absolute;right:10px"><spring:message code="rendezvous.announcements.tab"/>: ${fn:length(r2.announcements)}</span>
+							<h4><span class="label label-info" style="position:absolute;right:10px"><spring:message code="rendezvous.announcements.tab"/>: ${fn:length(r2.announcements)}</span></h4>
 							<h4 class="list-group-item-heading"><strong>${r2.name}</strong></h4>
 							<p class="list-group-item-text">${r2.description}</p>
 						</a>
@@ -121,7 +146,7 @@
 					<div class="list-group">
 					<jstl:forEach items="${rendezvousesLinkedToMoreThan110PerCent}" var="r3">
 						<a href="rendezvous/display.do?rendezvousId=${r3.id}" class="list-group-item">
-							<span class="label label-info" style="position:absolute;right:10px"><spring:message code="rendezvous.announcements.tab"/>: ${fn:length(r3.rendezvouses)}</span>
+							<h4><span class="label label-info" style="position:absolute;right:10px"><spring:message code="rendezvous.announcements.tab"/>: ${fn:length(r3.rendezvouses)}</span></h4>
 							<h4 class="list-group-item-heading"><strong>${r3.name}</strong></h4>
 							<p class="list-group-item-text">${r3.description}</p>
 						</a>
@@ -129,58 +154,46 @@
 					</div>
 				</div>
 				<div id="tab4" class="tab-pane fade">
-					<jsp:useBean id="now" class="java.util.Date" />
 					<jstl:forEach items="${bestSellingZervices}" var="zervice">
-					
-					<jstl:set var="inappropriateStyle" value=""/>
-					<div class="col-lg-3 col-sm-6 col-xs-12 cardContainer" id="zervicesContainer">
-								<jstl:if test="${zervice.inappropriate eq true}">
-									<jstl:set var="inappropriateStyle" value="filter: blur(5px);-webkit-filter: blur(5px);"/>
-									<div class="alert alert-danger" style="position:absolute;top:40%;right:10%;left:10%;text-align:center;z-index:500;"><strong><spring:message code="zervice.inappropriate.alert"/></strong></div>
-								</jstl:if>
-								
-						<div class="card" style="${inappropriateStyle}">
-							<div style="height:100%;">
-								<jstl:if test="${empty zervice.picture}">
-									<div class="nopicContainer">
-										<img src="images/nopic2.jpg" style="object-fit:cover;height:200px;width:100%" class="nopic"/>
-										<div class="nopicCaption2 alert alert-warning"><spring:message code="master.page.nopic"/></div>
-									</div>
-								</jstl:if>
-								<jstl:if test="${not empty zervice.picture}">
-									<img src="${zervice.picture}" style="object-fit:cover;height:200px;width:100%">
-								</jstl:if>
-						        <h1>
-						        	<jstl:out value="${zervice.name}"/>
-						        </h1>
-						        	<span class="label label-primary"><jstl:out value="${zervice.category.name}"/></span>
-						        <div style="text-align:center;margin-top:5px;" class="cardDate">
-									<jstl:out value="${zervice.description}"/>
-						        </div>
-							</div>
-						</div>
-					</div>
+						<a class="list-group-item">
+							<h4><span class="label label-info" style="position:absolute;right:10px"><spring:message code="admin.zervices"/>: ${fn:length(zervice.requests)}</span></h4>
+							<h4 class="list-group-item-heading"><strong>${zervice.name}</strong></h4>
+							<p class="list-group-item-text">${zervice.description}</p>
+						</a>					
 					</jstl:forEach>
 				</div>
 				<div id="tab5" class="tab-pane fade">
 					<jstl:forEach items="${managersMoreZervicesAvg}" var="manager">
-					<jstl:set var="rand"><%= java.lang.Math.round(java.lang.Math.random() * 9) + 1 %></jstl:set>
-					<div class="col-md-3 col-sm-6 col-xs-12">
-						<div class="userCard" style="overflow:hidden;height:450px">
-							  <img src="images/kS${rand}.png" style="width:100%;margin-top:-25px;max-height:55%">
-							  <button class="cardUserButton" style="margin-top:-25px;"><jstl:out value="${manager.name} ${manager.surnames}"/></button>
-							  <p><strong><spring:message code="user.address" /></strong></p>
-							  <p><jstl:if test="${manager.address eq null}">-</jstl:if><jstl:out value="${manager.address}"/></p>
-							  <p><strong><spring:message code="user.phoneNumber" /></strong></p>
-							  <p><jstl:if test="${manager.phoneNumber eq null}">-</jstl:if><jstl:out value="${manager.phoneNumber}"/></p>
-							  <p><strong><spring:message code="user.email" /></strong></p>
-							  <p><jstl:out value="${manager.email}"/></p>
-						</div>
-					</div>
+						<a class="list-group-item">
+							<h4><span class="label label-info" style="position:absolute;right:10px"><spring:message code="admin.requests"/>: ${fn:length(manager.zervices)}</span></h4>
+							<h4 class="list-group-item-heading"><strong>${manager.name} ${manager.surnames}</strong></h4>
+							<p class="list-group-item-text">${manager.vat}</p>
+						</a>					
 					</jstl:forEach>
+				</div>
+				
+				<div id="tab6" class="tab-pane fade">
+					<jstl:forEach items="${managersCancelledZervices}" var="entry">
+						<a class="list-group-item">
+							<h4><span class="label label-info" style="position:absolute;right:10px"><spring:message code="admin.requests"/>: ${entry.value}</span></h4>
+							<h4 class="list-group-item-heading"><strong>${entry.key.name} ${entry.key.surnames}</strong></h4>
+							<p class="list-group-item-text">${entry.key.vat}</p>
+						</a>			
+					</jstl:forEach>
+				</div>
+				<div id="tab7" class="tab-pane fade">
+					<input id="pageNumber" class="col-sm-6" type="number" value="1">
+					<input id="pageSize" class="col-sm-6" type="text" value="10">
+					<div id="topzervices"></div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
+<script>
+	$(function(){
+		$.get('admin/ajax/dashboard/topzervices.do',{pageNumber:$('#pageNumber').val()-1,pageSize:$('#pageSize').val()},function(data){
+			$('#topzervices').html(data);
+		});
+	});
+</script>

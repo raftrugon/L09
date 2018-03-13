@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -108,5 +110,18 @@ public class ZerviceService {
 
 	public Collection<Zervice> getBestSellingZervices(){
 		return zerviceRepository.getBestSellingZervices();
+	}
+
+	public Double[] getZerviceAvgStdPerRendezvous(){
+		return zerviceRepository.getZerviceAvgStdPerRendezvous();
+	}
+
+	public Double[] getZerviceMinMaxPerRendezvous(){
+		return zerviceRepository.getZerviceMinMaxPerRendezvous();
+	}
+
+	public Page<Zervice> getTopSellingZervices(int pageNumber, int pageSize){
+		PageRequest page = new PageRequest(pageNumber,pageSize/*,Sort.Direction.DESC,"requests"*/);
+		return zerviceRepository.findAll(page);
 	}
 }
