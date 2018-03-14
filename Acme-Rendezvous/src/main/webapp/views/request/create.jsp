@@ -20,8 +20,8 @@
 		
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	<form:hidden path="creditCard.expirationMonth"/>
-	<form:hidden path="creditCard.expirationYear"/>
+	<input type="hidden" name="creditCard.expirationMonth" id="expirationMonth"/>
+	<input type="hidden" name="creditCard.expirationYear" id="expirationYear"/>
 	
 	<div class="form-group">
 	<form:label class="control-label" path="rendezvous">
@@ -179,7 +179,7 @@ $(document).ready(function(){
 		if(submitting){
 			var noSpaceNumber = $('#number').val().replace(/ /g,"");
 			$('#number').val(noSpaceNumber);
-			$.post('user/request/save.do',{request:$('#form').serialize()}, function(data){
+			$.post('user/request/save.do',$('#form').serialize(), function(data){
 				if(data === '0') notify('danger','binding');
 				else if(data === '1'){
 					notify('success','guay');
