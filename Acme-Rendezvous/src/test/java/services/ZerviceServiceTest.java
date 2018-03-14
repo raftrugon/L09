@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import utilities.AbstractTest;
 import domain.Manager;
 import domain.Zervice;
+import exceptions.ZerviceRequestsNotEmptyException;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -33,6 +34,51 @@ public class ZerviceServiceTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	@Test
+	public void driverDeleteByManager() {
+
+		Object testingData[][] = {
+			//Positive test
+			{
+				"manager4", super.getEntityId("zervice4"), null
+			},
+			//Create with user
+			{
+				"manager1", 0, IllegalArgumentException.class
+			},
+			//Create with no login
+			{
+				"admin", super.getEntityId("zervice1"), IllegalArgumentException.class
+			}, {
+
+				"manager1", null, NullPointerException.class
+			}, {
+
+				"manager1", super.getEntityId("zervice1"), ZerviceRequestsNotEmptyException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			templateDeleteByManager((String) testingData[i][0], (Integer) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	protected void templateDeleteByManager(String rol, Integer id, Class<?> expected) {
+
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(rol);
+			zerviceService.deleteByManager(id);
+			this.unauthenticate();
+
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		checkExceptions(expected, caught);
+
+	}
+
+	@Test
 	public void driverDeleteByAdmin() {
 
 		Object testingData[][] = {
@@ -47,6 +93,9 @@ public class ZerviceServiceTest extends AbstractTest {
 			//Create with no login
 			{
 				"manager1", super.getEntityId("zervice1"), IllegalArgumentException.class
+			}, {
+
+				"admin", null, NullPointerException.class
 			}
 		};
 
@@ -60,7 +109,7 @@ public class ZerviceServiceTest extends AbstractTest {
 
 		try {
 			this.authenticate(rol);
-			zerviceService.deleteByManager(id);
+			zerviceService.deleteByAdmin(id);
 			this.unauthenticate();
 
 		} catch (Throwable oops) {
@@ -194,10 +243,6 @@ public class ZerviceServiceTest extends AbstractTest {
 			{
 				super.getEntityId("zervice1"), "Prueba", "", "http://www.test.com", 2000.0, "manager1", ConstraintViolationException.class
 			},
-			//URL Blank
-			{
-				super.getEntityId("zervice1"), "Prueba", "Prueba", "", 2000.0, "manager1", ConstraintViolationException.class
-			},
 			//no URL
 			{
 				super.getEntityId("zervice1"), "Prueba", "Prueba", "kldjasvhlaksdf", 2000.0, "manager1", ConstraintViolationException.class
@@ -212,7 +257,7 @@ public class ZerviceServiceTest extends AbstractTest {
 			},
 			//Price zero
 			{
-				super.getEntityId("zervice1"), "Prueba", "Prueba", "http://www.test.com", 0.0, "manager1", ConstraintViolationException.class
+				super.getEntityId("zervice1"), "Prueba", "Prueba", "http://www.test.com", 0.0, "manager1", null
 			},
 			//Other rol
 			{
@@ -224,7 +269,6 @@ public class ZerviceServiceTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			templateSave((Integer) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Double) testingData[i][4], (Integer) super.getEntityId((String) testingData[i][5]), (Class<?>) testingData[i][6]);
 	}
-
 	protected void templateSave(Integer zerviceId, String name, String description, String url, Double price, Integer rolId, final Class<?> expected) {
 
 		Class<?> caught = null;
@@ -241,13 +285,13 @@ public class ZerviceServiceTest extends AbstractTest {
 			this.zerviceService.save(z);
 
 			super.unauthenticate();
-
+			this.zerviceService.flush();
 		} catch (Throwable oops) {
 			caught = oops.getClass();
 		}
 
 		checkExceptions(expected, caught);
-		this.zerviceService.flush();
+
 	}
 
 }

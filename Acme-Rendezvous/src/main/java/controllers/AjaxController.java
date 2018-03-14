@@ -15,6 +15,7 @@ import services.CommentService;
 import services.RendezvousService;
 import services.RsvpService;
 import services.UserService;
+import utilities.internal.SchemaPrinter;
 import domain.Category;
 import domain.Rendezvous;
 import domain.Rsvp;
@@ -105,6 +106,20 @@ public class AjaxController {
 		ModelAndView result = new ModelAndView("announcement/display");
 		try{
 			result.addObject("announcements",announcementService.getRendezvousAnnouncementsSorted(rendezvousId));
+		}catch(Throwable oops){
+			result = new ModelAndView("ajaxException");
+		}
+		return result;
+	}
+
+	@RequestMapping(value="showZervices", method = RequestMethod.GET)
+	public ModelAndView showZervices(@RequestParam(required=true) final int rendezvousId){
+		ModelAndView result = new ModelAndView("zervice/subList");
+		System.out.println("1");
+		try{
+			System.out.println("2");
+			result.addObject("zervices",rendezvousService.getZervicesForRendezvous(rendezvousId));
+			SchemaPrinter.print(rendezvousService.getZervicesForRendezvous(rendezvousId));
 		}catch(Throwable oops){
 			result = new ModelAndView("ajaxException");
 		}
