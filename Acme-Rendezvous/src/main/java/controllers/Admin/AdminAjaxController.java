@@ -105,6 +105,7 @@ public class AdminAjaxController {
 			res = new ModelAndView("ajaxException");
 		}
 		return res;
+	}
 	
 
 	@RequestMapping(value="category/save", method=RequestMethod.POST)

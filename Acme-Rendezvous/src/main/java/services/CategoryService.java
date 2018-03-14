@@ -22,12 +22,15 @@ import domain.Zervice;
 @Transactional
 public class CategoryService {
 
+	// Managed repository -----------------------------------------------------
 	@Autowired
 	private CategoryRepository categoryRepository;
 
+	// Supporting services ----------------------------------------------------
 	@Autowired
 	private AdminService adminService;
 
+	// Simple CRUD methods ----------------------------------------------------
 	public Category create() {
 		Assert.notNull(adminService.findByPrincipal());
 
@@ -67,7 +70,12 @@ public class CategoryService {
 		Assert.isTrue(findAll().contains(category));
 		categoryRepository.delete(category);
 	}
-
+	
+	public void flush() {
+		categoryRepository.flush();
+	}
+	
+	//Other Business Methods --------------------------------
 	public Category editName(Integer categoryId, String categoryName) {
 		Assert.notNull(categoryId);
 		Assert.notNull(categoryName);

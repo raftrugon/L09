@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.ZerviceRepository;
+import domain.Manager;
 import domain.Request;
 import domain.Zervice;
 import exceptions.ZerviceRequestsNotEmptyException;
@@ -106,6 +107,10 @@ public class ZerviceService {
 
 	public Collection<Zervice> findAllNotInappropriate() {
 		return zerviceRepository.findAllNotInappropriate();
+	}
+	
+	public void flush() {
+		zerviceRepository.flush();
 	}
 
 	// Other Business Methods --------------------------------

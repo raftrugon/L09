@@ -229,56 +229,190 @@ public class CategoryServiceTest extends AbstractTest {
 	
 	protected void templateSave(String username, Category category, String name,
 			Class<?> expected) {
-		
-		//TODO: In progress.
 
-		Class<?> caught = null;
-		/*authenticate("admin");
-		Category r = categoryService.create();
-		categoryService.save(r);
-		authenticate(null);*/
-		
+		Class<?> caught = null;	
 		Category res = null;
-
-		try {
-			System.out.println("1");
-			authenticate(username);
-			System.out.println("2");
-			if(category!=null){
-				System.out.println("3");
-				if(name!=null){
-					System.out.println("4");
-					category.setName(name);
-					category.setDescription(name);
-					System.out.println("AA: " + category.getName());
-					System.out.println("BB: " + category.getDescription());
-				}
-				
-				System.out.println("5");
-				if(category.getId()==0){
-					System.out.println("6");
-					Category parent = categoryService.findOne(getEntityId("category2"));
-					category.setParent(parent);
-				}
-							
+		
+		authenticate(username);
+		if(category!=null){
+			
+			if(name!=null){
+				category.setName(name);
+				category.setDescription(name);
 			}
-			System.out.println("7");
-			res = categoryService.save(category);
+			
+			if(category.getId()==0){
+				Category parent = categoryService.findOne(getEntityId("category2"));
+				category.setParent(parent);
+			}			
+		}
+
+		try {			
+			res = categoryService.save(category);	
+			categoryService.flush();
 
 		} catch (Throwable oops) {
-			System.out.println("FAIL");
 			caught = oops.getClass();
 		}
-		System.out.println("8");
 		authenticate(null);
-		System.out.println("9");
 		checkExceptions(expected, caught);
-		System.out.println("10");
 		
 		if(res != null){
 			System.out.println("NAME: " + res.getName() + "\nDESCRIPTION: " + 
 					res.getDescription());
 		}
+	}
+	
+	@Test
+	public void driverDelete() {
+		
+		System.out.println("===============================================================================================================");
+		System.out.println("=====================================TEST DELETE CATEGORY==================================================");
+		System.out.println("===============================================================================================================\r");
+
+		authenticate("admin");
+		
+		Object testingData[][] = {
+			//Positive test.
+			{
+				"admin",getEntityId("category14"), null
+			},
+
+			//Try to delete a category being anonymous.
+			{
+				null,getEntityId("category14"), IllegalArgumentException.class
+			},
+			
+			//Try to delete a category as an user.
+			{
+				"user1",getEntityId("category14"), IllegalArgumentException.class
+			},
+			
+			//Try to delete a null category.
+			{
+				"admin",getEntityId("user1"), IllegalArgumentException.class
+			},
+			
+			//Try to delete a non persisted category.
+			{
+				"admin", categoryService.create().getId(), IllegalArgumentException.class
+			},
+		};
+		
+		authenticate(null);
+
+		for (int i = 0; i < testingData.length; i++)
+			templateDelete((String) testingData[i][0], (Integer) testingData[i][1], 
+					(Class<?>) testingData[i][2]);
+	}
+	
+	protected void templateDelete(String username, Integer entityId, Class<?> expected) {
+
+		Class<?> caught = null;
+		Category res = null;
+		authenticate(username);
+
+		try {
+			res = categoryService.findOne(entityId);
+			categoryService.delete(res);
+			categoryService.flush();
+			
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		authenticate(null);
+		checkExceptions(expected, caught);
+		
+	}
+	
+	@Test
+	public void driverEditName() {
+		
+		System.out.println("===============================================================================================================");
+		System.out.println("=====================================TEST EDITNAME CATEGORY==================================================");
+		System.out.println("===============================================================================================================\r");
+
+		authenticate("admin");
+		
+		Object testingData[][] = {
+			//Positive test.
+			{
+				"admin",getEntityId("category14"), "TEST NAME", null
+			},
+			
+			//Introduce a null categoryId.
+			{
+				"admin",null, "TEST NAME", NullPointerException.class
+			},
+			
+			//Introduce a not valid categoryId.
+			{
+				"admin",getEntityId("user1"), "TEST NAME", IllegalArgumentException.class
+			},
+			
+			//Introduce a null name.
+			{
+				"admin",getEntityId("category14"), null, IllegalArgumentException.class
+			},
+			
+			//Introduce a categoryId = 0.
+			{
+				"admin",categoryService.create().getId(), "TEST NAME", 
+				IllegalArgumentException.class
+			},
+			
+			//Introduce a blank category name.
+			{
+				"admin",getEntityId("category14"), "", 
+				IllegalArgumentException.class
+			},
+			
+			//Try to introduce a category with two childrens with the same name.
+			{
+				"admin",getEntityId("category10"), categoryService.findOne(getEntityId("category8")).getName(), 
+				IllegalArgumentException.class
+			},
+
+		};
+		
+		authenticate(null);
+
+		for (int i = 0; i < testingData.length; i++)
+			templateEditName((String) testingData[i][0], (Integer) testingData[i][1], 
+					(String) testingData[i][2],(Class<?>) testingData[i][3]);
+	}
+	
+	protected void templateEditName(String username, Integer entityId,
+			String categoryName, Class<?> expected) {
+
+		Class<?> caught = null;
+		authenticate(username);
+		Category res = null;
+
+		try {
+			res = categoryService.findOne(entityId);
+			if(res!=null){
+				System.out.println("BEFORE");
+				System.out.println("NAME: " + res.getName() + "\nDESCRIPTION: " + 
+						res.getDescription());
+			}
+			categoryService.editName(entityId, categoryName);
+			
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		authenticate(null);
+		checkExceptions(expected, caught);
+		
+		if(res != null){
+			System.out.println("AFTER");
+			System.out.println("NAME: " + res.getName() + "\nDESCRIPTION: " + 
+					res.getDescription());
+		}
+		System.out.println("-------------------------");
+		
 	}
 
 }
