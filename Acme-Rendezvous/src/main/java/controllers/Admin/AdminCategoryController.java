@@ -13,6 +13,10 @@ public class AdminCategoryController  extends AbstractController {
 
 	@RequestMapping("/list")
 	public ModelAndView list() {
-		return new ModelAndView("category/list");
+		try{
+			return new ModelAndView("category/list");
+		}catch(Throwable oops){
+			return new ModelAndView("ajaxException");
+		}
 	}
 }

@@ -9,6 +9,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.CategoryRepository;
 
@@ -29,6 +31,8 @@ public class CategoryService {
 	// Supporting services ----------------------------------------------------
 	@Autowired
 	private AdminService adminService;
+	@Autowired
+	private Validator validator;
 
 	// Simple CRUD methods ----------------------------------------------------
 	public Category create() {
@@ -68,13 +72,15 @@ public class CategoryService {
 		Assert.notNull(category);
 		Assert.isTrue(category.getId() != 0);
 		Assert.isTrue(findAll().contains(category));
+		Assert.isTrue(category.getCategories().isEmpty());
+		Assert.isTrue(category.getZervices().isEmpty());
 		categoryRepository.delete(category);
 	}
-	
+
 	public void flush() {
 		categoryRepository.flush();
 	}
-	
+
 	//Other Business Methods --------------------------------
 	public Category editName(Integer categoryId, String categoryName) {
 		Assert.notNull(categoryId);
@@ -104,10 +110,15 @@ public class CategoryService {
 	}
 
 	public JsonArray getCategoriesJson(Category category){
-		return getCategoriesJson(category, false);
+		return getCategoriesJson(category, false,0);
 	}
-	
-	public JsonArray getCategoriesJson(Category category, Boolean admin){
+
+	public JsonArray getCategoriesJson(Category category,Boolean admin){
+		return getCategoriesJson(category, admin, 0);
+	}
+
+	public JsonArray getCategoriesJson(Category category, Boolean admin,Integer level){
+		if(level == null)level = 0;
 		JsonArray json = new JsonArray();
 		Collection<Category> subCategories;
 		if(category == null)
@@ -116,13 +127,15 @@ public class CategoryService {
 			subCategories = category.getCategories();
 		for(Category c: subCategories){
 			JsonObject subJson = new JsonObject();
-			subJson.addProperty("text", c.getName());
-			if(!admin){
+			String text = "<strong>"+c.getName()+"</strong><br/>";
+			for(int i=0;i<=level;i++) text += "<span class='indent'></span>";
+			text += "<small>"+c.getDescription()+"</small>";
+			subJson.addProperty("text", text);
+			if(!admin)
 				subJson.addProperty("selectedIcon", "glyphicon glyphicon-ok");
-			}
 			subJson.addProperty("categoryId",c.getId());
 			if(!c.getCategories().isEmpty()){
-				subJson.add("nodes", getCategoriesJson(c,admin));
+				subJson.add("nodes", getCategoriesJson(c,admin,level+1));
 				JsonArray tags = new JsonArray();
 				tags.add(c.getCategories().size());
 				subJson.add("tags", tags);
@@ -144,6 +157,21 @@ public class CategoryService {
 
 	public Double getAvgRatioOfZervicesInEachCategory() {
 		return categoryRepository.getAvgRatioOfZervicesInEachCategory();
+	}
+
+	public Category reconstruct(Category category, BindingResult binding){
+		if(category.getId() == 0){
+			category.setVersion(0);
+			category.setCategories(new ArrayList<Category>());
+			category.setZervices(new ArrayList<Zervice>());
+		}else{
+			Category bd = findOne(category.getId());
+			category.setVersion(bd.getVersion());
+			category.setCategories(bd.getCategories());
+			category.setZervices(bd.getZervices());
+		}
+		validator.validate(category, binding);
+		return category;
 	}
 
 }

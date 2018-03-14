@@ -9,8 +9,17 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-
-<jstl:forEach items="${bestSellingZervices}" var="zervice">
+<input id="pageNumber" type="hidden" value="${pageNumber}"/>
+<ul class="pager">
+  <jstl:if test="${not isFirst}"><li class="previous"><a id="prevPage" href="javascript:void(0)"><spring:message code="admin.prev"/></a></li></jstl:if>
+  <li class="alert alert-info">
+	  <spring:message code="admin.showing"/>
+	  <input type="number" id="pageSize" value="${pageSize}" style="width:50px;">
+	  <spring:message code="admin.showing.of"/> <strong><jstl:out value="${totalPages}"/></strong>
+  </li>
+  <jstl:if test="${not isLast}"><li class="next"><a id="nextPage" href="javascript:void(0)"><spring:message code="admin.next"/></a></li></jstl:if>
+</ul>
+<jstl:forEach items="${zervices}" var="zervice">
 	<a class="list-group-item">
 		<h4><span class="label label-info" style="position:absolute;right:10px"><spring:message code="admin.zervices"/>: ${fn:length(zervice.requests)}</span></h4>
 		<h4 class="list-group-item-heading"><strong>${zervice.name}</strong></h4>

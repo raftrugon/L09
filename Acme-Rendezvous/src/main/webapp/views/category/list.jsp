@@ -33,6 +33,7 @@
 </script>
 
 <div class="well col-md-6 col-md-offset-3">
+	<div class="alert alert-info"><i class="fas fa-question-circle"></i> <spring:message code="category.clickToEdit"/></div>
 	<div id="categoryDiv" class="form-group">
 	</div>
 	<div class="btn-group btn-group-justified">

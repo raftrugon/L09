@@ -108,7 +108,7 @@ public class ZerviceService {
 	public Collection<Zervice> findAllNotInappropriate() {
 		return zerviceRepository.findAllNotInappropriate();
 	}
-	
+
 	public void flush() {
 		zerviceRepository.flush();
 	}

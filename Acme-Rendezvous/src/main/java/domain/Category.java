@@ -20,7 +20,7 @@ public class Category extends DomainEntity {
 
 	private String name;
 	private String description;
-	
+
 	@NotBlank
 	@SafeHtml(whitelistType=WhiteListType.NONE)
 	public String getName() {
@@ -29,7 +29,7 @@ public class Category extends DomainEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	@NotBlank
 	@SafeHtml(whitelistType=WhiteListType.NONE)
 	public String getDescription() {
@@ -38,20 +38,20 @@ public class Category extends DomainEntity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
+
+
 	//Relationships-----------------
 	private Category parent;
 	private Collection<Category> categories;
 	private Collection<Zervice> zervices;
 
-	
+
 	@Valid
 	@ManyToOne(optional=true)
 	public Category getParent() {
 		return parent;
 	}
-	
+
 	public void setParent(Category parent) {
 		this.parent = parent;
 	}
@@ -63,7 +63,7 @@ public class Category extends DomainEntity {
 	public void setCategories(Collection<Category> categories) {
 		this.categories = categories;
 	}
-	
+
 	@NotNull
 	@OneToMany(mappedBy="category")
 	public Collection<Zervice> getZervices() {
@@ -72,6 +72,6 @@ public class Category extends DomainEntity {
 	public void setZervices(Collection<Zervice> zervices) {
 		this.zervices = zervices;
 	}
-	
-	
+
+
 }

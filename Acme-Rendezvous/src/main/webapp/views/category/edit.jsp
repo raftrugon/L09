@@ -15,15 +15,27 @@
 				data:data,
 				showTags:true,
 				onNodeSelected: function(event,node){
-					$('#category').val($(node).attr("categoryId"));
-				}	
+					$('#parent').val($(node).attr("categoryId"));
+				},	
+				onNodeUnselected: function(event,node){
+					$('#parent').val(null);
+				}
 			});
-			var category = $('#category').val();
-			if(typeof(category) !== 'undefined'){
-				var selectNode = jQuery.grep($('#categoryDiv').treeview('getUnselected',null),function(n){
-					return n.categoryId === parseInt($('#category').val());
+			var parent = $('#parent').val();
+			if(parent !== ''){
+				var selectNode = jQuery.grep($('#parentDiv').treeview('getUnselected',null),function(n){
+					return n.categoryId === parseInt(parent);
 				});
-				$('#categoryDiv').treeview('selectNode',[selectNode[0],{silent:true}]);
+				$('#parentDiv').treeview('selectNode',[selectNode[0],{silent:true}]);
+				$('#parentDiv').treeview('revealNode',[selectNode[0],{silent:true}]);
+			}
+			var category = $('#id').val();
+			if(category !== ''){
+				var selectNode = jQuery.grep($('#parentDiv').treeview('getUnselected',null),function(n){
+					return n.categoryId === parseInt(category);
+				});
+				$('#parentDiv').treeview('disableNode',[selectNode[0],{silent:true}]);
+				$('#parentDiv').treeview('collapseNode',[selectNode[0],{silent:true}]);
 			}
 		});
 	});
@@ -35,26 +47,27 @@
 		<jstl:set var="model" value="category" scope="request"/>	
 		
 		<!-- Hidden Attributes -->
-		<lib:input name="id,version,zervices" type="hidden" />
+		<lib:input name="id,parent" type="hidden" />
 			
 		<!-- Attributes -->
 		
 		<lib:input name="name" type="text" />
 		<lib:input name="description" type="text" />
 		
-		
+		<div class="alert alert-info"><i class="fas fa-question-circle"></i> <spring:message code="category.selectParent"/></div>
 		<div id="parentDiv" class="form-group">
 		</div>
-<div class="btn-group btn-group-justified">
-		<div class="btn-group">
-			<input class="btn btn-success" id="saveCategoryButton" name="save" value="<spring:message code="category.save"/>" />
-		</div>
-		<jstl:if test="${category.id != 0 && empty category.zervices}">
+
+		<div class="btn-group btn-group-justified">
 			<div class="btn-group">
-		   		<input class="btn btn-danger deleteCategoryButton" id="${category.id}" name="delete" value="<spring:message code="category.delete" />" />
+				<input class="btn btn-success" id="saveCategoryButton" name="save" value="<spring:message code="category.save"/>" />
 			</div>
-	  	</jstl:if>
-	</div>
+			<jstl:if test="${category.id != 0 && empty category.zervices && empty category.categories}">
+				<div class="btn-group">
+			   		<input class="btn btn-danger deleteCategoryButton" id="${category.id}" name="delete" value="<spring:message code="category.delete" />" />
+				</div>
+		  	</jstl:if>
+		</div>
 </form:form>
 
 
@@ -62,16 +75,16 @@
 $(function(){
 	$('#saveCategoryButton').click(function(e){
 		e.preventDefault();
-		$.post( "admin/ajax/category/save.do",{category: $('#categoryForm').serialize()}, function( data ) {
-			if(data==1) {
-				notify('success','<spring:message code="category.edit.success"/>');
-				$('#categoryEditModal').modal('hide');
-				loadCategories();
-			}
-			else{
-				notify('danger','<spring:message code="category.edit.error"/>');
-				$('#categoryEditModal').modal('hide');
-			}
+		$.post("admin/ajax/category/save.do",$('#categoryForm').serialize(), function( data ) {
+				if(data==1) {
+					notify('success','<spring:message code="category.edit.success"/>');
+					$('#categoryEditModal').modal('hide');
+					loadCategories();
+				}
+				else{
+					notify('danger','<spring:message code="category.edit.error"/>');
+					$('#categoryEditModal').modal('hide');
+				}
 		});
 	});
 });

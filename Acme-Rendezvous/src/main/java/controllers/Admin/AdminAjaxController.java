@@ -1,10 +1,9 @@
 package controllers.Admin;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -100,40 +99,42 @@ public class AdminAjaxController {
 			res.addObject("totalPages",page.getTotalPages());
 			res.addObject("isFirst",page.isFirstPage());
 			res.addObject("isLast",page.isLastPage());
+			res.addObject("pageNumber",page.getNumber());
+			res.addObject("pageSize",pageSize);
 		}catch(Throwable oops){
 			oops.printStackTrace();
 			res = new ModelAndView("ajaxException");
 		}
 		return res;
 	}
-	
+
 
 	@RequestMapping(value="category/save", method=RequestMethod.POST)
-	public String save(@Valid final Category category, final BindingResult binding) {
+	public String save(@ModelAttribute final Category category,BindingResult binding) {
 		String result;
-		if(binding.hasErrors()){
+		Category resCategory = categoryService.reconstruct(category, binding);
+		if(binding.hasErrors())
 			result="0";
-		}else{
+		else
 			try {
-				categoryService.save(category);
+				categoryService.save(resCategory);
 				result ="1";
 			} catch (Throwable oops) {
 				oops.printStackTrace();
 				result = "2";
 			}
-		}
 		return result;
 	}
 	@RequestMapping(value="category/delete", method=RequestMethod.POST)
 	public String delete(@RequestParam(required=true) final int categoryId) {
 		String result;
-			try {
-				categoryService.delete(categoryService.findOne(categoryId));
-				result ="1";
-			} catch (Throwable oops) {
-				oops.printStackTrace();
-				result = "2";
-			}
+		try {
+			categoryService.delete(categoryService.findOne(categoryId));
+			result ="1";
+		} catch (Throwable oops) {
+			oops.printStackTrace();
+			result = "2";
+		}
 		return result;
 	}
 }

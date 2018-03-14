@@ -181,19 +181,31 @@
 						</a>			
 					</jstl:forEach>
 				</div>
-				<div id="tab7" class="tab-pane fade">
-					<input id="pageNumber" class="col-sm-6" type="number" value="1">
-					<input id="pageSize" class="col-sm-6" type="text" value="10">
-					<div id="topzervices"></div>
-				</div>
+				<div id="tab7" class="tab-pane fade"></div>
 			</div>
 		</div>
 	</div>
 </div>
 <script>
 	$(function(){
-		$.get('admin/ajax/dashboard/topzervices.do',{pageNumber:$('#pageNumber').val()-1,pageSize:$('#pageSize').val()},function(data){
-			$('#topzervices').html(data);
-		});
+		getTopServices(0,10);
 	});
+	
+	function getTopServices(pageNumber,pageSize){
+		$.get('admin/ajax/dashboard/topzervices.do',{pageNumber:pageNumber,pageSize:pageSize},function(data){
+			$('#tab7').html(data);
+			$('#pageSize').change(function(){
+				getTopServices(parseInt($('#pageNumber').val()),parseInt($('#pageSize').val()));
+			});
+			$('#prevPage').click(function(e){
+				e.preventDefault();
+				getTopServices(parseInt($('#pageNumber').val())-1,parseInt($('#pageSize').val()));
+			});
+			$('#nextPage').click(function(e){
+				e.preventDefault();				
+				getTopServices(parseInt($('#pageNumber').val())+1,parseInt($('#pageSize').val()));
+			});
+		});
+		
+	}
 </script>
