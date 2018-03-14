@@ -1,3 +1,4 @@
+
 package services;
 
 import java.math.BigDecimal;
@@ -23,19 +24,19 @@ import security.UserAccountService;
 import domain.Manager;
 import domain.Zervice;
 
-
 @Service
 @Transactional
 public class ManagerService {
 
 	@Autowired
-	private ManagerRepository managerRepository;
+	private ManagerRepository	managerRepository;
 
 	@Autowired
-	private UserAccountService userAccountService;
+	private UserAccountService	userAccountService;
 
 	@Autowired
-	private Validator validator;
+	private Validator			validator;
+
 
 	// Simple CRUD methods ----------------------------------------------------
 
@@ -59,6 +60,10 @@ public class ManagerService {
 		return res;
 	}
 
+	public void flush() {
+		managerRepository.flush();
+	}
+
 	public Manager findOne(final int managerId) {
 		Assert.isTrue(managerId != 0);
 		Manager res = managerRepository.findOne(managerId);
@@ -75,7 +80,7 @@ public class ManagerService {
 	public Manager save(final Manager manager) {
 		Assert.notNull(manager);
 
-		if(manager.getId() == 0){
+		if (manager.getId() == 0) {
 			Md5PasswordEncoder password = new Md5PasswordEncoder();
 			String encodedPassword = password.encodePassword(manager.getUserAccount().getPassword(), null);
 			manager.getUserAccount().setPassword(encodedPassword);
@@ -85,6 +90,7 @@ public class ManagerService {
 	}
 
 	public void delete(final Manager manager) {
+		Assert.notNull(manager);
 		managerRepository.delete(manager);
 
 	}
@@ -126,14 +132,15 @@ public class ManagerService {
 		return manager;
 	}
 
-	public Collection<Manager> getManagersWhoProvideMoreServicesThanAvg(){
+	public Collection<Manager> getManagersWhoProvideMoreServicesThanAvg() {
 		return managerRepository.getManagersWhoProvideMoreServicesThanAvg();
 	}
 
-	public Map<Manager,Integer> getManagersWithMoreCancelledZervices(int limit){
+	public Map<Manager, Integer> getManagersWithMoreCancelledZervices(int limit) {
 		List<Object[]> query = managerRepository.getManagersWithMoreCancelledZervices(limit);
-		Map<Manager,Integer> res = new LinkedHashMap<Manager,Integer>();
-		for(Object[] obj: query) res.put(findOne(((Integer) obj[0]).intValue()), ((BigDecimal) obj[1]).intValueExact());
+		Map<Manager, Integer> res = new LinkedHashMap<Manager, Integer>();
+		for (Object[] obj : query)
+			res.put(findOne(((Integer) obj[0]).intValue()), ((BigDecimal) obj[1]).intValueExact());
 		return res;
 	}
 
