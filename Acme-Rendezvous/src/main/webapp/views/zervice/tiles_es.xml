@@ -31,4 +31,5 @@
 		<put-attribute name="body" value="/views/zervice/edit.jsp" />
 	</definition>
 	
+	<definition name="zervice/subList" template="/views/zervice/subList.jsp"/>
 </tiles-definitions>

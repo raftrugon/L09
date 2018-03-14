@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import domain.Category;
 import domain.Rendezvous;
 import domain.User;
+import domain.Zervice;
 
 @Repository
 public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer> {
@@ -70,5 +71,8 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 
 	@Query(value="select avg(count) from (select count(distinct category.id) as count from rendezvous join request on rendezvous.id = request.rendezvous_id join zervice on request.zervice_id = zervice.id join category on zervice.category_id = category.id group by rendezvous.id) as temp", nativeQuery=true)
 	Double getAvgCategoriesPerRendezvous();
+
+	@Query("select r.zervice from Request r where r.rendezvous=?1")
+	Collection<Zervice> getServicesForRendezvous(Rendezvous rendezvous);
 
 }

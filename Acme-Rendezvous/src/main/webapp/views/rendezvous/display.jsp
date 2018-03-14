@@ -135,12 +135,16 @@
 <ul class="nav nav-tabs nav-justified col-md-12" style="margin-top:20px;padding-left:15px">
   <li class="active"><a data-toggle="tab" href="#accordion"><spring:message code="rendezvous.comments.tab"/></a></li>
   <li><a data-toggle="tab" href="#announcementTab"><spring:message code="rendezvous.announcements.tab"/></a></li>
+  <li><a data-toggle="tab" href="#zerviceTab"><spring:message code="rendezvous.zervices.tab"/></a></li>
 </ul>
 <div class="tab-content">
 	<div class="container col-md-12 panel-group tab-pane fade in active" id="accordion" style="margin-top:20px;">
 	
 	</div>
 	<div id="announcementTab" class="tab-pane fade col-md-12">
+		
+	</div>
+	<div id="zerviceTab" class="tab-pane fade col-md-12" style="padding-top:10px">
 		
 	</div>
 </div> 
@@ -242,6 +246,11 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0VftX0iPRA4ASNgBh4qcjuzB
 			$('#announcementTab').html(data);
 		});
 	}
+	function reloadZervices(){
+		return $.get('ajax/showZervices.do?rendezvousId=<jstl:out value="${rendezvous.id}"/>',function(data){
+			$('#zerviceTab').html(data);
+		});
+	}
 	function reloadButtons(){
 		return $.get('ajax/showButtons.do?rendezvousId=<jstl:out value="${rendezvous.id}"/>',function(data){
 			$('#buttonsAlertsDiv').html(data);
@@ -294,6 +303,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0VftX0iPRA4ASNgBh4qcjuzB
 		});
 		reloadComments();
 		reloadAnnouncements();
+		reloadZervices();
 		reloadButtons();
 		reloadChips();
 		$.when(reloadAnnouncements(), reloadComments(), reloadChips(), reloadButtons()).done(function(){

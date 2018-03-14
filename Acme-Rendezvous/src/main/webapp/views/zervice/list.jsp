@@ -13,7 +13,7 @@
 <jstl:forEach items="${zervices}" var="zervice">
 
 <jstl:set var="inappropriateStyle" value=""/>
-<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 cardContainer" id="zervicesContainer">
+<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 cardContainer" id="zervicesContainer" style="height:200px">
 			<jstl:if test="${zervice.inappropriate eq true}">
 				<jstl:set var="inappropriateStyle" value="filter: blur(5px);-webkit-filter: blur(5px);"/>
 				<div class="alert alert-danger" style="position:absolute;top:40%;right:10%;left:10%;text-align:center;z-index:500;"><strong><spring:message code="zervice.inappropriate.alert"/></strong></div>

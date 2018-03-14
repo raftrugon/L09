@@ -21,6 +21,7 @@ import domain.Comment;
 import domain.Rendezvous;
 import domain.Rsvp;
 import domain.User;
+import domain.Zervice;
 
 @Service
 @Transactional
@@ -269,5 +270,9 @@ public class RendezvousService {
 
 	public Double getAvgCategoriesPerRendezvous(){
 		return rendezvousRepository.getAvgCategoriesPerRendezvous();
+	}
+
+	public Collection<Zervice> getZervicesForRendezvous(int rendezvousId) {
+		return rendezvousRepository.getServicesForRendezvous(findOne(rendezvousId));
 	}
 }
