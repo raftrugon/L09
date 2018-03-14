@@ -203,15 +203,15 @@ public class ZerviceServiceTest extends AbstractTest {
 		Object testingData[][] = {
 			//Positive test
 			{
-				getEntityId("zervice1"), null
+				null
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			templateFindOne((int) testingData[i][0], (Class<?>) testingData[i][1]);
+			templateAll((Class<?>) testingData[i][0]);
 	}
 
-	protected void templateAll(int zerviceId, Class<?> expected) {
+	protected void templateAll(Class<?> expected) {
 
 		Class<?> caught = null;
 
@@ -286,6 +286,151 @@ public class ZerviceServiceTest extends AbstractTest {
 
 			super.unauthenticate();
 			this.zerviceService.flush();
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		checkExceptions(expected, caught);
+
+	}
+
+	@Test
+	public void driverFindAllNotInappropriate() {
+
+		Object testingData[][] = {
+			//Positive test
+			{
+				null
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			templateFindAllNotInappropriate((Class<?>) testingData[i][0]);
+	}
+
+	protected void templateFindAllNotInappropriate(Class<?> expected) {
+
+		Class<?> caught = null;
+
+		try {
+			zerviceService.findAllNotInappropriate();
+
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		checkExceptions(expected, caught);
+
+	}
+
+	@Test
+	public void driverGetBestSellingZervices() {
+
+		Object testingData[][] = {
+			//Positive test
+			{
+				null
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			templateGetBestSellingZervices((Class<?>) testingData[i][0]);
+	}
+
+	protected void templateGetBestSellingZervices(Class<?> expected) {
+
+		Class<?> caught = null;
+
+		try {
+			zerviceService.getBestSellingZervices();
+
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		checkExceptions(expected, caught);
+
+	}
+
+	@Test
+	public void driverGetZerviceAvgStdPerRendezvous() {
+
+		Object testingData[][] = {
+			//Positive test
+			{
+				null
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			templateGetZerviceAvgStdPerRendezvous((Class<?>) testingData[i][0]);
+	}
+
+	protected void templateGetZerviceAvgStdPerRendezvous(Class<?> expected) {
+
+		Class<?> caught = null;
+
+		try {
+			zerviceService.getZerviceAvgStdPerRendezvous();
+
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		checkExceptions(expected, caught);
+
+	}
+
+	@Test
+	public void driverGetZerviceMinMaxPerRendezvous() {
+
+		Object testingData[][] = {
+			//Positive test
+			{
+				null
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			templateGetZerviceMinMaxPerRendezvous((Class<?>) testingData[i][0]);
+	}
+
+	protected void templateGetZerviceMinMaxPerRendezvous(Class<?> expected) {
+
+		Class<?> caught = null;
+
+		try {
+			zerviceService.getZerviceMinMaxPerRendezvous();
+
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		checkExceptions(expected, caught);
+
+	}
+
+	@Test
+	public void driverGetTopSellingZervices() {
+
+		Object testingData[][] = {
+			//Positive test
+			{
+				1, 2, null
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			templateGetTopSellingZervices((int) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	protected void templateGetTopSellingZervices(int inicio, int fin, Class<?> expected) {
+
+		Class<?> caught = null;
+
+		try {
+			zerviceService.getTopSellingZervices(inicio, fin);
+
 		} catch (Throwable oops) {
 			caught = oops.getClass();
 		}
