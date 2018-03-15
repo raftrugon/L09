@@ -30,15 +30,15 @@ public class UserService {
 	// Managed repository -----------------------------------------------------
 
 	@Autowired
-	private UserRepository	userRepository;
+	private UserRepository		userRepository;
 	@Autowired
-	private UserAccountService userAccountService;
-
+	private UserAccountService	userAccountService;
 
 	// Supporting services ----------------------------------------------------
 
 	@Autowired
-	private Validator validator;
+	private Validator			validator;
+
 
 	// Simple CRUD methods ----------------------------------------------------
 
@@ -63,6 +63,10 @@ public class UserService {
 		return res;
 	}
 
+	public void flush() {
+		userRepository.flush();
+	}
+
 	public User findOne(final int userId) {
 		Assert.isTrue(userId != 0);
 		User res = userRepository.findOne(userId);
@@ -81,7 +85,7 @@ public class UserService {
 		System.out.println(user.getBirthDate());
 		Assert.isTrue(user.getBirthDate().before(new Date()));
 
-		if(user.getId() == 0){
+		if (user.getId() == 0) {
 			Md5PasswordEncoder password = new Md5PasswordEncoder();
 			String encodedPassword = password.encodePassword(user.getUserAccount().getPassword(), null);
 			user.getUserAccount().setPassword(encodedPassword);
@@ -89,7 +93,6 @@ public class UserService {
 		}
 		return userRepository.save(user);
 	}
-
 
 	//Other Business Methods --------------------------------
 
@@ -109,12 +112,12 @@ public class UserService {
 		return res;
 	}
 
-	public Boolean isRsvpd(int rendezvousId){
+	public Boolean isRsvpd(int rendezvousId) {
 		Assert.isTrue(rendezvousId != 0);
 		return (userRepository.isRsvpd(rendezvousId, findByPrincipal()) == 1);
 	}
 
-	public Boolean isAdult(){
+	public Boolean isAdult() {
 		User u = findByPrincipal();
 		DateTime user18 = new DateTime(u.getBirthDate()).plusYears(18);
 		return user18.isBeforeNow();
