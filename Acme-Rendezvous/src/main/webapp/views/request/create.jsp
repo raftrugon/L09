@@ -182,7 +182,7 @@ $(document).ready(function(){
 			$.post('user/request/save.do',$('#form').serialize(), function(data){
 				if(data === '0') notify('danger','binding');
 				else if(data === '1'){
-					notify('success','guay');
+					notify('success','<spring:message code="request.create.success"/>');
 					$('#requestModal').modal('hide');
 				}
 				else notify('danger','commit');

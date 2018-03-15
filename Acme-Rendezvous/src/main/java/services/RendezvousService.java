@@ -273,6 +273,7 @@ public class RendezvousService {
 	}
 
 	public Collection<Zervice> getZervicesForRendezvous(int rendezvousId) {
-		return rendezvousRepository.getServicesForRendezvous(findOne(rendezvousId));
+		Rendezvous r = findOne(rendezvousId);
+		return rendezvousRepository.getServicesForRendezvous(r);
 	}
 }
