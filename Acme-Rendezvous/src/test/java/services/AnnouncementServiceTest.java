@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.junit.Test;
@@ -29,6 +31,9 @@ public class AnnouncementServiceTest extends AbstractTest {
 	@Autowired
 	RendezvousService rendezvousService;
 
+	@Autowired
+	UserService userService;
+
 	// Tests ------------------------------------------------------------------
 
 	// =====================================================================================================================
@@ -47,6 +52,7 @@ public class AnnouncementServiceTest extends AbstractTest {
 			{"rendezvous2","user4",null,"Correcta creacion announcement"},
 			{"rendezvous3","user2",null,"Correcta creacion announcement"},
 			{"rendezvous4","user2",null,"Correcta creacion announcement"},
+
 			{"rendezvous1","user2",IllegalArgumentException.class,"Announcement en Rendezvous no perteneciente al usuario"},
 			{"rendezvous1",null,IllegalArgumentException.class,"Creación sin usuario."},
 			{"rendezvous1","manager1",IllegalArgumentException.class,"Creación por manager1."},
@@ -97,7 +103,7 @@ public class AnnouncementServiceTest extends AbstractTest {
 	// ================================================ MODIFY ANNOUNCEMENT ================================================
 	// =====================================================================================================================
 	@Test(expected = IllegalArgumentException.class)
-	public void testModifyAnnouncementDriver(){
+	public void testModifyAnnouncement(){
 
 		System.out.println("===============================================================================================================");
 		System.out.println("=====================================TEST MODIFY ANNOUNCEMENT==================================================");
@@ -144,6 +150,7 @@ public class AnnouncementServiceTest extends AbstractTest {
 			{"announcement1",null,"Busqueda de announcement1."},
 			{"announcement3",null,"Busqueda de announcement3."},
 			{"announcement6",null,"Busqueda de announcement6."},
+
 			{"admin",IllegalArgumentException.class,"Busqueda de administrador."},
 			{"rendezvous1",IllegalArgumentException.class,"Busqueda de rendezvous1."},
 			{"category1",IllegalArgumentException.class,"Busqueda de category1."}
@@ -250,6 +257,238 @@ public class AnnouncementServiceTest extends AbstractTest {
 		System.out.println("User: " + user);
 		System.out.println("\r¿Correcto? " + (expected == caught));
 		System.out.println("-----------------------------------------------------------------\r");
+
+	}
+
+	//Other Business Methods --------------------------------
+
+	// =====================================================================================================================
+	// =================================================== findAllOrdered ==================================================
+	// =====================================================================================================================
+	@Test
+	public void testFindAllOrdered(){
+
+		System.out.println("===============================================================================================================");
+		System.out.println("========================================TEST findAllOrdered====================================================");
+		System.out.println("===============================================================================================================\r");
+
+
+
+
+		System.out.println("-------------------------- POSITIVO -----------------------------");
+		System.out.println("Explicación: Llamada al método de la query.");
+		System.out.println("-----------------------------------------------------------------\r");
+
+
+		super.authenticate(null);
+
+		@SuppressWarnings("unused")
+		Collection<Announcement> var = this.announcementService.findAllOrdered();
+
+		super.unauthenticate();
+		System.out.println("----------------------------PASSED-------------------------------\r");
+
+	}
+
+	// =====================================================================================================================
+	// ============================================== FindAllOrderedNotInappropriate =======================================
+	// =====================================================================================================================
+	@Test
+	public void testFindAllOrderedNotInappropriate(){
+
+		System.out.println("===============================================================================================================");
+		System.out.println("================================TEST FindAllOrderedNotInappropriate============================================");
+		System.out.println("===============================================================================================================\r");
+
+
+
+
+		System.out.println("-------------------------- POSITIVO -----------------------------");
+		System.out.println("Explicación: Llamada al método de la query.");
+		System.out.println("-----------------------------------------------------------------\r");
+
+
+		super.authenticate(null);
+
+		@SuppressWarnings("unused")
+		Collection<Announcement> var = this.announcementService.findAllOrderedNotInappropriate();
+
+		super.unauthenticate();
+		System.out.println("----------------------------PASSED-------------------------------\r");
+
+	}
+
+	// =====================================================================================================================
+	// =========================================== getRSVPAnnouncementsForUser =============================================
+	// =====================================================================================================================
+	@Test
+	public void testGetRSVPAnnouncementsForUser(){
+
+		System.out.println("===============================================================================================================");
+		System.out.println("==================================TEST getRSVPAnnouncementsForUser=============================================");
+		System.out.println("===============================================================================================================\r");
+
+
+
+
+		System.out.println("-------------------------- POSITIVO -----------------------------");
+		System.out.println("Explicación: Llamada al método de la query con user1.");
+		System.out.println("-----------------------------------------------------------------\r");
+
+		Integer userId = super.getEntityId("user1");
+
+		super.authenticate(null);
+
+		@SuppressWarnings("unused")
+		Collection<Announcement> var = this.announcementService.getRSVPAnnouncementsForUser(this.userService.findOne(userId));
+
+		super.unauthenticate();
+		System.out.println("----------------------------PASSED-------------------------------\r");
+
+	}
+
+	// =====================================================================================================================
+	// =============================================== getMyAnnouncements ==================================================
+	// =====================================================================================================================
+	@Test
+	public void testGetMyAnnouncements(){
+
+		System.out.println("===============================================================================================================");
+		System.out.println("======================================TEST getMyAnnouncements==================================================");
+		System.out.println("===============================================================================================================\r");
+
+
+
+
+		System.out.println("-------------------------- POSITIVO -----------------------------");
+		System.out.println("Explicación: Llamada al método de la query con user1.");
+		System.out.println("-----------------------------------------------------------------\r");
+
+		Integer userId = super.getEntityId("user1");
+
+		super.authenticate(null);
+
+		@SuppressWarnings("unused")
+		Collection<Announcement> var = this.announcementService.getMyAnnouncements(this.userService.findOne(userId));
+
+		super.unauthenticate();
+		System.out.println("----------------------------PASSED-------------------------------\r");
+
+	}
+
+	// =====================================================================================================================
+	// ===================================== getRendezvousAnnouncementsSorted ==============================================
+	// =====================================================================================================================
+	@Test
+	public void testGetRendezvousAnnouncementsSorted(){
+
+		System.out.println("===============================================================================================================");
+		System.out.println("===============================TEST getRendezvousAnnouncementsSorted==========================================");
+		System.out.println("===============================================================================================================\r");
+
+
+
+
+		System.out.println("-------------------------- POSITIVO -----------------------------");
+		System.out.println("Explicación: Llamada al método de la query con rendezvous1.");
+		System.out.println("-----------------------------------------------------------------\r");
+
+		Integer rendezvousId = super.getEntityId("rendezvous1");
+
+		super.authenticate(null);
+
+		@SuppressWarnings("unused")
+		Collection<Announcement> var = this.announcementService.getRendezvousAnnouncementsSorted(rendezvousId);
+
+		super.unauthenticate();
+		System.out.println("----------------------------PASSED-------------------------------\r");
+
+	}
+
+	// =====================================================================================================================
+	// =============================================== getRSVPAnnouncementsForUserNotInappropriate ==================================================
+	// =====================================================================================================================
+	@Test
+	public void testGetRSVPAnnouncementsForUserNotInappropriate(){
+
+		System.out.println("===============================================================================================================");
+		System.out.println("===========================TEST getRSVPAnnouncementsForUserNotInappropriate====================================");
+		System.out.println("===============================================================================================================\r");
+
+
+
+
+		System.out.println("-------------------------- POSITIVO -----------------------------");
+		System.out.println("Explicación: Llamada al método de la query con user1.");
+		System.out.println("-----------------------------------------------------------------\r");
+
+		Integer userId = super.getEntityId("user1");
+
+		super.authenticate(null);
+
+		@SuppressWarnings("unused")
+		Collection<Announcement> var = this.announcementService.getRSVPAnnouncementsForUserNotInappropriate(this.userService.findOne(userId));
+
+		super.unauthenticate();
+		System.out.println("----------------------------PASSED-------------------------------\r");
+
+	}
+
+	// =====================================================================================================================
+	// =============================================== getMyAnnouncementsNotInappropriate ==================================================
+	// =====================================================================================================================
+	@Test
+	public void testGetMyAnnouncementsNotInappropriate(){
+
+		System.out.println("===============================================================================================================");
+		System.out.println("===========================TEST getMyAnnouncementsNotInappropriate====================================");
+		System.out.println("===============================================================================================================\r");
+
+
+
+
+		System.out.println("-------------------------- POSITIVO -----------------------------");
+		System.out.println("Explicación: Llamada al método de la query con user1.");
+		System.out.println("-----------------------------------------------------------------\r");
+
+		Integer userId = super.getEntityId("user1");
+
+		super.authenticate(null);
+
+		@SuppressWarnings("unused")
+		Collection<Announcement> var = this.announcementService.getMyAnnouncementsNotInappropriate(this.userService.findOne(userId));
+
+		super.unauthenticate();
+		System.out.println("----------------------------PASSED-------------------------------\r");
+
+	}
+
+	// =====================================================================================================================
+	// =============================================== getRendezvousAnnouncementsSortedNotInappropriate ==============================================
+	// =====================================================================================================================
+	@Test
+	public void testGetRendezvousAnnouncementsSortedNotInappropriate(){
+
+		System.out.println("===============================================================================================================");
+		System.out.println("==================================TEST getRendezvousAnnouncementsSortedNotInappropriate=============================================");
+		System.out.println("===============================================================================================================\r");
+
+
+
+
+		System.out.println("-------------------------- POSITIVO -----------------------------");
+		System.out.println("Explicación: Llamada al método de la query con rendezvous1.");
+		System.out.println("-----------------------------------------------------------------\r");
+
+		Integer rendezvousId = super.getEntityId("rendezvous1");
+
+		super.authenticate(null);
+
+		@SuppressWarnings("unused")
+		Collection<Announcement> var = this.announcementService.getRendezvousAnnouncementsSortedNotInappropriate(rendezvousId);
+
+		super.unauthenticate();
+		System.out.println("----------------------------PASSED-------------------------------\r");
 
 	}
 
