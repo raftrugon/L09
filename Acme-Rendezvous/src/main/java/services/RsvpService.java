@@ -34,7 +34,7 @@ public class RsvpService {
 
 	// Simple CRUD methods ----------------------------------------------------
 
-	public Rsvp create(int rendezvousId) {
+	public Rsvp create(final int rendezvousId) {
 		Rsvp res = new Rsvp();
 		User u = this.userService.findByPrincipal();
 		Assert.notNull(u);
@@ -56,14 +56,14 @@ public class RsvpService {
 		return res;
 	}
 
-	public Rsvp findOne(int rsvpId) {
+	public Rsvp findOne(final int rsvpId) {
 		Assert.isTrue(rsvpId != 0);
 		Rsvp res = this.rsvpRepository.findOne(rsvpId);
 		Assert.notNull(res);
 		return res;
 	}
 
-	public Rsvp save(Rsvp rsvp) {
+	public Rsvp save(final Rsvp rsvp) {
 
 		User u = this.userService.findByPrincipal();
 		Assert.notNull(u);
@@ -77,7 +77,7 @@ public class RsvpService {
 
 		// Quitado de preguntas con respuestas vacías, con espacios o nulas
 		for (Entry<String, String> entry : rsvp.getQuestionsAndAnswers()
-				.entrySet())
+			.entrySet())
 			if (entry.getValue() != null) {
 				if (entry.getValue().replace(" ", "").isEmpty())
 					rsvp.getQuestionsAndAnswers().remove(entry.getKey());
@@ -87,7 +87,7 @@ public class RsvpService {
 		// Encoding issue with Â character patch
 		Map<String, String> auxMap = new HashMap<String, String>();
 		for (Entry<String, String> entry : rsvp.getQuestionsAndAnswers()
-				.entrySet())
+			.entrySet())
 			auxMap.put(entry.getKey().replace("Â", ""), entry.getValue());
 		rsvp.setQuestionsAndAnswers(auxMap);
 		return this.rsvpRepository.save(rsvp);
@@ -96,28 +96,40 @@ public class RsvpService {
 	public void delete(final int rendezvousId) {
 		User u = this.userService.findByPrincipal();
 		Rsvp rsvp = this.rsvpRepository.findForUserAndRendezvous(rendezvousId,
-				u);
+			u);
 		Assert.notNull(rsvp);
 		this.rsvpRepository.delete(rsvp);
 	}
 
 	// Other Business Methods --------------------------------
 
-	public Collection<String> getPendingQuestions(Rsvp rsvp) {
+	public Collection<String> getPendingQuestions(final Rsvp rsvp) {
 		Assert.notNull(rsvp);
 		Collection<String> res = new ArrayList<String>(rsvp.getRendezvous()
-				.getQuestions());
+			.getQuestions());
 		res.removeAll(rsvp.getQuestionsAndAnswers().keySet());
 		return res;
 	}
 
-	public Rsvp rsvpForRendezvousCreator(Rendezvous rendezvous) {
+	public Rsvp rsvpForRendezvousCreator(final Rendezvous rendezvous) {
 		Assert.notNull(rendezvous);
+		User user = this.userService.findByPrincipal();
+		Assert.notNull(user);
+
 		Rsvp res = new Rsvp();
-		res.setRendezvous(rendezvous);
-		res.setUser(this.userService.findByPrincipal());
 		res.setQuestionsAndAnswers(new HashMap<String, String>());
-		return this.rsvpRepository.save(res);
+
+		//Relaciones hacia rsvp
+		res.setRendezvous(rendezvous);
+		res.setUser(user);
+
+		Rsvp saved = this.rsvpRepository.save(res);
+
+		//Relaciones desde rsvp
+		user.getRsvps().add(saved);
+		rendezvous.getRsvps().add(saved);
+
+		return saved;
 	}
 
 }
