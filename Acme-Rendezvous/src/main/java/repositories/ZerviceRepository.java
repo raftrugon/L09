@@ -2,6 +2,8 @@ package repositories;
 
 import java.util.Collection;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -22,5 +24,8 @@ public interface ZerviceRepository extends JpaRepository<Zervice, Integer> {
 
 	@Query("select z from Zervice z where z.requests.size = (select max(x.requests.size) from Zervice x) order by z.requests.size DESC")
 	Collection<Zervice> getBestSellingZervices();
+
+	@Query("select z from Zervice z order by z.requests.size DESC")
+	Page<Zervice> findAllOrderedByRequestsSize(Pageable page);
 
 }

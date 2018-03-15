@@ -142,7 +142,7 @@ public class ZerviceService {
 	}
 
 	public Page<Zervice> getTopSellingZervices(int pageNumber, int pageSize){
-		PageRequest page = new PageRequest(pageNumber,pageSize/*,Sort.Direction.DESC,"requests"*/);
-		return zerviceRepository.findAll(page);
+		PageRequest page = new PageRequest(pageNumber,pageSize);
+		return zerviceRepository.findAllOrderedByRequestsSize(page);
 	}
 }

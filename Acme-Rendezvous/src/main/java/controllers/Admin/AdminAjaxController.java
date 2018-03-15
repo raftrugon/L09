@@ -102,7 +102,6 @@ public class AdminAjaxController {
 			res.addObject("pageNumber",page.getNumber());
 			res.addObject("pageSize",pageSize);
 		}catch(Throwable oops){
-			oops.printStackTrace();
 			res = new ModelAndView("ajaxException");
 		}
 		return res;
