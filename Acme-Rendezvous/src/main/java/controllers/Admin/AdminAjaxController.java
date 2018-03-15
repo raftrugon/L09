@@ -113,8 +113,9 @@ public class AdminAjaxController {
 	public String save(@ModelAttribute final Category category,BindingResult binding) {
 		String result;
 		Category resCategory = categoryService.reconstruct(category, binding);
-		if(binding.hasErrors())
+		if(binding.hasErrors()){
 			result="0";
+			System.out.println(binding.toString());}
 		else
 			try {
 				categoryService.save(resCategory);

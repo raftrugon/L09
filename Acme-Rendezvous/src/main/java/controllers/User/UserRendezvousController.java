@@ -111,6 +111,9 @@ public class UserRendezvousController extends AbstractController {
 		
 		if (binding.hasErrors()) {
 			result = newEditModelAndView(rendezvous);
+			System.out.println("================================================");
+			System.out.println(binding.toString());
+			System.out.println("================================================");
 		} else
 			try {
 				saved = rendezvousService.save(validatedObject);

@@ -205,17 +205,35 @@ public class RendezvousService {
 
 	public Rendezvous reconstruct(Rendezvous res, BindingResult binding) {
 		Rendezvous rendezvous = findOne(res.getId());
-		res.setVersion(rendezvous.getVersion());
-		res.setDeleted(false);
-		res.setAnnouncements(rendezvous.getAnnouncements());
-		res.setComments(rendezvous.getComments());
-		res.setRsvps(rendezvous.getRsvps());
-		res.setinappropriate(false);
-		res.setUser(rendezvous.getUser());
+		Rendezvous copy = new Rendezvous();
+		
+		copy.setName(res.getName());
+		copy.setDescription(res.getDescription());
+		copy.setOrganisationMoment(res.getOrganisationMoment());
+		copy.setPicture(res.getPicture());
+		copy.setLatitude(res.getLatitude());
+		copy.setLongitude(res.getLongitude());
+		copy.setFinalMode(res.getFinalMode());
+		copy.setDeleted(false);
 		if(!userService.isAdult())
-			res.setAdultOnly(false);
-		validator.validate(res, binding);
-		return res;
+			copy.setAdultOnly(false);
+		else
+			copy.setAdultOnly(true);
+		copy.setQuestions(res.getQuestions());
+		copy.setinappropriate(rendezvous.getinappropriate());
+		
+		copy.setUser(rendezvous.getUser());
+		copy.setComments(rendezvous.getComments());
+		copy.setAnnouncements(rendezvous.getAnnouncements());
+		copy.setRendezvouses(rendezvous.getRendezvouses());
+		copy.setRequests(rendezvous.getRequests());
+		copy.setRsvps(rendezvous.getRsvps());
+		
+		copy.setVersion(res.getVersion());
+		copy.setId(res.getId());
+		
+		validator.validate(copy, binding);
+		return copy;
 	}
 
 
