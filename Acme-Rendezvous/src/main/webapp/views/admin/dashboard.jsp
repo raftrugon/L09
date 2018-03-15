@@ -195,7 +195,8 @@
 		$.get('admin/ajax/dashboard/topzervices.do',{pageNumber:pageNumber,pageSize:pageSize},function(data){
 			$('#tab7').html(data);
 			$('#pageSize').change(function(){
-				getTopServices(parseInt($('#pageNumber').val()),parseInt($('#pageSize').val()));
+				if(parseInt($('#pageSize').val())<1)return null;
+				else getTopServices(parseInt($('#pageNumber').val()),parseInt($('#pageSize').val()));
 			});
 			$('#prevPage').click(function(e){
 				e.preventDefault();

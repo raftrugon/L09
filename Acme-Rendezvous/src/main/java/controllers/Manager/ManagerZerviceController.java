@@ -55,7 +55,6 @@ public class ManagerZerviceController {
 	@RequestMapping(value = "/save", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final Zervice zervice, final BindingResult binding) {
 		ModelAndView result;
-		Zervice saved;
 		Zervice validatedObject;
 
 		if (zervice.getId() == 0)
@@ -63,11 +62,12 @@ public class ManagerZerviceController {
 		else
 			validatedObject = zerviceService.reconstruct(zervice, binding);
 
-		if (binding.hasErrors())
+		if (binding.hasErrors()){
 			result = newEditModelAndView(zervice);
+			System.out.println(binding.toString());}
 		else
 			try {
-				saved = zerviceService.save(validatedObject);
+				zerviceService.save(validatedObject);
 				result = new ModelAndView(
 						"redirect:../../zervice/list.do");
 			} catch (Throwable oops) {

@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.ZerviceRepository;
+import utilities.internal.SchemaPrinter;
 import domain.Manager;
 import domain.Request;
 import domain.Zervice;
@@ -98,11 +99,24 @@ public class ZerviceService {
 	}
 
 	public Zervice reconstruct(Zervice zervice, BindingResult binding) {
-		zervice.setInappropriate(false);
-		zervice.setManager(managerService.findByPrincipal());
-		zervice.setRequests(findOne(zervice.getId()).getRequests());
-		validator.validate(zervice, binding);
-		return zervice;
+		Zervice bd = findOne(zervice.getId());
+		Zervice copy = new Zervice();
+		
+		copy.setName(zervice.getName());
+		copy.setDescription(zervice.getDescription());
+		copy.setPicture(zervice.getPicture());
+		copy.setInappropriate(bd.getInappropriate());
+		copy.setPrice(zervice.getPrice());
+		
+		copy.setManager(managerService.findByPrincipal());
+		copy.setCategory(bd.getCategory());
+		copy.setRequests(bd.getRequests());
+
+		copy.setVersion(bd.getVersion());
+		copy.setId(zervice.getId());
+		
+		validator.validate(copy, binding);
+		return copy;
 	}
 
 	public Collection<Zervice> findAllNotInappropriate() {
@@ -128,7 +142,7 @@ public class ZerviceService {
 	}
 
 	public Page<Zervice> getTopSellingZervices(int pageNumber, int pageSize){
-		PageRequest page = new PageRequest(pageNumber,pageSize/*,Sort.Direction.DESC,"requests"*/);
-		return zerviceRepository.findAll(page);
+		PageRequest page = new PageRequest(pageNumber,pageSize);
+		return zerviceRepository.findAllOrderedByRequestsSize(page);
 	}
 }
