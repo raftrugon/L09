@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.junit.Test;
@@ -43,7 +45,9 @@ public class CommentServiceTest extends AbstractTest {
 			{"rendezvous1","user1",		"text",null,"Correcta creacion comentario."},
 			{"rendezvous2","user4",		"text",null,"Correcta creacion comentario."},
 			{"rendezvous3","user2",		"text",null,"Correcta creacion comentario."},
+			{"rendezvous3","user3",		"text",null,"Correcta creacion comentario."},
 			{"rendezvous4","user2",		"text",null,"Correcta creacion comentario."},
+			{"rendezvous2","user1",		"text",null,"Correcta creacion comentario."},
 
 			{"rendezvous3","user1",		"text",IllegalArgumentException.class,"Announcement en Rendezvous sin RSVP"},
 			{"rendezvous1",null,		"text",IllegalArgumentException.class,"Creación sin usuario."},
@@ -114,6 +118,8 @@ public class CommentServiceTest extends AbstractTest {
 			{"comment1","user1",		"text",null,"Correcta creacion reply."},
 			{"comment13","user1",		"text",null,"Correcta creacion reply."},
 			{"comment6","user3",		"text",null,"Correcta creacion reply."},
+			{"comment13","user2",		"text",null,"Correcta creacion reply."},
+			{"comment13","user4",		"text",null,"Correcta creacion reply."},
 			{"comment6","user2",		"text",null,"Correcta creacion reply."},
 			{"comment1","user2",		"text",null,"Autorespuesta a un reply."},
 
@@ -176,7 +182,7 @@ public class CommentServiceTest extends AbstractTest {
 	// ================================================ MODIFY ANNOUNCEMENT ================================================
 	// =====================================================================================================================
 	@Test(expected = IllegalArgumentException.class)
-	public void testModifyAnnouncementDriver(){
+	public void testModifyAnnouncement(){
 
 		System.out.println("===============================================================================================================");
 		System.out.println("=====================================TEST MODIFY ANNOUNCEMENT==================================================");
@@ -329,6 +335,66 @@ public class CommentServiceTest extends AbstractTest {
 		System.out.println("User: " + user);
 		System.out.println("\r¿Correcto? " + (expected == caught));
 		System.out.println("-----------------------------------------------------------------\r");
+
+	}
+
+	//Other Business Methods --------------------------------
+
+	// =====================================================================================================================
+	// =============================================== getCommentRepliesStats ==============================================
+	// =====================================================================================================================
+	@Test
+	public void testGetCommentRepliesStats(){
+
+		System.out.println("===============================================================================================================");
+		System.out.println("====================================TEST getCommentRepliesStats================================================");
+		System.out.println("===============================================================================================================\r");
+
+
+
+
+		System.out.println("-------------------------- POSITIVO -----------------------------");
+		System.out.println("Explicación: Llamada al método de la query.");
+		System.out.println("-----------------------------------------------------------------\r");
+
+
+		super.authenticate(null);
+
+		@SuppressWarnings("unused")
+		Double[] var = this.commentService.getCommentRepliesStats();
+
+		super.unauthenticate();
+		System.out.println("----------------------------PASSED-------------------------------\r");
+
+	}
+
+
+	// =====================================================================================================================
+	// =============================================== getCommentRepliesStats ==============================================
+	// =====================================================================================================================
+	@Test
+	public void testGetRendezvousCommentsSorted(){
+
+		System.out.println("===============================================================================================================");
+		System.out.println("==================================TEST getRendezvousCommentsSorted=============================================");
+		System.out.println("===============================================================================================================\r");
+
+
+
+
+		System.out.println("-------------------------- POSITIVO -----------------------------");
+		System.out.println("Explicación: Llamada al método de la query con rendezvous1.");
+		System.out.println("-----------------------------------------------------------------\r");
+
+		Integer rendezvousId = super.getEntityId("rendezvous1");
+
+		super.authenticate(null);
+
+		@SuppressWarnings("unused")
+		Collection<Comment> var = this.commentService.getRendezvousCommentsSorted(rendezvousId);
+
+		super.unauthenticate();
+		System.out.println("----------------------------PASSED-------------------------------\r");
 
 	}
 }
