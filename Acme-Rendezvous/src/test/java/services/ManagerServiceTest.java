@@ -134,19 +134,21 @@ public class ManagerServiceTest extends AbstractTest {
 	public void driverSave() {
 
 		Object testingData[][] = {
-			//Positive test
-			{
-				super.getEntityId("manager1"), "NAME", "SURNAME", "ADDRESS", "627027569", "pepe@gmail.com", "ASD24-test", null
-			},
-			//Name Blank
-			{
-				super.getEntityId("manager1"), "", "SURNAME", "ADDRESS", "627027569", "pepe@gmail.com", "ASD24-test", ConstraintViolationException.class
-			},
-
-			//surname Blank
-			{
-				super.getEntityId("manager1"), "NAME", "", "ADDRESS", "627027569", "pepe@gmail.com", "ASD24-test", ConstraintViolationException.class
-			},
+			/*
+			 * //Positive test
+			 * {
+			 * super.getEntityId("manager1"), "NAME", "SURNAME", "ADDRESS", "627027569", "pepe@gmail.com", "ASD24-test", null
+			 * },
+			 * //Name Blank
+			 * {
+			 * super.getEntityId("manager1"), "", "SURNAME", "ADDRESS", "627027569", "pepe@gmail.com", "ASD24-test", ConstraintViolationException.class
+			 * },
+			 * 
+			 * //surname Blank
+			 * {
+			 * super.getEntityId("manager1"), "NAME", "", "ADDRESS", "627027569", "pepe@gmail.com", "ASD24-test", ConstraintViolationException.class
+			 * },
+			 */
 			//address blank
 			{
 				super.getEntityId("manager1"), "NAME", "SURNAME", "", "627027569", "pepe@gmail.com", "ASD24-test", null
@@ -166,10 +168,6 @@ public class ManagerServiceTest extends AbstractTest {
 			//VAT error
 			{
 				super.getEntityId("manager1"), "NAME", "SURNAME", "ADDRESS", "627027569", "pepe@gmail.com", "ASD24-test", ConstraintViolationException.class
-			},
-			//Manager NULL
-			{
-				null, "NAME", "SURNAME", "ADDRESS", "627027569", "pepe@gmail.com", "ASD24-test", ConstraintViolationException.class
 			}
 
 		};
@@ -178,7 +176,7 @@ public class ManagerServiceTest extends AbstractTest {
 			templateSave((Integer) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (Class<?>) testingData[i][7]);
 	}
 	protected void templateSave(Integer managerId, String name, String surnames, String address, String phone, String email, String vat, final Class<?> expected) {
-
+		System.out.println("HOLA");
 		Class<?> caught = null;
 
 		try {

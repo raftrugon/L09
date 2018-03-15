@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 import repositories.RequestRepository;
 import domain.Rendezvous;
 import domain.Request;
+import domain.User;
 
 @Service
 @Transactional
@@ -27,13 +28,15 @@ public class RequestService {
 	@Autowired
 	private UserService			userService;
 	@Autowired
-	private RendezvousService				rendezvousService;
+	private RendezvousService	rendezvousService;
 
 
 	// Simple CRUD methods ----------------------------------------------------
 
 	public Request create() {
-		Assert.notNull(userService.findByPrincipal());
+		User u = userService.findByPrincipal();
+		Assert.notNull(u);
+
 		Request res = new Request();
 		return res;
 	}
@@ -49,7 +52,6 @@ public class RequestService {
 		return requestRepository.findAll();
 	}
 
-
 	public Request save(final Request request) {
 		Assert.notNull(request);
 		Rendezvous rendezvous = request.getRendezvous();
@@ -60,7 +62,8 @@ public class RequestService {
 		return requestRepository.save(request);
 	}
 
-
 	//Other Business Methods --------------------------------
-
+	public void flush() {
+		requestRepository.flush();
+	}
 }
