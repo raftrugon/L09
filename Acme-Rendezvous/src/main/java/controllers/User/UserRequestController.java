@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,6 +16,10 @@ import services.RendezvousService;
 import services.RequestService;
 import services.UserService;
 import services.ZerviceService;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import domain.Rendezvous;
 import domain.Request;
 import domain.Zervice;
@@ -37,20 +42,39 @@ public class UserRequestController {
 	}
 
 	@RequestMapping(value="/rendezvouses", method = RequestMethod.GET)
-	public List<Rendezvous> rendezvouses(@RequestParam(required = true) final Integer zerviceId){
+	public @ResponseBody String rendezvouses(@RequestParam(required = true) final Integer zerviceId){
+		JsonArray json = new JsonArray();
 		try{
-			return new ArrayList<Rendezvous>(requestService.selectRequestableRendezvousesForService(zerviceService.findOne(zerviceId)));
+			List<Rendezvous> list =  new ArrayList<Rendezvous>(requestService.selectRequestableRendezvousesForService(zerviceService.findOne(zerviceId)));
+			for(Rendezvous r: list){
+				JsonObject obj = new JsonObject();
+				obj.addProperty("id", r.getId());
+				obj.addProperty("name",r.getName());
+				json.add(obj);
+			}
+			return json.toString();
 		}catch(Throwable oops){
-			return new ArrayList<Rendezvous>();
+			oops.printStackTrace();
+			return "";
 		}
+
 	}
 
 	@RequestMapping(value="/zervices", method = RequestMethod.GET)
-	public List<Zervice> zervices(@RequestParam(required = true) final Integer rendezvousId){
+	public @ResponseBody String zervices(@RequestParam(required = true) final Integer rendezvousId){
+		JsonArray json = new JsonArray();
 		try{
-			return new ArrayList<Zervice>(requestService.selectRequestableServicesForRendezvous(rendezvousService.findOne(rendezvousId)));
+			List<Zervice> list =  new ArrayList<Zervice>(requestService.selectRequestableServicesForRendezvous(rendezvousService.findOne(rendezvousId)));
+			for(Zervice z: list){
+				JsonObject obj = new JsonObject();
+				obj.addProperty("id", z.getId());
+				obj.addProperty("name",z.getName());
+				json.add(obj);
+			}
+			return json.toString();
 		}catch(Throwable oops){
-			return new ArrayList<Zervice>();
+			oops.printStackTrace();
+			return "";
 		}
 	}
 

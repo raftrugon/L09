@@ -90,6 +90,6 @@ public class RequestService {
 	}
 
 	public Collection<Zervice> selectRequestableServicesForRendezvous(Rendezvous rendezvous){
-		return requestRepository.selectRequestableServicesForRendezvous(rendezvous, userService.findByPrincipal());
+		return requestRepository.selectRequestableServicesForRendezvous(rendezvous);
 	}
 }

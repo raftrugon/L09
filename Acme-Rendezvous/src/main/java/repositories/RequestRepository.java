@@ -21,5 +21,5 @@ public interface RequestRepository extends JpaRepository<Request,Integer>{
 	Collection<Rendezvous> selectRequestableRendezvousesForService(Zervice z,User principal);
 
 	@Query("select z from Zervice z where z not in(select req.zervice from Request req where req.rendezvous = ?1) and z.inappropriate is false")
-	Collection<Zervice> selectRequestableServicesForRendezvous(Rendezvous r,User principal);
+	Collection<Zervice> selectRequestableServicesForRendezvous(Rendezvous r);
 }

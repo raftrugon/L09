@@ -29,7 +29,7 @@
 		<spring:message code="request.rendezvous" />:
 	</form:label>
 	<select class="selectpicker form-control" id="rendezvousSelect" name="rendezvous" data-live-search="true">
-		<option selected="selected" disabled="disabled">--- <spring:message code="request.selectARendezvous"/> ---</option>
+		<option selected="selected" class="default" disabled="disabled">--- <spring:message code="request.selectARendezvous"/> ---</option>
 		<jstl:forEach items="${rendezvouses}" var="rendezvous">
 			<jstl:choose>
 				<jstl:when test="${selectedRendezvous ne null and selectedRendezvous eq rendezvous }">
@@ -53,7 +53,7 @@
 		<spring:message code="request.zervice" />:
 	</form:label>
 	<select class="selectpicker form-control" id="zerviceSelect" name="zervice" data-live-search="true">
-		<option selected="selected" disabled="disabled">--- <spring:message code="request.selectAZervice"/> ---</option>
+		<option selected="selected" class="default" disabled="disabled">--- <spring:message code="request.selectAZervice"/> ---</option>
 		<jstl:forEach items="${zervices}" var="zervice">
 			<jstl:choose>
 				<jstl:when test="${selectedZervice ne null and selectedZervice eq zervice }">
@@ -203,6 +203,24 @@
 </div>
 <script defer>
 $(document).ready(function(){
+	$('#rendezvousSelect').change(function(){
+		$.get('user/request/zervices.do',{rendezvousId:$(this).val()},function(data){
+			$('#zerviceSelect').find('option:not(.default)').remove();
+			$.each(JSON.parse(data),function(i,zervice){
+				$('#zerviceSelect').append('<option value="'+zervice['id']+'">'+zervice['name']+'</option>');
+			});
+			$('#zerviceSelect').selectpicker('refresh');
+		});
+	});
+	$('#zerviceSelect').change(function(){
+		$.get('user/request/rendezvouses.do',{zerviceId:$(this).val()},function(data){
+			$('#rendezvousSelect').find('option:not(.default)').remove();
+			$.each(JSON.parse(data),function(i,rendezvous){
+				$('#rendezvousSelect').append('<option value="'+rendezvous['id']+'">'+rendezvous['name']+'</option>');
+			});
+			$('#rendezvousSelect').selectpicker('refresh');
+		});
+	});
 	$('.creditCardContainer').card({
 	    // a selector or DOM element for the container
 	    // where you want the card to appear
