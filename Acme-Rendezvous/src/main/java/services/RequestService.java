@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.RequestRepository;
 import domain.Rendezvous;
 import domain.Request;
 import domain.User;
+import domain.Zervice;
 
 @Service
 @Transactional
@@ -29,6 +32,8 @@ public class RequestService {
 	private UserService			userService;
 	@Autowired
 	private RendezvousService	rendezvousService;
+	@Autowired
+	private Validator validator;
 
 
 	// Simple CRUD methods ----------------------------------------------------
@@ -36,8 +41,10 @@ public class RequestService {
 	public Request create() {
 		User u = userService.findByPrincipal();
 		Assert.notNull(u);
-
 		Request res = new Request();
+		Request last = findLastForUser();
+		if(last != null)
+			res.setCreditCard(last.getCreditCard());
 		return res;
 	}
 
@@ -65,5 +72,24 @@ public class RequestService {
 	//Other Business Methods --------------------------------
 	public void flush() {
 		requestRepository.flush();
+	}
+
+	public Request findLastForUser(){
+		return requestRepository.findLastForUser(userService.findByPrincipal().getId());
+	}
+
+	public Request reconstruct(Request request, BindingResult binding) {
+		if(request.getCreditCard().getBrandName().trim().isEmpty() && request.getCreditCard().getHolderName().trim().isEmpty() && request.getCreditCard().getNumber().trim().isEmpty())
+			request.setCreditCard(findLastForUser().getCreditCard());
+		validator.validate(request,binding);
+		return request;
+	}
+
+	public Collection<Rendezvous> selectRequestableRendezvousesForService(Zervice zervice){
+		return requestRepository.selectRequestableRendezvousesForService(zervice,userService.findByPrincipal());
+	}
+
+	public Collection<Zervice> selectRequestableServicesForRendezvous(Rendezvous rendezvous){
+		return requestRepository.selectRequestableServicesForRendezvous(rendezvous, userService.findByPrincipal());
 	}
 }
