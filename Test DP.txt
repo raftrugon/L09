@@ -1,0 +1,116 @@
+AdminService:
+
+findOne --
+FindByUserAccount -- 
+findByPrincipal --
+
+AnnouncementService:
+
+create --
+findOne --
+save -- con el create y modify
+deleteByAdmin --
+reconstructNew ??
+findAllOrdered --
+RSVPAnnoncementsForUser --
+MyAnnouncements --
+RendezvousAnnouncementSorted --
+findAllOrderedNotInappropriate --
+RSVPAnnouncementsForUserNotInappropriate --
+MyAnnouncementsNotInappropriate --
+RendezvousAnnouncementsSortedNotInappropriate--
+
+CategoryService:
+
+create --
+findAll --
+findOne --
+save -- 
+delete --
+editName -- 
+nameClashes xx
+nameClashesAux xx
+categoriesJson xx
+selectedTree xx
+AvgRatioOfZerviceInEachCategory xx
+reconstruct ??
+
+CommentService:
+
+create --
+createReply --
+findOne --
+save -- con el create
+deleteByAdmin --
+CommentRepliesStats --
+RendezvousCommentsSorted --
+
+ManagerService:
+
+create --
+findOne --
+findAll --
+save --
+delete --
+findByUserAccount --
+findByPrincipal --
+reconstruct ??
+managersWhoProvideMoreServicesThanAvg xx
+managersWithMoreCancelledZervices xx
+
+RendezvousService:
+
+Lo esta haciendo Cesar
+
+RequestService:
+
+create --
+findOne --
+findAll --
+save - faltan negativos
+findLastForUser xx
+reconstruct ??
+selectRequestableRendezvousesForService xx
+selectRequestableServicesForRendezvous xx
+
+RsvpService:
+
+create --
+findOne --
+save -- con el create
+delete --
+getPendingQuestions --
+rsvpForRendezvousCreator --
+
+SystemConfigService:
+
+get(FindAll) --
+save --
+
+UserService:
+
+create --
+findOne --
+findAll --
+save xx
+findByUserAccount --
+findByPrincipal --
+isRsvpd --
+isAdult --
+reconstruct ??
+getRequestableRendezvouses --
+
+ZerviceService
+
+create --
+findOne --
+findall --
+save --
+deleteByAdmin --
+deleteByManager --
+reconstructNew ??
+findallNotInappropriate --
+getBestSellingZervices --
+getZervicesAvgStdPerRendezvous --
+getZervvicesMinMaxPerRendezvous --
+getTopSellingZervices --
