@@ -36,29 +36,29 @@ public class RequestServiceTest extends AbstractTest {
 		Object testingData[][] = {
 			//Positive test
 			{
-				"user1", null
+				"request1", null, "Creación correcta"
 			},
 			//Create with user
 			{
-				"manager1", IllegalArgumentException.class
+				"manager1", IllegalArgumentException.class, "Se intenta crear un manager"
 			},
 			//Create with no login
 			{
-				null, IllegalArgumentException.class
+				null, IllegalArgumentException.class, "Se intenta crear con un usuario no logeado"
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			templateCreate((String) testingData[i][0], (Class<?>) testingData[i][1]);
+			templateCreate((String) testingData[i][0], (Class<?>) testingData[i][1], (String) testingData[i][2]);
 	}
 
-	protected void templateCreate(String userId, Class<?> expected) {
+	protected void templateCreate(String userId, Class<?> expected, String explanation) {
 
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(userId);
-			userService.create();
+			requestService.create();
 			this.unauthenticate();
 
 		} catch (Throwable oops) {
@@ -66,6 +66,14 @@ public class RequestServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
+		if(expected == null)
+			System.out.println("---------------------------- POSITIVO ---------------------------");
+		else
+			System.out.println("---------------------------- NEGATIVO ---------------------------");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("UserId: " + userId);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
 
 	}
 
@@ -75,35 +83,44 @@ public class RequestServiceTest extends AbstractTest {
 		Object testingData[][] = {
 			//Positive test
 			{
-				getEntityId("user1"), null
+				getEntityId("request1"), null, "Búsqueda del FindOne correcta"
 			},
 
 			//Find one no exist service
 			{
-				0, IllegalArgumentException.class
+				0, IllegalArgumentException.class, "Se intenta buscar con una Id inexistente"
 			},
 			//Find one other entity
 			{
-				getEntityId("comment1"), IllegalArgumentException.class
+				getEntityId("comment1"), IllegalArgumentException.class, "Se intenta buscar otra entidad diferente a la de request"
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			templateFindOne((int) testingData[i][0], (Class<?>) testingData[i][1]);
+			templateFindOne((int) testingData[i][0], (Class<?>) testingData[i][1], (String) testingData[i][2]);
 	}
 
-	protected void templateFindOne(int userId, Class<?> expected) {
+	protected void templateFindOne(int userId, Class<?> expected, String explanation) {
 
 		Class<?> caught = null;
 
 		try {
-			userService.findOne(userId);
+			requestService.findOne(userId);
 
 		} catch (Throwable oops) {
 			caught = oops.getClass();
 		}
 
 		checkExceptions(expected, caught);
+		
+		if(expected == null)
+			System.out.println("---------------------------- POSITIVO ---------------------------");
+		else
+			System.out.println("---------------------------- NEGATIVO ---------------------------");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("UserId: " + userId);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
 
 	}
 
@@ -113,26 +130,34 @@ public class RequestServiceTest extends AbstractTest {
 		Object testingData[][] = {
 			//Positive test
 			{
-				null
+				null, "Búsqueda correcta del FindAll"
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			templateAll((Class<?>) testingData[i][0]);
+			templateAll((Class<?>) testingData[i][0], (String) testingData[i][1]);
 	}
 
-	protected void templateAll(Class<?> expected) {
+	protected void templateAll(Class<?> expected, String explanation) {
 
 		Class<?> caught = null;
 
 		try {
-			userService.findAll();
+			requestService.findAll();
 
 		} catch (Throwable oops) {
 			caught = oops.getClass();
 		}
 
 		checkExceptions(expected, caught);
+		
+		if(expected == null)
+			System.out.println("---------------------------- POSITIVO ---------------------------");
+		else
+			System.out.println("---------------------------- NEGATIVO ---------------------------");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
 
 	}
 
@@ -142,16 +167,16 @@ public class RequestServiceTest extends AbstractTest {
 		Object testingData[][] = {
 			//Positive test
 			{
-				super.getEntityId("request1"), "Prueba", "user1", null
+				super.getEntityId("request1"), "Prueba", "user1", null, "Guarda perfectamente"
 			},
 			//Name Blank
 			{
-				super.getEntityId("request1"), "", "user1", null
+				super.getEntityId("request1"), "", "user1", null, "Se intenta guardar con un name en blanco"
 			},
 
 			//description Blank
 			{
-				super.getEntityId("request1"), null, "user1", null
+				super.getEntityId("request1"), null, "user1", null, "Se intenta guardar con el name en null"
 			}
 		/*
 		 * ,
@@ -180,9 +205,9 @@ public class RequestServiceTest extends AbstractTest {
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			templateSave((Integer) testingData[i][0], (String) testingData[i][1], (Integer) super.getEntityId((String) testingData[i][2]), (Class<?>) testingData[i][3]);
+			templateSave((Integer) testingData[i][0], (String) testingData[i][1], (Integer) super.getEntityId((String) testingData[i][2]), (Class<?>) testingData[i][3], (String) testingData[i][4]);
 	}
-	protected void templateSave(Integer requestId, String comment, Integer rolId, final Class<?> expected) {
+	protected void templateSave(Integer requestId, String comment, Integer rolId, final Class<?> expected, String explanation) {
 
 		Class<?> caught = null;
 
@@ -200,6 +225,16 @@ public class RequestServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
+		
+		if(expected == null)
+			System.out.println("---------------------------- POSITIVO ---------------------------");
+		else
+			System.out.println("---------------------------- NEGATIVO ---------------------------");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("RequestId: " + requestId);
+		System.out.println("Comentario: " + comment);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
 
 	}
 
