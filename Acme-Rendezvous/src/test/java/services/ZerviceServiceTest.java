@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 
@@ -9,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Manager;
@@ -35,7 +38,7 @@ public class ZerviceServiceTest extends AbstractTest {
 
 	@Test
 	public void driverDeleteByManager() {
-		
+
 		System.out.println("===============================================================================================================");
 		System.out.println("========================================TEST DELETE BY MANAGER====================================================");
 		System.out.println("===============================================================================================================\r");
@@ -79,23 +82,23 @@ public class ZerviceServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		
+
 		// --------------------------------- CONSOLA ---------------------------------
 
-		if(expected == null)
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
-			System.out.println("Explicación: " + explanation);
-			System.out.println("Rol: " + rol);
-			System.out.println("\r¿Correcto? " + (expected == caught));
-			System.out.println("-----------------------------------------------------------------\r");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("Rol: " + rol);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
 
 	}
 
 	@Test
 	public void driverDeleteByAdmin() {
-		
+
 		System.out.println("===============================================================================================================");
 		System.out.println("========================================TEST DELETE BY ADMIN====================================================");
 		System.out.println("===============================================================================================================\r");
@@ -136,8 +139,8 @@ public class ZerviceServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		
-		if(expected == null)
+
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
@@ -150,7 +153,7 @@ public class ZerviceServiceTest extends AbstractTest {
 
 	@Test
 	public void driverCreate() {
-		
+
 		System.out.println("===============================================================================================================");
 		System.out.println("========================================TEST CREATE====================================================");
 		System.out.println("===============================================================================================================\r");
@@ -188,14 +191,14 @@ public class ZerviceServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		
-		if(expected == null)
+
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
-			System.out.println("Explicación: " + explanation);
-			System.out.println("\r¿Correcto? " + (expected == caught));
-			System.out.println("-----------------------------------------------------------------\r");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
 
 	}
 
@@ -237,19 +240,19 @@ public class ZerviceServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		if(expected == null)
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
-			System.out.println("Explicación: " + explanation);
-			System.out.println("\r¿Correcto? " + (expected == caught));
-			System.out.println("-----------------------------------------------------------------\r");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
 
 	}
 
 	@Test
 	public void driverFindAll() {
-		
+
 		System.out.println("===============================================================================================================");
 		System.out.println("========================================TEST FIND ALL====================================================");
 		System.out.println("===============================================================================================================\r");
@@ -257,39 +260,42 @@ public class ZerviceServiceTest extends AbstractTest {
 		Object testingData[][] = {
 			//Positive test
 			{
-				null, "Búsqueda correcta del Find All"
+				null, "Búsqueda correcta del Find All", zerviceService.findAll().size()
+			}, {
+				IllegalArgumentException.class, "distintos rangos", zerviceService.findAll().size() + 1
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			templateAll((Class<?>) testingData[i][0], (String) testingData[i][1]);
+			templateAll((Class<?>) testingData[i][0], (String) testingData[i][1], (int) testingData[i][2]);
 	}
 
-	protected void templateAll(Class<?> expected, String explanation) {
+	protected void templateAll(Class<?> expected, String explanation, int index) {
 
 		Class<?> caught = null;
 
 		try {
-			zerviceService.findAll();
+			Collection<Zervice> z = zerviceService.findAll();
+			Assert.isTrue(z.size() == index);
 
 		} catch (Throwable oops) {
 			caught = oops.getClass();
 		}
 
 		checkExceptions(expected, caught);
-		if(expected == null)
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
-			System.out.println("Explicación: " + explanation);
-			System.out.println("\r¿Correcto? " + (expected == caught));
-			System.out.println("-----------------------------------------------------------------\r");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
 
 	}
 
 	@Test
 	public void driverSave() {
-		
+
 		System.out.println("===============================================================================================================");
 		System.out.println("========================================TEST SAVE====================================================");
 		System.out.println("===============================================================================================================\r");
@@ -327,12 +333,21 @@ public class ZerviceServiceTest extends AbstractTest {
 			//Other rol
 			{
 				super.getEntityId("zervice1"), "Prueba", "Prueba", "http://www.test.com", 2000.0, "manager2", IllegalArgumentException.class, "Intento de guardar un zervice que no es tuyo"
+			},
+			//Other rol
+			{
+				super.getEntityId("zervice1"), "", "", "http://www.test.com", 2000.0, "manager1", ConstraintViolationException.class, "Nombre y descripcion en blanco"
+			},
+			//Other rol
+			{
+				super.getEntityId("zervice1"), "Prueba", "Prueba", "http://www.test.com", -0.0, "manager1", null, "Precio extraño"
 			}
 
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			templateSave((Integer) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Double) testingData[i][4], (Integer) super.getEntityId((String) testingData[i][5]), (Class<?>) testingData[i][6], (String) testingData[i][7]);
+			templateSave((Integer) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Double) testingData[i][4], (Integer) super.getEntityId((String) testingData[i][5]), (Class<?>) testingData[i][6],
+				(String) testingData[i][7]);
 	}
 	protected void templateSave(Integer zerviceId, String name, String description, String url, Double price, Integer rolId, final Class<?> expected, String explanation) {
 
@@ -356,22 +371,22 @@ public class ZerviceServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		if(expected == null)
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
-			System.out.println("Explicación: " + explanation);
-			System.out.println("Zervice: " + zerviceId);
-			System.out.println("Name: " + name);
-			System.out.println("Rol: " + rolId);
-			System.out.println("\r¿Correcto? " + (expected == caught));
-			System.out.println("-----------------------------------------------------------------\r");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("Zervice: " + zerviceId);
+		System.out.println("Name: " + name);
+		System.out.println("Rol: " + rolId);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
 
 	}
 
 	@Test
 	public void driverFindAllNotInappropriate() {
-		
+
 		System.out.println("===============================================================================================================");
 		System.out.println("========================================TEST FIND ALL NOT INAPPROPRIATE====================================================");
 		System.out.println("===============================================================================================================\r");
@@ -379,39 +394,41 @@ public class ZerviceServiceTest extends AbstractTest {
 		Object testingData[][] = {
 			//Positive test
 			{
-				null, "Búsqueda realizada correctamente del Find All not inappropriate"
+				null, "Búsqueda realizada correctamente del Find All not inappropriate", zerviceService.findAllNotInappropriate().size()
+			}, {
+				IllegalArgumentException.class, "test distinto rango", zerviceService.findAllNotInappropriate().size() + 1
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			templateFindAllNotInappropriate((Class<?>) testingData[i][0], (String) testingData[i][1]);
+			templateFindAllNotInappropriate((Class<?>) testingData[i][0], (String) testingData[i][1], (int) testingData[i][2]);
 	}
 
-	protected void templateFindAllNotInappropriate(Class<?> expected, String explanation) {
+	protected void templateFindAllNotInappropriate(Class<?> expected, String explanation, int index) {
 
 		Class<?> caught = null;
 
 		try {
-			zerviceService.findAllNotInappropriate();
-
+			Collection<Zervice> z = zerviceService.findAllNotInappropriate();
+			Assert.isTrue(z.size() == index);
 		} catch (Throwable oops) {
 			caught = oops.getClass();
 		}
 
 		checkExceptions(expected, caught);
-		if(expected == null)
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
-			System.out.println("Explicación: " + explanation);
-			System.out.println("\r¿Correcto? " + (expected == caught));
-			System.out.println("-----------------------------------------------------------------\r");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
 
 	}
 
 	@Test
 	public void driverGetBestSellingZervices() {
-		
+
 		System.out.println("===============================================================================================================");
 		System.out.println("========================================TEST FIND BEST SELLING ZERVICE====================================================");
 		System.out.println("===============================================================================================================\r");
@@ -419,39 +436,42 @@ public class ZerviceServiceTest extends AbstractTest {
 		Object testingData[][] = {
 			//Positive test
 			{
-				null, "Best Selling zervice correctamente"
+				null, "Best Selling zervice correctamente", zerviceService.getBestSellingZervices().size()
+			}, {
+				IllegalArgumentException.class, "Best Selling zervice correctamente", zerviceService.getBestSellingZervices().size() + 1
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			templateGetBestSellingZervices((Class<?>) testingData[i][0], (String) testingData[i][1]);
+			templateGetBestSellingZervices((Class<?>) testingData[i][0], (String) testingData[i][1], (int) testingData[i][2]);
 	}
 
-	protected void templateGetBestSellingZervices(Class<?> expected, String explanation) {
+	protected void templateGetBestSellingZervices(Class<?> expected, String explanation, int index) {
 
 		Class<?> caught = null;
 
 		try {
-			zerviceService.getBestSellingZervices();
+			int z = zerviceService.getBestSellingZervices().size();
+			Assert.isTrue(z == index);
 
 		} catch (Throwable oops) {
 			caught = oops.getClass();
 		}
 
 		checkExceptions(expected, caught);
-		if(expected == null)
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
-			System.out.println("Explicación: " + explanation);
-			System.out.println("\r¿Correcto? " + (expected == caught));
-			System.out.println("-----------------------------------------------------------------\r");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
 
 	}
 
 	@Test
 	public void driverGetZerviceAvgStdPerRendezvous() {
-		
+
 		System.out.println("===============================================================================================================");
 		System.out.println("========================================TEST ZERVICE AVG, STD POR RENDEZVOUS====================================================");
 		System.out.println("===============================================================================================================\r");
@@ -459,39 +479,42 @@ public class ZerviceServiceTest extends AbstractTest {
 		Object testingData[][] = {
 			//Positive test
 			{
-				null, "Avg, Std por Rendezvous correctamente"
+				null, "Avg, Std por Rendezvous correctamente", zerviceService.getZerviceAvgStdPerRendezvous().length
+			}, {
+				IllegalArgumentException.class, "Avg, Std por Rendezvous correctamente", zerviceService.getZerviceAvgStdPerRendezvous().length + 1
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			templateGetZerviceAvgStdPerRendezvous((Class<?>) testingData[i][0], (String) testingData[i][1]);
+			templateGetZerviceAvgStdPerRendezvous((Class<?>) testingData[i][0], (String) testingData[i][1], (int) testingData[i][2]);
 	}
 
-	protected void templateGetZerviceAvgStdPerRendezvous(Class<?> expected, String explanation) {
+	protected void templateGetZerviceAvgStdPerRendezvous(Class<?> expected, String explanation, int index) {
 
 		Class<?> caught = null;
 
 		try {
-			zerviceService.getZerviceAvgStdPerRendezvous();
+			int z = zerviceService.getZerviceAvgStdPerRendezvous().length;
+			Assert.isTrue(z == index);
 
 		} catch (Throwable oops) {
 			caught = oops.getClass();
 		}
 
 		checkExceptions(expected, caught);
-		if(expected == null)
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
-			System.out.println("Explicación: " + explanation);
-			System.out.println("\r¿Correcto? " + (expected == caught));
-			System.out.println("-----------------------------------------------------------------\r");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
 
 	}
 
 	@Test
 	public void driverGetZerviceMinMaxPerRendezvous() {
-		
+
 		System.out.println("===============================================================================================================");
 		System.out.println("========================================TEST MIN, MAX RENDEZVOUS====================================================");
 		System.out.println("===============================================================================================================\r");
@@ -519,20 +542,20 @@ public class ZerviceServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		
-		if(expected == null)
+
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
-			System.out.println("Explicación: " + explanation);
-			System.out.println("\r¿Correcto? " + (expected == caught));
-			System.out.println("-----------------------------------------------------------------\r");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
 
 	}
 
 	@Test
 	public void driverGetTopSellingZervices() {
-		
+
 		System.out.println("===============================================================================================================");
 		System.out.println("========================================TEST TOP SELLING ZERVICE====================================================");
 		System.out.println("===============================================================================================================\r");
@@ -560,14 +583,14 @@ public class ZerviceServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		
-		if(expected == null)
+
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
-			System.out.println("Explicación: " + explanation);
-			System.out.println("\r¿Correcto? " + (expected == caught));
-			System.out.println("-----------------------------------------------------------------\r");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
 
 	}
 
