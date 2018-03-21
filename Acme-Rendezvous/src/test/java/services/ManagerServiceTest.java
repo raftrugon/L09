@@ -1,6 +1,9 @@
 
 package services;
 
+import java.util.Collection;
+import java.util.Map;
+
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 
@@ -14,6 +17,7 @@ import org.springframework.util.Assert;
 import security.UserAccount;
 import security.UserAccountService;
 import utilities.AbstractTest;
+import domain.Announcement;
 import domain.Manager;
 
 @ContextConfiguration(locations = {
@@ -366,6 +370,54 @@ public class ManagerServiceTest extends AbstractTest {
 		System.out.println("Username: " + username);
 		System.out.println("\r¿Correcto? " + (expected == caught));
 		System.out.println("-----------------------------------------------------------------\r");
+
+	}
+	
+	@Test
+	public void testgetManagersWhoProvideMoreServicesThanAvg(){
+
+		System.out.println("===============================================================================================================");
+		System.out.println("==================================TEST getManagersWhoProvideMoreServicesThanAvg=============================================");
+		System.out.println("===============================================================================================================\r");
+
+
+
+
+		System.out.println("-------------------------- POSITIVO -----------------------------");
+		System.out.println("-----------------------------------------------------------------\r");
+
+
+		super.authenticate(null);
+
+		@SuppressWarnings("unused")
+		Collection<Manager> var = this.managerService.getManagersWhoProvideMoreServicesThanAvg();
+
+		super.unauthenticate();
+		System.out.println("----------------------------PASSED-------------------------------\r");
+
+	}
+	
+	@Test
+	public void testgetManagersWithMoreCancelledZervices(){
+
+		System.out.println("===============================================================================================================");
+		System.out.println("==================================TEST getManagersWithMoreCancelledZervices=============================================");
+		System.out.println("===============================================================================================================\r");
+
+
+
+
+		System.out.println("-------------------------- POSITIVO -----------------------------");
+		System.out.println("-----------------------------------------------------------------\r");
+
+		int limit = (int) Math.random();
+		super.authenticate(null);
+
+		@SuppressWarnings("unused")
+		Map<Manager, Integer> var = this.managerService.getManagersWithMoreCancelledZervices(limit);
+
+		super.unauthenticate();
+		System.out.println("----------------------------PASSED-------------------------------\r");
 
 	}
 

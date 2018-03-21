@@ -13,7 +13,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import utilities.AbstractTest;
+import domain.Announcement;
 import domain.Category;
+import domain.Manager;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -439,4 +441,81 @@ public class CategoryServiceTest extends AbstractTest {
 		
 	}
 
+	
+	
+	@Test
+	public void testnameClashes(){
+
+		System.out.println("===============================================================================================================");
+		System.out.println("==================================TEST nameClashes=============================================");
+		System.out.println("===============================================================================================================\r");
+
+
+
+
+		System.out.println("-------------------------- POSITIVO -----------------------------");
+		System.out.println("Explicación: Llamada al método de la query con category1.");
+		System.out.println("-----------------------------------------------------------------\r");
+
+		Category category = categoryService.findOne(super.getEntityId("category1"));
+
+		super.authenticate(null);
+
+		@SuppressWarnings("unused")
+		Boolean var = this.categoryService.nameClashes(category);
+
+		super.unauthenticate();
+		System.out.println("----------------------------PASSED-------------------------------\r");
+
+	}
+	
+	@Test
+	public void testgetSelectedTree(){
+
+		System.out.println("===============================================================================================================");
+		System.out.println("==================================TEST getSelectedTree=============================================");
+		System.out.println("===============================================================================================================\r");
+
+
+
+
+		System.out.println("-------------------------- POSITIVO -----------------------------");
+		System.out.println("Explicación: Llamada al método de la query con el conjunto de categorias.");
+		System.out.println("-----------------------------------------------------------------\r");
+
+		Collection<Category> category = categoryService.findAll();
+
+		super.authenticate(null);
+
+		@SuppressWarnings("unused")
+		Collection<Category> res = this.categoryService.getSelectedTree(category);
+
+		super.unauthenticate();
+		System.out.println("----------------------------PASSED-------------------------------\r");
+
+	}
+	
+	@Test
+	public void testGetAvgRatioOfZervicesInEachCategory(){
+
+		System.out.println("===============================================================================================================");
+		System.out.println("==================================TEST getAvgRatioOfZervicesInEachCategory=============================================");
+		System.out.println("===============================================================================================================\r");
+
+
+
+
+		System.out.println("-------------------------- POSITIVO -----------------------------");
+		System.out.println("-----------------------------------------------------------------\r");
+
+
+		super.authenticate(null);
+
+		@SuppressWarnings("unused")
+		Double var = this.categoryService.getAvgRatioOfZervicesInEachCategory();
+
+		super.unauthenticate();
+		System.out.println("----------------------------PASSED-------------------------------\r");
+
+	}
 }
