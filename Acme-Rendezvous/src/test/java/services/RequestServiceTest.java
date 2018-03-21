@@ -36,7 +36,7 @@ public class RequestServiceTest extends AbstractTest {
 		Object testingData[][] = {
 			//Positive test
 			{
-				"request1", null, "Creación correcta"
+				"user1", null, "Creación correcta"
 			},
 			//Create with user
 			{
@@ -66,7 +66,7 @@ public class RequestServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		if(expected == null)
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
@@ -112,8 +112,8 @@ public class RequestServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		
-		if(expected == null)
+
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
@@ -150,8 +150,8 @@ public class RequestServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		
-		if(expected == null)
+
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
@@ -225,8 +225,8 @@ public class RequestServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		
-		if(expected == null)
+
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");

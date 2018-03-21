@@ -17,7 +17,6 @@ import org.springframework.util.Assert;
 import security.UserAccount;
 import security.UserAccountService;
 import utilities.AbstractTest;
-import domain.Announcement;
 import domain.Manager;
 
 @ContextConfiguration(locations = {
@@ -102,8 +101,8 @@ public class ManagerServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		
-		if(expected == null)
+
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
@@ -140,8 +139,8 @@ public class ManagerServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		
-		if(expected == null)
+
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
@@ -155,28 +154,10 @@ public class ManagerServiceTest extends AbstractTest {
 	public void driverSave() {
 
 		Object testingData[][] = {
-			/*
-			 * //Positive test
-			 * {
-			 * super.getEntityId("manager1"), "NAME", "SURNAME", "ADDRESS", "627027569", "pepe@gmail.com", "ASD24-test", null
-			 * },
-			 * //Name Blank
-			 * {
-			 * super.getEntityId("manager1"), "", "SURNAME", "ADDRESS", "627027569", "pepe@gmail.com", "ASD24-test", ConstraintViolationException.class
-			 * },
-			 * 
-			 * //surname Blank
-			 * {
-			 * super.getEntityId("manager1"), "NAME", "", "ADDRESS", "627027569", "pepe@gmail.com", "ASD24-test", ConstraintViolationException.class
-			 * },
-			 */
-			//address blank
+
+			//Positive test
 			{
-				super.getEntityId("manager1"), "NAME", "SURNAME", "", "627027569", "pepe@gmail.com", "ASD24-test", null, "Se guarda perfectamente con la dirección en blanco"
-			},
-			//phone blank
-			{
-				super.getEntityId("manager1"), "NAME", "SURNAME", "ADDRESS", "", "pepe@gmail.com", "ASD24-test", null, "Se guarda perfectamente con el telefono en blanco"
+				super.getEntityId("manager1"), "NAME", "SURNAME", "ADDRESS", "627027569", "pepe@gmail.com", "ASD24-test", null, "test positivo"
 			},
 			//email null
 			{
@@ -184,20 +165,21 @@ public class ManagerServiceTest extends AbstractTest {
 			},
 			//no email
 			{
-				super.getEntityId("manager1"), "NAME", "SURNAME", "ADDRESS", "627027569", "pepegmail.com", "ASD24-test", ConstraintViolationException.class, "Se intenta guardar sin email, rellenando la opción pero sin el arroba"
+				super.getEntityId("manager2"), "NAME", "SURNAME", "ADDRESS", "627027569", "pepegmail.com", "ASD24-test", ConstraintViolationException.class, "Se intenta guardar sin email, rellenando la opción pero sin el arroba"
 			},
 			//VAT error
 			{
-				super.getEntityId("manager1"), "NAME", "SURNAME", "ADDRESS", "627027569", "pepe@gmail.com", "ASD-test", ConstraintViolationException.class, "Se intenta guardar con un VAT erroneo"
+				super.getEntityId("manager3"), "NAME", "SURNAME", "ADDRESS", "627027569", "pepe@gmail.com", "ASD6548645-test", ConstraintViolationException.class, "Se intenta guardar con un VAT erroneo"
 			}
 
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			templateSave((Integer) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (Class<?>) testingData[i][7], (String) testingData[i][8]);
+			templateSave((Integer) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (Class<?>) testingData[i][7],
+				(String) testingData[i][8]);
 	}
 	protected void templateSave(Integer managerId, String name, String surnames, String address, String phone, String email, String vat, final Class<?> expected, String explanation) {
-		System.out.println("HOLA");
+
 		Class<?> caught = null;
 
 		try {
@@ -210,15 +192,14 @@ public class ManagerServiceTest extends AbstractTest {
 			m.setEmail(email);
 			m.setVat(vat);
 			this.managerService.save(m);
-
 			this.managerService.flush();
 		} catch (Throwable oops) {
 			caught = oops.getClass();
 		}
 
 		checkExceptions(expected, caught);
-		
-		if(expected == null)
+
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
@@ -244,7 +225,7 @@ public class ManagerServiceTest extends AbstractTest {
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			templateDeleteManager((Integer) testingData[i][0], (Class<?>) testingData[i][1],(String) testingData[i][2]);
+			templateDeleteManager((Integer) testingData[i][0], (Class<?>) testingData[i][1], (String) testingData[i][2]);
 	}
 
 	protected void templateDeleteManager(Integer managerId, Class<?> expected, String explanation) {
@@ -261,8 +242,8 @@ public class ManagerServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		
-		if(expected == null)
+
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
@@ -311,8 +292,8 @@ public class ManagerServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		
-		if(expected == null)
+
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
@@ -361,8 +342,8 @@ public class ManagerServiceTest extends AbstractTest {
 		}
 
 		checkExceptions(expected, caught);
-		
-		if(expected == null)
+
+		if (expected == null)
 			System.out.println("---------------------------- POSITIVO ---------------------------");
 		else
 			System.out.println("---------------------------- NEGATIVO ---------------------------");
@@ -372,20 +353,16 @@ public class ManagerServiceTest extends AbstractTest {
 		System.out.println("-----------------------------------------------------------------\r");
 
 	}
-	
+
 	@Test
-	public void testgetManagersWhoProvideMoreServicesThanAvg(){
+	public void testgetManagersWhoProvideMoreServicesThanAvg() {
 
 		System.out.println("===============================================================================================================");
 		System.out.println("==================================TEST getManagersWhoProvideMoreServicesThanAvg=============================================");
 		System.out.println("===============================================================================================================\r");
 
-
-
-
 		System.out.println("-------------------------- POSITIVO -----------------------------");
 		System.out.println("-----------------------------------------------------------------\r");
-
 
 		super.authenticate(null);
 
@@ -396,16 +373,13 @@ public class ManagerServiceTest extends AbstractTest {
 		System.out.println("----------------------------PASSED-------------------------------\r");
 
 	}
-	
+
 	@Test
-	public void testgetManagersWithMoreCancelledZervices(){
+	public void testgetManagersWithMoreCancelledZervices() {
 
 		System.out.println("===============================================================================================================");
 		System.out.println("==================================TEST getManagersWithMoreCancelledZervices=============================================");
 		System.out.println("===============================================================================================================\r");
-
-
-
 
 		System.out.println("-------------------------- POSITIVO -----------------------------");
 		System.out.println("-----------------------------------------------------------------\r");
