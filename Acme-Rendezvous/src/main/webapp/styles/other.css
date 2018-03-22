@@ -96,7 +96,8 @@
 	display:none;
 	position:fixed;
 	right:20px;
-	z-index:1100;
+	top:55px;
+	z-index:11000;
 }
 
 #notificationAlert{
