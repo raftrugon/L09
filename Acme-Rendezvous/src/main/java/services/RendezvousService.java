@@ -19,6 +19,7 @@ import domain.Announcement;
 import domain.Category;
 import domain.Comment;
 import domain.Rendezvous;
+import domain.Request;
 import domain.Rsvp;
 import domain.User;
 import domain.Zervice;
@@ -62,6 +63,7 @@ public class RendezvousService {
 		res.setComments(new ArrayList<Comment>());
 		res.setRsvps(new ArrayList<Rsvp>());
 		res.setinappropriate(false);
+		res.setRequests(new ArrayList<Request>());
 		return res;
 	}
 
@@ -84,14 +86,12 @@ public class RendezvousService {
 		Assert.notNull(rendezvous);
 		Assert.isTrue(rendezvous.getUser().equals(userService.findByPrincipal()));
 		Assert.isTrue(rendezvous.getOrganisationMoment().after(new Date()));
-
 		//Checkeos contra base de datos
 		if (rendezvous.getId() != 0) {
 			Rendezvous bd = findOne(rendezvous.getId());
 			Assert.isTrue(!bd.getFinalMode() && !bd.getDeleted());
 			Assert.isTrue(bd.getUser().equals(userService.findByPrincipal()));
 		}
-
 		Rendezvous saved = rendezvousRepository.save(rendezvous);
 
 		//Añadir rendezvous al user si es nuevo
@@ -101,6 +101,10 @@ public class RendezvousService {
 			rsvpService.rsvpForRendezvousCreator(saved);
 		}
 		return saved;
+	}
+	
+	public void flush(){
+		rendezvousRepository.flush();
 	}
 
 	public Rendezvous deleteByAdmin(final Rendezvous rendezvous) {
