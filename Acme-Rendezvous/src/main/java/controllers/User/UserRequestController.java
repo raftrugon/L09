@@ -21,6 +21,7 @@ import services.ZerviceService;
 import com.braintreegateway.BraintreeGateway;
 import com.braintreegateway.PaymentMethod;
 import com.braintreegateway.PaymentMethodRequest;
+import com.braintreegateway.Result;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -124,11 +125,12 @@ public class UserRequestController {
 				.number(cc.getNumber())
 				.cvv(cc.getCvvCode().toString())
 				.expirationMonth(cc.getExpirationMonth().toString())
-				.expirationYear(cc.getExpirationYear().toString())
-				.paymentMethodNonce(nonce);
-				Result<PaymentMethod> result = gateway.paymentMethod().create(paymentMethod);
-				return "1";
+				.expirationYear(cc.getExpirationYear().toString());
+				Result<? extends PaymentMethod> paymentResult = gateway.paymentMethod().create(paymentMethod);
+				if(paymentResult.isSuccess())return "1";
+				else return "2";
 			}catch (Throwable oops){
+				oops.printStackTrace();
 				return "2";
 			}
 	}
