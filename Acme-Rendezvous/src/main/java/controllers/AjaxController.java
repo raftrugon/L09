@@ -46,9 +46,9 @@ public class AjaxController {
 	@RequestMapping(value = "/qa", method = RequestMethod.GET)
 	public ModelAndView qa(@RequestParam(required=true)final int rsvpId) {
 		ModelAndView result = new ModelAndView("rsvp/qa");
-		Rsvp rsvp = rsvpService.findOne(rsvpId);
+		Rsvp rsvp = this.rsvpService.findOne(rsvpId);
 		result.addObject("qa",rsvp.getQuestionsAndAnswers());
-		result.addObject("pendingQuestions", rsvpService.getPendingQuestions(rsvp));
+		result.addObject("pendingQuestions", this.rsvpService.getPendingQuestions(rsvp));
 		result.addObject("rsvp", rsvp);
 		return result;
 	}
@@ -57,7 +57,7 @@ public class AjaxController {
 	public ModelAndView userCard(@RequestParam(required=true) final int userId){
 		ModelAndView result;
 		try{
-			User u = userService.findOne(userId);
+			User u = this.userService.findOne(userId);
 			result = new ModelAndView("user/card");
 			result.addObject("user",u);
 		}catch(Throwable oops){
@@ -70,18 +70,18 @@ public class AjaxController {
 	public ModelAndView loadAnnouncements(@RequestParam(required=true) final int type){
 		ModelAndView result = new ModelAndView("announcement/subList");
 		if(type==0)
-			result.addObject("announcements",announcementService.findAllOrderedNotInappropriate());
+			result.addObject("announcements",this.announcementService.findAllOrderedNotInappropriate());
 		else
 			try{
-				User u = userService.findByPrincipal();
+				User u = this.userService.findByPrincipal();
 				if(type==1)
-					result.addObject("announcements",announcementService.getMyAnnouncementsNotInappropriate(u));
+					result.addObject("announcements",this.announcementService.getMyAnnouncementsNotInappropriate(u));
 				else if(type==2)
-					result.addObject("announcements",announcementService.getRSVPAnnouncementsForUserNotInappropriate(u));
+					result.addObject("announcements",this.announcementService.getRSVPAnnouncementsForUserNotInappropriate(u));
 				else
-					result.addObject("announcements",announcementService.findAllOrderedNotInappropriate());
+					result.addObject("announcements",this.announcementService.findAllOrderedNotInappropriate());
 			}catch(Throwable oops){
-				result.addObject("announcements",announcementService.findAllOrderedNotInappropriate());
+				result.addObject("announcements",this.announcementService.findAllOrderedNotInappropriate());
 			}
 		return result;
 	}
@@ -91,14 +91,14 @@ public class AjaxController {
 		ModelAndView result = new ModelAndView("comment/display");
 		Boolean rsvpd = false;
 		try{
-			rsvpd = userService.isRsvpd(rendezvousId);
-			if(rsvpd) result.addObject("newComment",commentService.createComment(rendezvousId));
+			rsvpd = this.userService.isRsvpd(rendezvousId);
+			if(rsvpd) result.addObject("newComment",this.commentService.createComment(rendezvousId));
 		}catch(Throwable oops){}
 		try{
-			Rendezvous rendezvous = rendezvousService.findOne(rendezvousId);
+			Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
 			result.addObject("rendezvous",rendezvous);
 			result.addObject("rsvpd",rsvpd);
-			result.addObject("comments",commentService.getRendezvousCommentsSorted(rendezvousId));
+			result.addObject("comments",this.commentService.getRendezvousCommentsSorted(rendezvousId));
 		}catch(Throwable oops){
 			result = new ModelAndView("ajaxException");
 		}
@@ -109,7 +109,7 @@ public class AjaxController {
 	public ModelAndView showAnnouncements(@RequestParam(required=true) final int rendezvousId){
 		ModelAndView result = new ModelAndView("announcement/display");
 		try{
-			result.addObject("announcements",announcementService.getRendezvousAnnouncementsSorted(rendezvousId));
+			result.addObject("announcements",this.announcementService.getRendezvousAnnouncementsSorted(rendezvousId));
 		}catch(Throwable oops){
 			result = new ModelAndView("ajaxException");
 		}
@@ -119,11 +119,9 @@ public class AjaxController {
 	@RequestMapping(value="showZervices", method = RequestMethod.GET)
 	public ModelAndView showZervices(@RequestParam(required=true) final int rendezvousId){
 		ModelAndView result = new ModelAndView("zervice/subList");
-		System.out.println("1");
 		try{
-			System.out.println("2");
-			result.addObject("zervices",rendezvousService.getZervicesForRendezvous(rendezvousId));
-			SchemaPrinter.print(rendezvousService.getZervicesForRendezvous(rendezvousId));
+			result.addObject("zervices",this.rendezvousService.getZervicesForRendezvous(rendezvousId));
+			SchemaPrinter.print(this.rendezvousService.getZervicesForRendezvous(rendezvousId));
 		}catch(Throwable oops){
 			result = new ModelAndView("ajaxException");
 		}
@@ -136,11 +134,11 @@ public class AjaxController {
 		Boolean rsvpd = false;
 		Boolean isAdult = false;
 		try{
-			rsvpd = userService.isRsvpd(rendezvousId);
-			isAdult = userService.isAdult();
+			rsvpd = this.userService.isRsvpd(rendezvousId);
+			isAdult = this.userService.isAdult();
 		}catch(Throwable oops){}
 		try{
-			result.addObject("rendezvous",rendezvousService.findOne(rendezvousId));
+			result.addObject("rendezvous",this.rendezvousService.findOne(rendezvousId));
 			result.addObject("rsvpd",rsvpd);
 			result.addObject("isAdult",isAdult);
 		}catch(Throwable oops){
@@ -153,7 +151,7 @@ public class AjaxController {
 	public ModelAndView showCHips(@RequestParam(required=true) final int rendezvousId){
 		ModelAndView result = new ModelAndView("rsvp/chips");
 		try{
-			result.addObject("rsvps",rendezvousService.findOne(rendezvousId).getRsvps());
+			result.addObject("rsvps",this.rendezvousService.findOne(rendezvousId).getRsvps());
 		}catch(Throwable oops){
 			result = new ModelAndView("ajaxException");
 		}
@@ -162,24 +160,24 @@ public class AjaxController {
 
 	@RequestMapping(value = "category/getSubCategories", method = RequestMethod.GET)
 	public String getSubCategories(@RequestParam(required=false,defaultValue="false") final Boolean admin){
-		return categoryService.getCategoriesJson(null,admin).toString();
+		return this.categoryService.getCategoriesJson(null,admin).toString();
 	}
 
 	@RequestMapping(value = "/rendezvous/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam(required=false)final String type,
-			@CookieValue(value="typeCookie",defaultValue="0") String typeCookie,
-			@RequestParam(value="categories[]",required=false)final Collection<Category> categories,
-			HttpServletResponse response) {
+		@CookieValue(value="typeCookie",defaultValue="0") String typeCookie,
+		@RequestParam(value="categories[]",required=false)final Collection<Category> categories,
+		final HttpServletResponse response) {
 		ModelAndView result = new ModelAndView("rendezvous/subList");
 		Collection<Rendezvous> rendezvouss = null;
 		if(type != null) typeCookie = type;
 		response.addCookie(new Cookie("typeCookie", typeCookie));
 		try{
-			userService.findByPrincipal();
-			rendezvouss = rendezvousService.listRendezvouses(Integer.valueOf(typeCookie), categories);
+			this.userService.findByPrincipal();
+			rendezvouss = this.rendezvousService.listRendezvouses(Integer.valueOf(typeCookie), categories);
 		}catch(Throwable oops){
 			try{
-				rendezvouss = rendezvousService.listRendezvousesAnonymous(categories);
+				rendezvouss = this.rendezvousService.listRendezvousesAnonymous(categories);
 			}catch(Throwable oops2){
 				oops2.printStackTrace();
 				return new ModelAndView("ajaxException");

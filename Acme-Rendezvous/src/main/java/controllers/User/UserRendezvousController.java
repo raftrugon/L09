@@ -61,13 +61,13 @@ public class UserRendezvousController extends AbstractController {
 
 		return result;
 	}
-	
-	
+
+
 	@RequestMapping(value="/cancel", method = RequestMethod.GET)
-	public ModelAndView cancelRendezvous(@RequestParam(required=true)final int rendezvousId, RedirectAttributes redir){
+	public ModelAndView cancelRendezvous(@RequestParam(required=true)final int rendezvousId, final RedirectAttributes redir){
 		ModelAndView result = new ModelAndView("redirect:../../rendezvous/display.do?rendezvousId="+rendezvousId);
 		try{
-			rendezvousService.deleteByUser(rendezvousId);
+			this.rendezvousService.deleteByUser(rendezvousId);
 		}catch(Throwable oops){
 			redir.addFlashAttribute("message","master.page.errors.cancelRendezvousError");
 		}
@@ -79,7 +79,7 @@ public class UserRendezvousController extends AbstractController {
 		ModelAndView result;
 		try {
 			//UserRendezvousCreateForm rendezvous = new UserRendezvousCreateForm();
-			result = this.newEditModelAndView(rendezvousService.create());
+			result = this.newEditModelAndView(this.rendezvousService.create());
 		} catch (Throwable oops) {
 			result = new ModelAndView("redirect:list.do");
 		}
@@ -91,7 +91,7 @@ public class UserRendezvousController extends AbstractController {
 		ModelAndView result;
 		try {
 			Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
-			if(rendezvous.getDeleted() || rendezvous.getinappropriate() || rendezvous.getOrganisationMoment().before(new Date()) || rendezvous.getUser() != userService.findByPrincipal() || rendezvous.getFinalMode())
+			if(rendezvous.getDeleted() || rendezvous.getinappropriate() || rendezvous.getOrganisationMoment().before(new Date()) || rendezvous.getUser() != this.userService.findByPrincipal() || rendezvous.getFinalMode())
 				throw new Throwable();
 			result = this.newEditModelAndView(rendezvous);
 		} catch (Throwable oops) {
@@ -99,33 +99,30 @@ public class UserRendezvousController extends AbstractController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/save", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final Rendezvous rendezvous, final BindingResult binding) {
 		ModelAndView result;
 		Rendezvous saved;
 		Rendezvous validatedObject;
-		
+
 		if(rendezvous.getId()==0) validatedObject = this.rendezvousService.reconstructNew(rendezvous, binding);
 		else validatedObject = this.rendezvousService.reconstruct(rendezvous, binding);
-		
-		if (binding.hasErrors()) {
-			result = newEditModelAndView(rendezvous);
-			System.out.println("================================================");
-			System.out.println(binding.toString());
-			System.out.println("================================================");
-		} else
+
+		if (binding.hasErrors())
+			result = this.newEditModelAndView(rendezvous);
+		else
 			try {
-				saved = rendezvousService.save(validatedObject);
+				saved = this.rendezvousService.save(validatedObject);
 				result = new ModelAndView("redirect:../../rendezvous/display.do?rendezvousId=" + saved.getId());
 			} catch (Throwable oops) {
 				oops.printStackTrace();
-				result = newEditModelAndView(rendezvous);
+				result = this.newEditModelAndView(rendezvous);
 				result.addObject("message", "rendezvous.commitError");
 			}
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/save", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final Rendezvous rendezvous, final BindingResult binding) {
 		ModelAndView result;
@@ -133,7 +130,7 @@ public class UserRendezvousController extends AbstractController {
 			result = this.newEditModelAndView(rendezvous);
 		else
 			try {
-				if(rendezvous.getOrganisationMoment().before(new Date()) || rendezvous.getUser() != userService.findByPrincipal() || rendezvous.getFinalMode())
+				if(rendezvous.getOrganisationMoment().before(new Date()) || rendezvous.getUser() != this.userService.findByPrincipal() || rendezvous.getFinalMode())
 					throw new Throwable();
 				this.rendezvousService.deleteByUser(rendezvous.getId());
 				result = new ModelAndView("redirect:../../rendezvous/list.do");
@@ -143,13 +140,13 @@ public class UserRendezvousController extends AbstractController {
 			}
 		return result;
 	}
-	
+
 	protected ModelAndView newEditModelAndView(final Rendezvous rendezvous) {
 		ModelAndView result;
 		result = new ModelAndView("user/rendezvous/edit");
 		result.addObject("rendezvous", rendezvous);
-		result.addObject("isAdult", userService.isAdult());
-		result.addObject("rendezvouses", rendezvousService.getRendezvousesToLink());
+		result.addObject("isAdult", this.userService.isAdult());
+		result.addObject("rendezvouses", this.rendezvousService.getRendezvousesToLink());
 		result.addObject("actionUri", "user/rendezvous/save.do");
 		return result;
 	}

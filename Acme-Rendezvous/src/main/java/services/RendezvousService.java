@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.RendezvousRepository;
+import security.Authority;
+import security.LoginService;
 import utilities.internal.SchemaPrinter;
 import domain.Announcement;
 import domain.Category;
@@ -281,7 +283,17 @@ public class RendezvousService {
 		default:
 			rendezvouses.addAll(rendezvousRepository.findAll());
 		}
-		if(!userService.isAdult()) rendezvouses.removeAll(rendezvousRepository.findAllOver18());
+
+		//Filtrado de mayores de 18
+		Authority adminAuth = new Authority();
+		adminAuth.setAuthority(Authority.ADMIN);
+		Authority managerAuth = new Authority();
+		managerAuth.setAuthority(Authority.MANAGER);
+
+		if(!LoginService.getPrincipal().getAuthorities().contains(adminAuth) && !LoginService.getPrincipal().getAuthorities().contains(managerAuth) && !this.userService.isAdult())
+			rendezvouses.removeAll(this.rendezvousRepository.findAllOver18());
+
+		//Filtrado de category
 		if(categories != null && !categories.isEmpty()){
 			Collection<Category> categoriesAndNested = categoryService.getSelectedTree(categories);
 			rendezvouses.retainAll(rendezvousRepository.getRendezvousForCategories(categoriesAndNested));

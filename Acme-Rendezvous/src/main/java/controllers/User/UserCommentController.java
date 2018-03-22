@@ -29,24 +29,14 @@ public class UserCommentController extends AbstractController {
 	public UserCommentController() {
 		super();
 	}
-	
-//	@RequestMapping(value = "/createComment", method = RequestMethod.GET)
-//	public ModelAndView create(@RequestParam(required = true) final int rendezvousId) {
-//		ModelAndView result;
-//		try {
-//			Comment comment = commentService.createComment(rendezvousId);
-//			result = newEditModelAndView(comment);
-//		} catch (Throwable oops) {
-//			result = new ModelAndView("ajaxException");
-//		}
-//		return result;
-//	}	
+
+
 	@RequestMapping(value = "/replyComment", method = RequestMethod.GET)
 	public ModelAndView createReply(@RequestParam(required = true) final int commentId) {
 		ModelAndView result;
 		try {
-			Comment comment = commentService.createReply(commentId);
-			result = newEditModelAndView(comment);
+			Comment comment = this.commentService.createReply(commentId);
+			result = this.newEditModelAndView(comment);
 		} catch (Throwable oops) {
 			result = new ModelAndView("ajaxException");
 		}
@@ -60,7 +50,7 @@ public class UserCommentController extends AbstractController {
 			result = "0";
 		else
 			try {
-				commentService.save(comment);
+				this.commentService.save(comment);
 				result = "1";
 			} catch (Throwable oops) {
 				result = "2";
