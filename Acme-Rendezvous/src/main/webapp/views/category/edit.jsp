@@ -52,7 +52,9 @@
 		<!-- Attributes -->
 		
 		<lib:input name="name" type="text" />
+		<p id="nameError" class="error" style="display:none"><spring:message code="org.hibernate.validator.constraints.NotBlank.message"/></p>
 		<lib:input name="description" type="text" />
+		<p id="descriptionError" class="error" style="display:none"><spring:message code="org.hibernate.validator.constraints.NotBlank.message"/></p>
 		
 		<div class="alert alert-info"><i class="fas fa-question-circle"></i> <spring:message code="category.selectParent"/></div>
 		<div id="parentDiv" class="form-group">
@@ -60,11 +62,11 @@
 
 		<div class="btn-group btn-group-justified">
 			<div class="btn-group">
-				<input class="btn btn-success" id="saveCategoryButton" name="save" value="<spring:message code="category.save"/>" />
+				<input type="button" class="btn btn-success" id="saveCategoryButton" name="save" value="<spring:message code="category.save"/>" />
 			</div>
 			<jstl:if test="${category.id != 0 && empty category.zervices && empty category.categories}">
 				<div class="btn-group">
-			   		<input class="btn btn-danger deleteCategoryButton" id="${category.id}" name="delete" value="<spring:message code="category.delete" />" />
+			   		<input type="button" class="btn btn-danger deleteCategoryButton" id="${category.id}" name="delete" value="<spring:message code="category.delete" />" />
 				</div>
 		  	</jstl:if>
 		</div>
@@ -75,17 +77,30 @@
 $(function(){
 	$('#saveCategoryButton').click(function(e){
 		e.preventDefault();
-		$.post("admin/ajax/category/save.do",$('#categoryForm').serialize(), function( data ) {
-				if(data==1) {
-					notify('success','<spring:message code="category.edit.success"/>');
-					$('#categoryEditModal').modal('hide');
-					loadCategories();
-				}
-				else{
-					notify('danger','<spring:message code="category.edit.error"/>');
-					$('#categoryEditModal').modal('hide');
-				}
-		});
+		$(this).prop("disabled",true);
+		$('#descriptionError').hide();
+		$('#nameError').hide();
+		var submitting = true;
+		if($('#name').val().trim() == ''){
+			submitting = false;
+			$('#nameError').show();
+		}
+		if($('#description').val().trim() == ''){
+			submitting = false;
+			$('#descriptionError').show();
+		}
+		if(submitting){
+			$.post("admin/ajax/category/save.do",$('#categoryForm').serialize(), function( data ) {
+					if(data==1) {
+						notify('success','<spring:message code="category.edit.success"/>');
+						$('#categoryEditModal').modal('hide');
+						loadCategories();
+					}
+					else
+						notify('danger','<spring:message code="category.edit.error"/>');
+			});
+		}else
+			$('#saveCategoryButton').prop("disabled",false);
 	});
 });
 </script>
@@ -94,6 +109,7 @@ $(function(){
 $(function(){
 	$('.deleteCategoryButton').click(function(e){
 		e.preventDefault();
+		$(this).attr("disabled","disabled");
 		$.post( "admin/ajax/category/delete.do",{categoryId: $(this).attr('id')}, function( data ) {
 			if(data==1) {
 				notify('success','<spring:message code="category.delete.success"/>');
@@ -102,7 +118,6 @@ $(function(){
 			}
 			else{
 				notify('danger','<spring:message code="category.delete.error"/>');
-				$('#categoryEditModal').modal('hide');
 			}
 		});
 	});

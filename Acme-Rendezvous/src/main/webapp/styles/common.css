@@ -118,4 +118,5 @@ input.sidebarLink:focus, input.sidebarRegisterLink:focus{
 	background-color:#222;
 	color:#9d9d9d;
 	padding:5px 0 10px 5px;
+	z-index:1000;
 }
