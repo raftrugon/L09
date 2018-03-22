@@ -1,0 +1,12 @@
+-Se ha eliminado la anotación "@Future" del atributo organisationMoment de Rendezvous, puesto que ya se realiza la comprobación en el
+	servicio de guardado. Es posible que el populateDatabase del entregable anterior no funcione puesto que las fechas de algún 
+	rendezvous esté en pasado a día de hoy y esta anotación no admita dicha(s) fecha(s).
+
+-El ratio de usuarios que han creado algún rendezvous respecto a los que no implica un problema puesto que si todos los usuarios han 
+	creado alguno, el ratio va a ser igual al total dividido entre cero. Por ello hemos decidido reflejarlo en el dashboard como
+	porcentajes en un diagramas tipo dónut.
+
+-Cuando un usuario lista los rendezvouses, tiene unos botones para filtrar los rendezvouses (los que ha creado el usuario, los que tienen
+	un rsvp suyo, etc). La última opción de estos botones que haya elegido el usuario se almacena en una cookie. Hemos preferido no
+	almacenar la tarjeta de crédito del usuario en una cookie puesto que es una falla notoria en la seguridad de la aplicación (aunque
+	se suminstra la opción de seleccionar la última tarjeta utilizada a la hora de realizar una request).
