@@ -64,7 +64,7 @@
 					<input class="form-control questionInput" type="text" value="">
 					<div class="input-group-btn">
 						<button class="btn btn-danger delQuestion">
-							<i class="fas fa-minus-circle"></i>
+							<i class="fas fa-minus-circle"></i>&nbsp;
 						</button>
 					</div>
 				</div>
@@ -75,7 +75,7 @@
 					<input class="form-control questionInput" type="text" value="${question}">
 					<div class="input-group-btn">
 						<button class="btn btn-danger delQuestion">
-							<i class="fas fa-minus-circle"></i>
+							<i class="fas fa-minus-circle"></i>&nbsp;
 						</button>
 					</div>
 				</div>
