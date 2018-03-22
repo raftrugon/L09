@@ -15,7 +15,8 @@
   <li class="alert alert-info">
 	  <spring:message code="admin.showing"/>
 	  <input type="number" id="pageSize" value="${pageSize}" style="width:50px;" min="1">
-	  <spring:message code="admin.showing.of"/> <strong><jstl:out value="${totalPages}"/></strong>
+	  <spring:message code="admin.showing.of"/> <strong><jstl:out value="${pageNumber+1}"/></strong>
+	  <spring:message code="admin.showing.of.end"/> <strong><jstl:out value="${totalPages}"/></strong>
   </li>
   <jstl:if test="${not isLast}"><li class="next"><a id="nextPage" href="javascript:void(0)"><spring:message code="admin.next"/></a></li></jstl:if>
 </ul>

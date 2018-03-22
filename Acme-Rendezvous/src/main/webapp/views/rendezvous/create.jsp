@@ -30,8 +30,10 @@
 			<!-- Attributes -->
 			<h1><spring:message code="rendezvous.new" /></h1>
 			<hr>
-			<lib:input name="name" type="text" />
+			<lib:input name="name" type="text" />			
 			<lib:input name="description" type="text" />
+			
+			<strong><spring:message code="rendezvous.organisationMoment" />:</strong>
 			<div class="form-group">
 				<lib:input name="organisationMoment" type="hidden" />	
 			</div>	
