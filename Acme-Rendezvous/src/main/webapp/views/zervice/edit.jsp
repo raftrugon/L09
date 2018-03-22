@@ -55,6 +55,7 @@
 		<lib:input name="picture" type="text" />
 		<hr> 
 		<div class="form-group">
+		<form:errors cssClass="error" path="category" />	
 		<div id="categoryDiv" class="form-group">
 		</div>
 		</div>
