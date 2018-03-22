@@ -26,10 +26,11 @@
 		$(function(){
 			$('#inappropriateBlur').css("filter","blur(5px)").css("-webkit-filter","blur(5px)");
 			$('#inappropriateModal').modal({backdrop: 'static', keyboard: false});
+			$('.modal-backdrop').css('z-index','940');
 		});
 	</script>
 
-	<div id="inappropriateModal" class="modal fade" role="dialog">
+	<div id="inappropriateModal" class="modal fade" role="dialog" style="z-index:950">
   		<div class="modal-dialog" style="margin-top:45vh">
 		    <div class="modal-content">
 		     	<div class="alert alert-danger" style="margin:0;text-align:center"><strong><spring:message code="rendezvous.inappropriate.alert"/></strong></div>
@@ -42,10 +43,11 @@
 		$(function(){
 			$('#inappropriateBlur').css("filter","blur(5px)").css("-webkit-filter","blur(5px)");
 			$('#under18Modal').modal({backdrop: 'static', keyboard: false});
+			$('.modal-backdrop').css('z-index','940');
 		});
 	</script>
 
-	<div id="under18Modal" class="modal fade" role="dialog">
+	<div id="under18Modal" class="modal fade" role="dialog" style="z-index:950">
   		<div class="modal-dialog" style="margin-top:45vh">
 		    <div class="modal-content">
 		     	<div class="alert alert-danger" style="margin:0;text-align:center"><strong><spring:message code="rendezvous.under18.alert"/></strong></div>

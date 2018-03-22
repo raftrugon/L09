@@ -205,19 +205,23 @@
 $(document).ready(function(){
 	$('#rendezvousSelect').change(function(){
 		$.get('user/request/zervices.do',{rendezvousId:$(this).val()},function(data){
+			var selectedZer = $('#zerviceSelect').val();
 			$('#zerviceSelect').find('option:not(.default)').remove();
 			$.each(JSON.parse(data),function(i,zervice){
 				$('#zerviceSelect').append('<option value="'+zervice['id']+'">'+zervice['name']+'</option>');
 			});
+			$('#zerviceSelect').val(selectedZer);
 			$('#zerviceSelect').selectpicker('refresh');
 		});
 	});
 	$('#zerviceSelect').change(function(){
 		$.get('user/request/rendezvouses.do',{zerviceId:$(this).val()},function(data){
+			var selectedRend = $('#rendezvousSelect').val();
 			$('#rendezvousSelect').find('option:not(.default)').remove();
 			$.each(JSON.parse(data),function(i,rendezvous){
 				$('#rendezvousSelect').append('<option value="'+rendezvous['id']+'">'+rendezvous['name']+'</option>');
 			});
+			$('#rendezvousSelect').val(selectedRend);
 			$('#rendezvousSelect').selectpicker('refresh');
 		});
 	});
