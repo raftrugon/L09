@@ -205,10 +205,12 @@
 $(document).ready(function(){
 	$('#rendezvousSelect').change(function(){
 		$.get('user/request/zervices.do',{rendezvousId:$(this).val()},function(data){
+			var selectedRend = $('#rendezvousSelect').val();
 			$('#zerviceSelect').find('option:not(.default)').remove();
 			$.each(JSON.parse(data),function(i,zervice){
 				$('#zerviceSelect').append('<option value="'+zervice['id']+'">'+zervice['name']+'</option>');
 			});
+			$('#rendezvousSelect').val(selectedRend);
 			$('#zerviceSelect').selectpicker('refresh');
 		});
 	});
