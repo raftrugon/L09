@@ -2,7 +2,11 @@ package controllers;
 
 import java.util.Collection;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -162,12 +166,14 @@ public class AjaxController {
 	}
 
 	@RequestMapping(value = "/rendezvous/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required=false,defaultValue="0")final Integer type,@RequestParam(value="categories[]",required=false)final Collection<Category> categories) {
+	public ModelAndView list(@RequestParam(required=false)final String type,@CookieValue(value="typeCookie",defaultValue="0") String typeCookie,@RequestParam(value="categories[]",required=false)final Collection<Category> categories,HttpServletResponse response) {
 		ModelAndView result = new ModelAndView("rendezvous/subList");
 		Collection<Rendezvous> rendezvouss = null;
+		if(type != null) typeCookie = type;
+		response.addCookie(new Cookie("typeCookie", typeCookie));
 		try{
 			userService.findByPrincipal();
-			rendezvouss = rendezvousService.listRendezvouses(type, categories);
+			rendezvouss = rendezvousService.listRendezvouses(Integer.valueOf(typeCookie), categories);
 		}catch(Throwable oops){
 			try{
 				rendezvouss = rendezvousService.listRendezvousesAnonymous(categories);
