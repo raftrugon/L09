@@ -13,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.ZerviceRepository;
-import utilities.internal.SchemaPrinter;
 import domain.Manager;
 import domain.Request;
 import domain.Zervice;
@@ -101,20 +100,20 @@ public class ZerviceService {
 	public Zervice reconstruct(Zervice zervice, BindingResult binding) {
 		Zervice bd = findOne(zervice.getId());
 		Zervice copy = new Zervice();
-		
+
 		copy.setName(zervice.getName());
 		copy.setDescription(zervice.getDescription());
 		copy.setPicture(zervice.getPicture());
 		copy.setInappropriate(bd.getInappropriate());
 		copy.setPrice(zervice.getPrice());
-		
-		copy.setManager(managerService.findByPrincipal());
-		copy.setCategory(bd.getCategory());
+		copy.setCategory(zervice.getCategory());
+
+		copy.setManager(bd.getManager());
 		copy.setRequests(bd.getRequests());
 
 		copy.setVersion(bd.getVersion());
 		copy.setId(zervice.getId());
-		
+
 		validator.validate(copy, binding);
 		return copy;
 	}

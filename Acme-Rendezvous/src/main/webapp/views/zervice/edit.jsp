@@ -25,7 +25,10 @@
 				showTags:true,
 				onNodeSelected: function(event,node){
 					$('#category').val($(node).attr("categoryId"));
-				}	
+				},	
+				onNodeUnselected: function(event,node){
+					$('#category').val(null);
+				}
 			});
 			var category = $('#category').val();
 			if(typeof(category) !== 'undefined'){
