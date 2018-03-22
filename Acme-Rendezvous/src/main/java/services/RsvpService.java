@@ -68,7 +68,8 @@ public class RsvpService {
 		User u = this.userService.findByPrincipal();
 		Assert.notNull(u);
 		Rendezvous r = rsvp.getRendezvous();
-		Assert.isTrue(!this.userService.isRsvpd(r.getId()));
+		if(rsvp.getId()==0)
+			Assert.isTrue(!this.userService.isRsvpd(r.getId()));
 		Assert.isTrue(!r.getDeleted());
 		Assert.isTrue(!r.getinappropriate());
 		Assert.isTrue(r.getOrganisationMoment().after(new Date()));
