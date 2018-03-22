@@ -51,7 +51,7 @@ public class RendezvousService {
 
 	public Rendezvous create() {
 		Rendezvous res = new Rendezvous();
-		User user = this.userService.findByPrincipal();
+		User user = userService.findByPrincipal();
 		Assert.notNull(user);
 		res.setUser(user);
 		res.setAdultOnly(false);
@@ -71,126 +71,126 @@ public class RendezvousService {
 
 	public Rendezvous findOne(final int rendezvousId) {
 		Assert.isTrue(rendezvousId != 0);
-		Rendezvous res = this.rendezvousRepository.findOne(rendezvousId);
+		Rendezvous res = rendezvousRepository.findOne(rendezvousId);
 		Assert.notNull(res);
 		return res;
 	}
 
 	public Collection<Rendezvous> findAll() {
-		return this.rendezvousRepository.findAll();
+		return rendezvousRepository.findAll();
 	}
 
 	public Collection<Rendezvous> findAllUnder18() {
-		return this.rendezvousRepository.findAllUnder18();
+		return rendezvousRepository.findAllUnder18();
 	}
 
 	public Rendezvous save(final Rendezvous rendezvous) {
 		Assert.notNull(rendezvous);
-		Assert.isTrue(rendezvous.getUser().equals(this.userService.findByPrincipal()));
+		Assert.isTrue(rendezvous.getUser().equals(userService.findByPrincipal()));
 		Assert.isTrue(rendezvous.getOrganisationMoment().after(new Date()));
 		//Checkeos contra base de datos
 		if (rendezvous.getId() != 0) {
-			Rendezvous bd = this.findOne(rendezvous.getId());
+			Rendezvous bd = findOne(rendezvous.getId());
 			Assert.isTrue(!bd.getFinalMode() && !bd.getDeleted());
-			Assert.isTrue(bd.getUser().equals(this.userService.findByPrincipal()));
+			Assert.isTrue(bd.getUser().equals(userService.findByPrincipal()));
 		}
-		Rendezvous saved = this.rendezvousRepository.save(rendezvous);
+		Rendezvous saved = rendezvousRepository.save(rendezvous);
 
 		//Añadir rendezvous al user si es nuevo
 		//RSVP automático para el creador
 		if (rendezvous.getId() == 0){
 			rendezvous.getUser().getRendezvouses().add(saved);
-			this.rsvpService.rsvpForRendezvousCreator(saved);
+			rsvpService.rsvpForRendezvousCreator(saved);
 		}
 		return saved;
 	}
 
 	public void flush(){
-		this.rendezvousRepository.flush();
+		rendezvousRepository.flush();
 	}
 
 	public Rendezvous deleteByAdmin(final Rendezvous rendezvous) {
 		Assert.notNull(rendezvous);
 		Assert.isTrue(rendezvous.getId() != 0);
-		Assert.notNull(this.adminService.findByPrincipal());
+		Assert.notNull(adminService.findByPrincipal());
 		rendezvous.setinappropriate(true);
 		rendezvous.setPicture(null);
-		return this.rendezvousRepository.save(rendezvous);
+		return rendezvousRepository.save(rendezvous);
 	}
 
 	public Rendezvous deleteByUser(final int rendezvousId) {
-		Rendezvous rendezvous = this.findOne(rendezvousId);
+		Rendezvous rendezvous = findOne(rendezvousId);
 		Assert.notNull(rendezvous);
-		Assert.isTrue(rendezvous.getUser().equals(this.userService.findByPrincipal()));
+		Assert.isTrue(rendezvous.getUser().equals(userService.findByPrincipal()));
 		Assert.isTrue(!rendezvous.getFinalMode());
 		Assert.isTrue(rendezvous.getOrganisationMoment().after(new Date()));
 		rendezvous.setDeleted(true);
-		return this.rendezvousRepository.save(rendezvous);
+		return rendezvousRepository.save(rendezvous);
 	}
 
 	//Other Business Methods --------------------------------
 
 	public Collection<Rendezvous> getRSVPRendezvousesForUser(final User user) {
-		return this.rendezvousRepository.getRSVPRendezvousesForUser(user);
+		return rendezvousRepository.getRSVPRendezvousesForUser(user);
 	}
 
 	public Double[] getRendezvousStats() {
-		return this.rendezvousRepository.getRendezvousStats();
+		return rendezvousRepository.getRendezvousStats();
 	}
 
 	public Double getRatioOfUsersWhoHaveCreatedRendezvouses() {
-		return this.rendezvousRepository.getRatioOfUsersWhoHaveCreatedRendezvouses();
+		return rendezvousRepository.getRatioOfUsersWhoHaveCreatedRendezvouses();
 	}
 
 	public Double[] getRendezvousUserStats() {
-		return this.rendezvousRepository.getRendezvousUserStats();
+		return rendezvousRepository.getRendezvousUserStats();
 	}
 
 
 	public Double[] getUserRendezvousesStats() {
-		return this.rendezvousRepository.getUserRendezvousesStats();
+		return rendezvousRepository.getUserRendezvousesStats();
 	}
 
 	public Collection<Rendezvous> getTop10RendezvousByRSVPs() {
-		return this.rendezvousRepository.getTop10RendezvousByRSVPs();
+		return rendezvousRepository.getTop10RendezvousByRSVPs();
 	}
 
 	public Double[] getRendezvousAnnouncementStats() {
-		return this.rendezvousRepository.getRendezvousAnnouncementStats();
+		return rendezvousRepository.getRendezvousAnnouncementStats();
 	}
 
 	public Collection<Rendezvous> getRendezvousesWithNumberOfAnnouncementsOver75PerCentAvg() {
-		return this.rendezvousRepository.getRendezvousesWithNumberOfAnnouncementsOver75PerCentAvg();
+		return rendezvousRepository.getRendezvousesWithNumberOfAnnouncementsOver75PerCentAvg();
 	}
 
 	public Collection<Rendezvous> getRendezvousesLinkedToMoreThan10PerCentAVGNumberOfRendezvouses() {
-		return this.rendezvousRepository.getRendezvousesLinkedToMoreThan10PerCentAVGNumberOfRendezvouses();
+		return rendezvousRepository.getRendezvousesLinkedToMoreThan10PerCentAVGNumberOfRendezvouses();
 	}
 
 	public Double[] getRendezvousQuestionStats() {
-		return this.rendezvousRepository.getRendezvousQuestionStats();
+		return rendezvousRepository.getRendezvousQuestionStats();
 	}
 
 	public Double[] getAnswersToQuestionsStats() {
-		return this.rendezvousRepository.getAnswersToQuestionsStats();
+		return rendezvousRepository.getAnswersToQuestionsStats();
 	}
 
 	public void link(final int sourceId, final int targetId){
-		Rendezvous source = this.findOne(sourceId);
-		Rendezvous target = this.findOne(targetId);
-		Assert.isTrue(source.getUser().equals(this.userService.findByPrincipal()));
+		Rendezvous source = findOne(sourceId);
+		Rendezvous target = findOne(targetId);
+		Assert.isTrue(source.getUser().equals(userService.findByPrincipal()));
 		source.getRendezvouses().add(target);
 	}
 
 	public Collection<Rendezvous> getRendezvousesToLink(final int rendezvousId) {
-		User u = this.userService.findByPrincipal();
+		User u = userService.findByPrincipal();
 		Assert.notNull(u);
-		Rendezvous r = this.findOne(rendezvousId);
-		return this.rendezvousRepository.getRendezvousesToLink(u,r);
+		Rendezvous r = findOne(rendezvousId);
+		return rendezvousRepository.getRendezvousesToLink(u,r);
 	}
 
 	public Collection<Rendezvous> getRendezvousesToLink() {
-		return this.rendezvousRepository.getRendezvousesToLink();
+		return rendezvousRepository.getRendezvousesToLink();
 	}
 
 	public Rendezvous reconstructNew(final Rendezvous res, final BindingResult binding){
@@ -201,22 +201,22 @@ public class RendezvousService {
 		res.setComments(new ArrayList<Comment>());
 		res.setRsvps(new ArrayList<Rsvp>());
 		res.setinappropriate(false);
-		res.setUser(this.userService.findByPrincipal());
+		res.setUser(userService.findByPrincipal());
 		res.setRequests(new ArrayList<Request>());
 
 		if(res.getRendezvouses() == null)
 			res.setRendezvouses(new ArrayList<Rendezvous>());
 
 
-		if(!this.userService.isAdult())
+		if(!userService.isAdult())
 			res.setAdultOnly(false);
-		this.validator.validate(res, binding);
+		validator.validate(res, binding);
 
 		return res;
 	}
 
 	public Rendezvous reconstruct(final Rendezvous res, final BindingResult binding) {
-		Rendezvous rendezvous = this.findOne(res.getId());
+		Rendezvous rendezvous = findOne(res.getId());
 		Rendezvous copy = new Rendezvous();
 
 		copy.setName(res.getName());
@@ -227,7 +227,7 @@ public class RendezvousService {
 		copy.setLongitude(res.getLongitude());
 		copy.setFinalMode(res.getFinalMode());
 		copy.setDeleted(false);
-		if(!this.userService.isAdult())
+		if(!userService.isAdult())
 			copy.setAdultOnly(false);
 		else
 			copy.setAdultOnly(true);
@@ -244,14 +244,14 @@ public class RendezvousService {
 		copy.setVersion(res.getVersion());
 		copy.setId(res.getId());
 
-		this.validator.validate(copy, binding);
+		validator.validate(copy, binding);
 		return copy;
 	}
 
 
 	public void deleteLink(final int rendezvousId, final int linkId) {
-		Rendezvous r = this.rendezvousRepository.findOne(rendezvousId);
-		Rendezvous link = this.rendezvousRepository.findOne(linkId);
+		Rendezvous r = rendezvousRepository.findOne(rendezvousId);
+		Rendezvous link = rendezvousRepository.findOne(linkId);
 		List<Rendezvous> rendezvouses = new ArrayList<Rendezvous>(r.getRendezvouses());
 		rendezvouses.remove(link);
 		r.setRendezvouses(rendezvouses);
@@ -262,48 +262,52 @@ public class RendezvousService {
 
 	public Collection<Rendezvous> listRendezvouses(Integer type, final Collection<Category> categories){
 		Collection<Rendezvous> rendezvouses = new ArrayList<Rendezvous>();
-		User u = this.userService.findByPrincipal();
+		User u = userService.findByPrincipal();
 		if(type==null)type=0;
 		switch(type){
 		case 1:
 			rendezvouses.addAll(u.getRendezvouses());
 			break;
 		case 2:
-			rendezvouses.addAll(this.rendezvousRepository.getRSVPRendezvousesForUser(u));
+			rendezvouses.addAll(rendezvousRepository.getRSVPRendezvousesForUser(u));
 			break;
 		case 3:
-			rendezvouses.addAll(this.rendezvousRepository.getExploreRendezvouses());
-			rendezvouses.removeAll(this.rendezvousRepository.getRSVPRendezvousesForUser(u));
-			SchemaPrinter.print(this.rendezvousRepository.getExploreRendezvouses());
-			SchemaPrinter.print(this.rendezvousRepository.getRSVPRendezvousesForUser(u));
+			rendezvouses.addAll(rendezvousRepository.getExploreRendezvouses());
+			rendezvouses.removeAll(rendezvousRepository.getRSVPRendezvousesForUser(u));
+			SchemaPrinter.print(rendezvousRepository.getExploreRendezvouses());
+			SchemaPrinter.print(rendezvousRepository.getRSVPRendezvousesForUser(u));
 			SchemaPrinter.print(rendezvouses);
 			break;
 		default:
-			rendezvouses.addAll(this.rendezvousRepository.findAll());
+			rendezvouses.addAll(rendezvousRepository.findAll());
 		}
-		if(!this.userService.isAdult()) rendezvouses.removeAll(this.rendezvousRepository.findAllOver18());
+		if(!userService.isAdult()) rendezvouses.removeAll(rendezvousRepository.findAllOver18());
 		if(categories != null && !categories.isEmpty()){
-			Collection<Category> categoriesAndNested = this.categoryService.getSelectedTree(categories);
-			rendezvouses.retainAll(this.rendezvousRepository.getRendezvousForCategories(categoriesAndNested));
+			Collection<Category> categoriesAndNested = categoryService.getSelectedTree(categories);
+			rendezvouses.retainAll(rendezvousRepository.getRendezvousForCategories(categoriesAndNested));
 		}
 		return rendezvouses;
 	}
 
 	public Collection<Rendezvous> listRendezvousesAnonymous(final Collection<Category> categories) {
-		Collection<Rendezvous> rendezvouses = this.rendezvousRepository.findAllUnder18();
+		Collection<Rendezvous> rendezvouses = rendezvousRepository.findAllUnder18();
 		if(categories != null && !categories.isEmpty()){
-			Collection<Category> categoriesAndNested = this.categoryService.getSelectedTree(categories);
-			rendezvouses.retainAll(this.rendezvousRepository.getRendezvousForCategories(categoriesAndNested));
+			Collection<Integer> ids = new ArrayList<Integer>();
+			for(Category c: categories)ids.add(c.getId());
+			Collection<Integer> allIds = categoryService.getSelectedTreeIds(ids);
+			Collection<Category> categoriesAndNested = new ArrayList<Category>();
+			for(Integer id: allIds)categoriesAndNested.add(categoryService.findOne(id));
+			rendezvouses.retainAll(rendezvousRepository.getRendezvousForCategories(categoriesAndNested));
 		}
 		return rendezvouses;
 	}
 
 	public Double getAvgCategoriesPerRendezvous(){
-		return this.rendezvousRepository.getAvgCategoriesPerRendezvous();
+		return rendezvousRepository.getAvgCategoriesPerRendezvous();
 	}
 
 	public Collection<Zervice> getZervicesForRendezvous(final int rendezvousId) {
-		Rendezvous r = this.findOne(rendezvousId);
-		return this.rendezvousRepository.getServicesForRendezvous(r);
+		Rendezvous r = findOne(rendezvousId);
+		return rendezvousRepository.getServicesForRendezvous(r);
 	}
 }

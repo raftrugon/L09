@@ -151,7 +151,20 @@ public class CategoryService {
 		for(Category c: categories)
 			try{
 				res.addAll(getSelectedTree(c.getCategories()));
-			}catch(Throwable oops){}
+			}catch(Throwable oops){oops.printStackTrace();}
+		return res;
+	}
+
+	public Collection<Integer> getSelectedTreeIds(Collection<Integer> categoriesId){
+		Collection<Integer> res = new HashSet<Integer>();
+		res.addAll(categoriesId);
+		for(Integer id: categoriesId)
+			try{
+				Category c = findOne(id);
+				Collection<Integer> ids = new ArrayList<Integer>();
+				for(Category c2: c.getCategories())ids.add(c2.getId());
+				res.addAll(getSelectedTreeIds(ids));
+			}catch(Throwable oops){oops.printStackTrace();}
 		return res;
 	}
 
