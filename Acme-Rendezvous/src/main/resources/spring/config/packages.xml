@@ -25,7 +25,5 @@
 	<context:component-scan base-package="services" />
 	
 	<context:component-scan base-package="security" />
-	
-	 <context:property-placeholder location="classpath:application.properties" />
 
 </beans>

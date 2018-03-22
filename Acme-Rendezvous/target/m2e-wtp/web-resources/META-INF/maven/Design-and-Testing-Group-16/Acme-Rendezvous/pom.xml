@@ -331,14 +331,6 @@
 		    <version>1.7.4</version>
 		</dependency>
 		
-		<!--  Braintree payments -->
-		<!-- https://mvnrepository.com/artifact/com.braintreepayments.gateway/braintree-java -->
-		<dependency>
-		    <groupId>com.braintreepayments.gateway</groupId>
-		    <artifactId>braintree-java</artifactId>
-		    <version>2.77.0</version>
-		</dependency>
-		
 	</dependencies>
 
 </project> 

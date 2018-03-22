@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,17 +17,12 @@ import services.RequestService;
 import services.UserService;
 import services.ZerviceService;
 
-import com.braintreegateway.BraintreeGateway;
-import com.braintreegateway.PaymentMethod;
-import com.braintreegateway.PaymentMethodRequest;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import domain.CreditCard;
 import domain.Rendezvous;
 import domain.Request;
 import domain.Zervice;
-
 
 @RestController
 @RequestMapping("/user/request")
@@ -42,20 +36,6 @@ public class UserRequestController {
 	private RendezvousService rendezvousService;
 	@Autowired
 	private ZerviceService zerviceService;
-
-	@Value("${BT_ENVIRONMENT}")
-	private String environment;
-
-	@Value("${BT_MERCHANT_ID}")
-	private String merchantId;
-
-	@Value("${BT_PUBLIC_KEY}")
-	private String publicKey;
-
-	@Value("${BT_PRIVATE_KEY}")
-	private String privateKey;
-
-	private BraintreeGateway gateway = new BraintreeGateway(environment,merchantId,publicKey,privateKey);
 
 	public UserRequestController() {
 		super();
@@ -102,31 +82,20 @@ public class UserRequestController {
 	public ModelAndView create(
 			@RequestParam(required = false) final Integer rendezvousId,
 			@RequestParam(required = false) final Integer zerviceId) {
-
-		String clientToken = gateway.clientToken().generate();
 		try {
-			return newEditModelAndView(requestService.create(),rendezvousId, zerviceId).addObject("clientToken", clientToken);
+			return newEditModelAndView(requestService.create(),rendezvousId, zerviceId);
 		} catch (Throwable oops) {
 			return new ModelAndView("ajaxException");
 		}
 	}
 
 	@RequestMapping(value="/save", method = RequestMethod.POST)
-	public String save(final Request request, final BindingResult binding, final String nonce){
+	public String save(final Request request, final BindingResult binding){
 		Request result = requestService.reconstruct(request,binding);
 		if(binding.hasErrors()) return "0";
 		else
 			try{
 				requestService.save(result);
-				CreditCard cc = request.getCreditCard();
-				PaymentMethodRequest paymentMethod = new PaymentMethodRequest()
-				.cardholderName(cc.getHolderName())
-				.number(cc.getNumber())
-				.cvv(cc.getCvvCode().toString())
-				.expirationMonth(cc.getExpirationMonth().toString())
-				.expirationYear(cc.getExpirationYear().toString())
-				.paymentMethodNonce(nonce);
-				Result<PaymentMethod> result = gateway.paymentMethod().create(paymentMethod);
 				return "1";
 			}catch (Throwable oops){
 				return "2";
