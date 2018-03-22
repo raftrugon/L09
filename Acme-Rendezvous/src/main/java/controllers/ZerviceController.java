@@ -21,7 +21,6 @@ public class ZerviceController extends AbstractController {
 		result.addObject("zervices", this.zerviceService.findAll());
 		result.addObject("requestUri", "zervice/list.do");
 		result.addObject("locale",LocaleContextHolder.getLocale().getLanguage());
-		System.out.println(LocaleContextHolder.getLocale().getLanguage());
 		return result;
 	}
 }

@@ -29,8 +29,8 @@ public class ManagerZerviceController {
 	public ModelAndView create() {
 		ModelAndView result;
 		try {
-			result = newEditModelAndView(zerviceService.create());
-			result.addObject("categories", categoryService.findAll());
+			result = this.newEditModelAndView(this.zerviceService.create());
+			result.addObject("categories", this.categoryService.findAll());
 		} catch (Throwable oops) {
 			result = new ModelAndView("redirect:../../zervice/list.do");
 		}
@@ -41,11 +41,11 @@ public class ManagerZerviceController {
 	public ModelAndView edit(@RequestParam(required = true) final int zerviceId) {
 		ModelAndView result;
 		try {
-			Zervice zervice = zerviceService.findOne(zerviceId);
+			Zervice zervice = this.zerviceService.findOne(zerviceId);
 			if (zervice.getInappropriate()
-					|| zervice.getManager() != managerService.findByPrincipal())
+				|| zervice.getManager() != this.managerService.findByPrincipal())
 				throw new Throwable();
-			result = newEditModelAndView(zervice);
+			result = this.newEditModelAndView(zervice);
 		} catch (Throwable oops) {
 			result = new ModelAndView("redirect:../../zervice/list.do");
 		}
@@ -58,21 +58,20 @@ public class ManagerZerviceController {
 		Zervice validatedObject;
 
 		if (zervice.getId() == 0)
-			validatedObject = zerviceService.reconstructNew(zervice, binding);
+			validatedObject = this.zerviceService.reconstructNew(zervice, binding);
 		else
-			validatedObject = zerviceService.reconstruct(zervice, binding);
+			validatedObject = this.zerviceService.reconstruct(zervice, binding);
 
-		if (binding.hasErrors()){
-			result = newEditModelAndView(zervice);
-			System.out.println(binding.toString());}
+		if (binding.hasErrors())
+			result = this.newEditModelAndView(zervice);
 		else
 			try {
-				zerviceService.save(validatedObject);
+				this.zerviceService.save(validatedObject);
 				result = new ModelAndView(
-						"redirect:../../zervice/list.do");
+					"redirect:../../zervice/list.do");
 			} catch (Throwable oops) {
 				oops.printStackTrace();
-				result = newEditModelAndView(zervice);
+				result = this.newEditModelAndView(zervice);
 				result.addObject("message", "zervice.commitError");
 			}
 		return result;
@@ -82,13 +81,13 @@ public class ManagerZerviceController {
 	public ModelAndView delete(final Zervice zervice) {
 		ModelAndView result;
 		try {
-			zerviceService.deleteByManager(zervice.getId());
+			this.zerviceService.deleteByManager(zervice.getId());
 			result = new ModelAndView("redirect:../../zervice/list.do");
 		} catch(ZerviceRequestsNotEmptyException oops){
-			result = newEditModelAndView(zervice);
+			result = this.newEditModelAndView(zervice);
 			result.addObject("message", oops.getMessage());
 		} catch (Throwable oops) {
-			result = newEditModelAndView(zervice);
+			result = this.newEditModelAndView(zervice);
 			result.addObject("message", "zervice.commitError");
 		}
 		return result;

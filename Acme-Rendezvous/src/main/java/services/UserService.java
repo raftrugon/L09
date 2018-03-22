@@ -64,34 +64,33 @@ public class UserService {
 	}
 
 	public void flush() {
-		userRepository.flush();
+		this.userRepository.flush();
 	}
 
 	public User findOne(final int userId) {
 		Assert.isTrue(userId != 0);
-		User res = userRepository.findOne(userId);
+		User res = this.userRepository.findOne(userId);
 		Assert.notNull(res);
 		return res;
 	}
 
 	public Collection<User> findAll() {
-		Collection<User> res = userRepository.findAll();
+		Collection<User> res = this.userRepository.findAll();
 		Assert.notNull(res);
 		return res;
 	}
 
 	public User save(final User user) {
 		Assert.notNull(user);
-		System.out.println(user.getBirthDate());
 		Assert.isTrue(user.getBirthDate().before(new Date()));
 
 		if (user.getId() == 0) {
 			Md5PasswordEncoder password = new Md5PasswordEncoder();
 			String encodedPassword = password.encodePassword(user.getUserAccount().getPassword(), null);
 			user.getUserAccount().setPassword(encodedPassword);
-			user.setUserAccount(userAccountService.save(user.getUserAccount()));
+			user.setUserAccount(this.userAccountService.save(user.getUserAccount()));
 		}
-		return userRepository.save(user);
+		return this.userRepository.save(user);
 	}
 
 	//Other Business Methods --------------------------------
@@ -99,7 +98,7 @@ public class UserService {
 	public User findByUserAccount(final UserAccount userAccount) {
 		Assert.notNull(userAccount);
 		User res;
-		res = userRepository.findByUserAccount(userAccount.getId());
+		res = this.userRepository.findByUserAccount(userAccount.getId());
 		return res;
 	}
 
@@ -108,24 +107,24 @@ public class UserService {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
 		Assert.notNull(userAccount);
-		res = findByUserAccount(userAccount);
+		res = this.findByUserAccount(userAccount);
 		return res;
 	}
 
-	public Boolean isRsvpd(int rendezvousId) {
+	public Boolean isRsvpd(final int rendezvousId) {
 		Assert.isTrue(rendezvousId != 0);
-		return (userRepository.isRsvpd(rendezvousId, findByPrincipal()) == 1);
+		return (this.userRepository.isRsvpd(rendezvousId, this.findByPrincipal()) == 1);
 	}
 
 	public Boolean isAdult() {
-		User u = findByPrincipal();
+		User u = this.findByPrincipal();
 		DateTime user18 = new DateTime(u.getBirthDate()).plusYears(18);
 		return user18.isBeforeNow();
 	}
 
 	//RegisterUserForm ----> User
 
-	public User reconstruct(User user, final BindingResult binding) {
+	public User reconstruct(final User user, final BindingResult binding) {
 
 		user.setId(0);
 		user.setVersion(0);
@@ -142,13 +141,13 @@ public class UserService {
 		authorities.add(authority);
 		user.getUserAccount().setAuthorities(authorities);
 
-		validator.validate(user, binding);
+		this.validator.validate(user, binding);
 
 		return user;
 	}
 
 	public Collection<Rendezvous> getRequestableRendezvouses() {
-		return userRepository.getRequestableRendezvouses(findByPrincipal());
+		return this.userRepository.getRequestableRendezvouses(this.findByPrincipal());
 	}
 
 }
