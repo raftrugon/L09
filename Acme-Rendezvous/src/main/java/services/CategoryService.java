@@ -13,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.CategoryRepository;
-import utilities.internal.SchemaPrinter;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -170,17 +169,17 @@ public class CategoryService {
 			return category;
 		}else{
 			Category bd = findOne(category.getId());
-			
+
 			copy.setName(category.getName());
 			copy.setDescription(category.getDescription());
+			copy.setParent(category.getParent());
 
-			copy.setParent(bd.getParent());
 			copy.setCategories(new ArrayList<Category>(bd.getCategories()));
 			copy.setZervices(new ArrayList<Zervice>(bd.getZervices()));
-			
+
 			copy.setVersion(category.getVersion());
 			copy.setId(category.getId());
-			
+
 			validator.validate(copy, binding);
 			return copy;
 		}
