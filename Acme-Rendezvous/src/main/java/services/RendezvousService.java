@@ -64,6 +64,8 @@ public class RendezvousService {
 		res.setRsvps(new ArrayList<Rsvp>());
 		res.setinappropriate(false);
 		res.setRequests(new ArrayList<Request>());
+		res.setOrganisationMoment(new Date(System.currentTimeMillis()+180000));
+
 		return res;
 	}
 
