@@ -66,3 +66,6 @@
 	</div>
 </div>
 </jstl:forEach>
+<script>
+	var type = '<jstl:out value="${type}"/>';	
+</script>

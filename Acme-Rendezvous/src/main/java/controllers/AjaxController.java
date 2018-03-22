@@ -166,7 +166,10 @@ public class AjaxController {
 	}
 
 	@RequestMapping(value = "/rendezvous/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required=false)final String type,@CookieValue(value="typeCookie",defaultValue="0") String typeCookie,@RequestParam(value="categories[]",required=false)final Collection<Category> categories,HttpServletResponse response) {
+	public ModelAndView list(@RequestParam(required=false)final String type,
+			@CookieValue(value="typeCookie",defaultValue="0") String typeCookie,
+			@RequestParam(value="categories[]",required=false)final Collection<Category> categories,
+			HttpServletResponse response) {
 		ModelAndView result = new ModelAndView("rendezvous/subList");
 		Collection<Rendezvous> rendezvouss = null;
 		if(type != null) typeCookie = type;
@@ -183,6 +186,7 @@ public class AjaxController {
 			}
 		}
 		result.addObject("rendezvouss", rendezvouss);
+		result.addObject("type",typeCookie);
 		return result;
 	}
 }

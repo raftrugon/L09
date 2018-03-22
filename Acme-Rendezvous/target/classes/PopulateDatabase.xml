@@ -139,6 +139,19 @@
         </property>
     </bean>
     
+    <bean id="userAccount99" class="security.UserAccount">
+        <property name="username" value="user99" />
+        <property name="password" value="485ddf8dd90940f69b2f2274af864ad3" />
+        <property name="authorities">
+            <list>
+                <bean class="security.Authority">
+                    <property name="authority" value="USER" />
+                </bean>
+                
+            </list>
+        </property>
+    </bean>
+    
     
     <bean id="userAccount11" class="security.UserAccount">
         <property name="username" value="manager1" />
@@ -405,6 +418,25 @@
         </property>
     </bean>
     
+     <bean id="user99" class="domain.User">
+        <property name="userAccount" ref="userAccount99" />
+        <property name="name" value="Pepito" />
+        <property name="surnames" value="Palotes Prueba" />
+        <property name="email" value="user999@correo.com" />
+        <property name="address" value="Calle Falsa 123" />
+        <property name="birthDate" value="12/22/1992" />
+        <property name="rsvps">
+            <list>
+            </list>
+        </property>
+        <property name="rendezvouses">
+            <list>
+            </list>
+        </property>
+    </bean>
+    
+    
+    
     <bean id="manager1" class="domain.Manager">
         <property name="userAccount" ref="userAccount11" />
         <property name="name" value="Antonio Luis" />
@@ -564,9 +596,9 @@
     </bean>
     
      <bean id="zervice6" class="domain.Zervice">
-        <property name="name" value="Informática" />
-        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
-        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="name" value="Lectura" />
+        <property name="description" value="Si os lleváis vuestros libros podemos leer todos juntos" />
+        <property name="picture" value="http://significadosdelossuenos.net/sonar-con-libros/" />
         <property name="inappropriate" value="false" />
         <property name="price" value="19.02" />
         <property name="manager" ref="manager2" />
@@ -580,9 +612,9 @@
     </bean>
     
      <bean id="zervice7" class="domain.Zervice">
-        <property name="name" value="Informática" />
-        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
-        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="name" value="Torneo de baloncesto" />
+        <property name="description" value="Basket" />
+        <property name="picture" value="https://image-api.onlineeducation.center/v1/image/max-width/800/blog/4c02d07721d0182926385c17ddf3959bfe805f76.jpg" />
         <property name="inappropriate" value="false" />
         <property name="price" value="16.09" />
         <property name="manager" ref="manager4" />
@@ -596,9 +628,9 @@
     </bean>
     
      <bean id="zervice8" class="domain.Zervice">
-        <property name="name" value="Informática" />
-        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
-        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="name" value="Teatro" />
+        <property name="description" value="Si venis, os llevaremos al espectaculo del Rey Leon" />
+        <property name="picture" value="" />
         <property name="inappropriate" value="false" />
         <property name="price" value="22.94" />
         <property name="manager" ref="manager1" />
@@ -612,11 +644,11 @@
     </bean>
     
      <bean id="zervice9" class="domain.Zervice">
-        <property name="name" value="Informática" />
-        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
-        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="name" value="Charlas y debates" />
+        <property name="description" value="Podremos debatir de los temas que vayan saliendo" />
+        <property name="picture" value="" />
         <property name="inappropriate" value="false" />
-        <property name="price" value="30" />
+        <property name="price" value="5" />
         <property name="manager" ref="manager2" />
         <property name="category" ref="category4" />
         <property name="requests">
@@ -628,9 +660,9 @@
     </bean>
     
      <bean id="zervice10" class="domain.Zervice">
-        <property name="name" value="Informática" />
-        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
-        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="name" value="Festival de música" />
+        <property name="description" value="Se irá a un festival de música" />
+        <property name="picture" value="https://www.elimparcial.es/fotos/1/36970_festival.jpg" />
         <property name="inappropriate" value="false" />
         <property name="price" value="19.53" />
         <property name="manager" ref="manager4" />
@@ -644,11 +676,11 @@
     </bean>
     
      <bean id="zervice11" class="domain.Zervice">
-        <property name="name" value="Informática" />
-        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
-        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="name" value="Concierto" />
+        <property name="description" value="Iremos a un concierto" />
+        <property name="picture" value="http://www.chicageek.com/wp-content/uploads/2016/09/concierto.jpg" />
         <property name="inappropriate" value="false" />
-        <property name="price" value="5" />
+        <property name="price" value="15" />
         <property name="manager" ref="manager4" />
         <property name="category" ref="category6" />
         <property name="requests">
@@ -659,9 +691,9 @@
     </bean>
     
      <bean id="zervice12" class="domain.Zervice">
-        <property name="name" value="Informática" />
-        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
-        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="name" value="Exposición de fotografía" />
+        <property name="description" value="Se irá a la exposición de fotografía sobre Marvel" />
+        <property name="picture" value="http://www.bolsamania.com/cine/wp-content/uploads/2015/10/27.jpeg" />
         <property name="inappropriate" value="false" />
         <property name="price" value="9.99" />
         <property name="manager" ref="manager5" />
@@ -674,11 +706,11 @@
     </bean>
     
      <bean id="zervice13" class="domain.Zervice">
-        <property name="name" value="Informática" />
-        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
-        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="name" value="Torneo de fútbol" />
+        <property name="description" value="Futbol sala" />
+        <property name="picture" value="https://www.primicias24.com/wp-content/uploads/2017/05/futbol-1.jpg" />
         <property name="inappropriate" value="false" />
-        <property name="price" value="43.72" />
+        <property name="price" value="5.72" />
         <property name="manager" ref="manager1" />
         <property name="category" ref="category9" />
         <property name="requests">
@@ -689,9 +721,9 @@
     </bean>
     
      <bean id="zervice14" class="domain.Zervice">
-        <property name="name" value="Informática" />
-        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
-        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="name" value="Música en directo" />
+        <property name="description" value="Música en directo" />
+        <property name="picture" value="" />
         <property name="inappropriate" value="false" />
         <property name="price" value="6.34" />
         <property name="manager" ref="manager2" />
@@ -704,9 +736,9 @@
     </bean>
     
      <bean id="zervice15" class="domain.Zervice">
-        <property name="name" value="Informática" />
-        <property name="description" value="Si os lleváis vuestros portatiles se podrán formatear" />
-        <property name="picture" value="https://us.123rf.com/450wm/kesu87/kesu871502/kesu87150200405/36755065-lugar-de-trabajo-con-ordenador-port%C3%A1til-material-de-oficina-y-escritorio-de-madera-.jpg?ver=6" />
+        <property name="name" value="Recital de poesia" />
+        <property name="description" value="Se escucharán a jóvenes promesas de la poesia" />
+        <property name="picture" value="http://www.smp-medellin.org/smp/wp-content/uploads/2016/10/poesia-1.jpg" />
         <property name="inappropriate" value="false" />
         <property name="price" value="17.54" />
         <property name="manager" ref="manager4" />
@@ -739,8 +771,8 @@
     </bean>
     
     <bean id="category2" class="domain.Category">
-        <property name="name" value="Turismo" />
-        <property name="description" value="Haremos turismos por los parques cercanos" />
+        <property name="name" value="Cultura" />
+        <property name="description" value="Se organizarán cosas relacionadas con cultura en estos servicios" />
         <property name="parent">
             <null />
         </property>
@@ -761,8 +793,8 @@
     </bean>
     
     <bean id="category3" class="domain.Category">
-        <property name="name" value="Turismo por bar" />
-        <property name="description" value="Haremos turismos por los bares" />
+        <property name="name" value="Lectura" />
+        <property name="description" value="Se organizarán quedadas de lectura en estos servicios" />
         <property name="parent" ref="category2" />
         <property name="categories">
             <list>
@@ -778,8 +810,8 @@
     </bean>
     
     <bean id="category4" class="domain.Category">
-        <property name="name" value="Turismo por ciudad" />
-        <property name="description" value="Haremos turismos por la ciudad" />
+        <property name="name" value="Fiesta" />
+        <property name="description" value="Fiesta" />
         <property name="parent" ref="category3" />
         <property name="categories">
             <list>
@@ -795,8 +827,8 @@
     </bean>
     
      <bean id="category5" class="domain.Category">
-        <property name="name" value="Turismo por monumentos" />
-        <property name="description" value="Visitaremos los monumentos" />
+        <property name="name" value="Festival de música" />
+        <property name="description" value="Música" />
         <property name="parent" ref="category4" />
         <property name="categories">
             <list>
@@ -814,8 +846,8 @@
     </bean>
     
     <bean id="category6" class="domain.Category">
-        <property name="name" value="Turismo por edificios" />
-        <property name="description" value="Entraremos en los edificios más importantes" />
+        <property name="name" value="Conciertos" />
+        <property name="description" value="En estos servicios se organizarán grupos para ir a conciertos" />
         <property name="parent" ref="category5" />
         <property name="categories">
             <list>
@@ -831,8 +863,8 @@
     </bean>
     
     <bean id="category7" class="domain.Category">
-        <property name="name" value="Turismo por rio" />
-        <property name="description" value="Visitaremos la ciudad por el rio" />
+        <property name="name" value="Música en bares" />
+        <property name="description" value="Bares" />
         <property name="parent" ref="category6" />
         <property name="categories">
             <list>
@@ -845,8 +877,8 @@
     </bean>
     
     <bean id="category8" class="domain.Category">
-        <property name="name" value="Reuniones de empresa" />
-        <property name="description" value="Nos reuniremos para hablar sobre la empresa" />
+        <property name="name" value="Fotografía" />
+        <property name="description" value="Fotos" />
         <property name="parent" ref="category1" />
         <property name="categories">
             <list>
@@ -860,8 +892,8 @@
     </bean>
     
     <bean id="category9" class="domain.Category">
-        <property name="name" value="Reuniones de relación" />
-        <property name="description" value="Nos reuniremos para hablar sobre nuestra relación" />
+        <property name="name" value="Exposiciones" />
+        <property name="description" value="Se irán a distintos lugares para ver distintas exposiciones" />
         <property name="parent" ref="category1" />
         <property name="categories">
             <list>
@@ -876,8 +908,8 @@
     </bean>
     
     <bean id="category10" class="domain.Category">
-        <property name="name" value="Reuniones de trabajo" />
-        <property name="description" value="Para hablar sobre nuestros trabajos" />
+        <property name="name" value="Poesia" />
+        <property name="description" value="Poesía" />
         <property name="parent" ref="category1" />
         <property name="categories">
             <list>
@@ -892,8 +924,8 @@
     
     
     <bean id="category11" class="domain.Category">
-        <property name="name" value="Reuniones de trabajo" />
-        <property name="description" value="Para hablar sobre nuestros trabajos" />
+        <property name="name" value="Reuniones sobre grupos" />
+        <property name="description" value="Para hablar sobre nuestros grupos preferidos" />
         <property name="parent" ref="category5" />
         <property name="categories">
             <list>
@@ -906,8 +938,8 @@
     </bean>
     
     <bean id="category12" class="domain.Category">
-        <property name="name" value="Reuniones de trabajo" />
-        <property name="description" value="Para hablar sobre nuestros trabajos" />
+        <property name="name" value="Reuniones sobre música" />
+        <property name="description" value="Reuniones" />
         <property name="parent" ref="category5" />
         <property name="categories">
             <list>
@@ -921,8 +953,8 @@
     </bean>
     
     <bean id="category13" class="domain.Category">
-        <property name="name" value="Reuniones de trabajo" />
-        <property name="description" value="Para hablar sobre nuestros trabajos" />
+        <property name="name" value="Reuniones de artistas" />
+        <property name="description" value="Para hablar sobre nuestros trabajos personales" />
         <property name="parent" ref="category12" />
         <property name="categories">
             <list>
@@ -936,8 +968,8 @@
     </bean>
     
     <bean id="category14" class="domain.Category">
-        <property name="name" value="Reuniones de trabajo" />
-        <property name="description" value="Para hablar sobre nuestros trabajos" />
+        <property name="name" value="Firmas de discos" />
+        <property name="description" value="Discos" />
         <property name="parent" ref="category13" />
         <property name="categories">
             <list>
@@ -953,30 +985,30 @@
     
     <bean id="creditCard1" class="domain.CreditCard">
         <property name="holderName" value="Armando Garrido Castro" />
-        <property name="brandName" value="La Caixa Bank" />
-        <property name="number" value="377510700149084" />
-        <property name="expirationMonth" value="11" />
+        <property name="brandName" value="Visa" />
+        <property name="number" value="4498121078246142" />
+        <property name="expirationMonth" value="06" />
         <property name="expirationYear" value="2019" />
-        <property name="cvvCode" value="132" />
+        <property name="cvvCode" value="674" />
         
     </bean>
     
     <bean id="creditCard2" class="domain.CreditCard">
 		<property name="holderName" value="Jorge Puente Zaro" />
-		<property name="brandName" value="La Caixa Bank" />
-		<property name="number" value="4532128724655541" />
-		<property name="expirationMonth" value="03" />
-		<property name="expirationYear" value="2020" />
-		<property name="cvvCode" value="333" />
+		<property name="brandName" value="Visa" />
+		<property name="number" value="4067527284728593" />
+		<property name="expirationMonth" value="07" />
+		<property name="expirationYear" value="2019" />
+		<property name="cvvCode" value="883" />
 	</bean>
 	
 	<bean id="creditCard3" class="domain.CreditCard">
 		<property name="holderName" value="Manuel Perez Carmona" />
 		<property name="brandName" value="Panama Bank" />
-		<property name="number" value="4788169636722384" />
+		<property name="number" value="4269520017415022" />
 		<property name="expirationMonth" value="02" />
-		<property name="expirationYear" value="2027" />
-		<property name="cvvCode" value="653" />
+		<property name="expirationYear" value="2019" />
+		<property name="cvvCode" value="800" />
 	</bean>
     
     <!-- REQUEST 25 -->
