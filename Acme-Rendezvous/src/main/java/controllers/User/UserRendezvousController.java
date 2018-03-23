@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.RendezvousService;
 import services.RsvpService;
 import services.UserService;
+import utilities.internal.SchemaPrinter;
 import controllers.AbstractController;
 import domain.Rendezvous;
 import domain.Rsvp;
@@ -39,18 +40,18 @@ public class UserRendezvousController extends AbstractController {
 
 	@RequestMapping(value = "/answer", method = RequestMethod.POST)
 	public ModelAndView answer(@RequestParam final String question, @RequestParam final String rsvpId,
-		@RequestParam final String answer) {
+			@RequestParam final String answer) {
 
 		ModelAndView result;
 
 		try{
 			int rsvpIdInt = Integer.parseInt(rsvpId);
-			Rsvp rsvp = this.rsvpService.findOne(rsvpIdInt);
+			Rsvp rsvp = rsvpService.findOne(rsvpIdInt);
 			Assert.notNull(rsvp);
-			Assert.isTrue(rsvp.getUser().equals(this.userService.findByPrincipal()));
+			Assert.isTrue(rsvp.getUser().equals(userService.findByPrincipal()));
 
 			rsvp.getQuestionsAndAnswers().put(question, answer);
-			this.rsvpService.save(rsvp);
+			rsvpService.save(rsvp);
 
 			result = new ModelAndView("redirect:/rendezvous/display.do?rendezvousId="+rsvp.getRendezvous().getId());
 		}
@@ -67,7 +68,7 @@ public class UserRendezvousController extends AbstractController {
 	public ModelAndView cancelRendezvous(@RequestParam(required=true)final int rendezvousId, final RedirectAttributes redir){
 		ModelAndView result = new ModelAndView("redirect:../../rendezvous/display.do?rendezvousId="+rendezvousId);
 		try{
-			this.rendezvousService.deleteByUser(rendezvousId);
+			rendezvousService.deleteByUser(rendezvousId);
 		}catch(Throwable oops){
 			redir.addFlashAttribute("message","master.page.errors.cancelRendezvousError");
 		}
@@ -79,7 +80,7 @@ public class UserRendezvousController extends AbstractController {
 		ModelAndView result;
 		try {
 			//UserRendezvousCreateForm rendezvous = new UserRendezvousCreateForm();
-			result = this.newEditModelAndView(this.rendezvousService.create());
+			result = newEditModelAndView(rendezvousService.create());
 		} catch (Throwable oops) {
 			result = new ModelAndView("redirect:list.do");
 		}
@@ -90,10 +91,10 @@ public class UserRendezvousController extends AbstractController {
 	public ModelAndView edit(@RequestParam(required = true) final int rendezvousId) {
 		ModelAndView result;
 		try {
-			Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
-			if(rendezvous.getDeleted() || rendezvous.getinappropriate() || rendezvous.getOrganisationMoment().before(new Date()) || rendezvous.getUser() != this.userService.findByPrincipal() || rendezvous.getFinalMode())
+			Rendezvous rendezvous = rendezvousService.findOne(rendezvousId);
+			if(rendezvous.getDeleted() || rendezvous.getinappropriate() || rendezvous.getOrganisationMoment().before(new Date()) || rendezvous.getUser() != userService.findByPrincipal() || rendezvous.getFinalMode())
 				throw new Throwable();
-			result = this.newEditModelAndView(rendezvous);
+			result = newEditModelAndView(rendezvous);
 		} catch (Throwable oops) {
 			result = new ModelAndView("redirect:/rendezvous/list.do");
 		}
@@ -106,18 +107,20 @@ public class UserRendezvousController extends AbstractController {
 		Rendezvous saved;
 		Rendezvous validatedObject;
 
-		if(rendezvous.getId()==0) validatedObject = this.rendezvousService.reconstructNew(rendezvous, binding);
-		else validatedObject = this.rendezvousService.reconstruct(rendezvous, binding);
+		if(rendezvous.getId()==0) validatedObject = rendezvousService.reconstructNew(rendezvous, binding);
+		else validatedObject = rendezvousService.reconstruct(rendezvous, binding);
 
-		if (binding.hasErrors())
-			result = this.newEditModelAndView(rendezvous);
+		if (binding.hasErrors()){
+			SchemaPrinter.print(binding.getAllErrors());
+			result = newEditModelAndView(rendezvous);
+		}
 		else
 			try {
-				saved = this.rendezvousService.save(validatedObject);
+				saved = rendezvousService.save(validatedObject);
 				result = new ModelAndView("redirect:../../rendezvous/display.do?rendezvousId=" + saved.getId());
 			} catch (Throwable oops) {
 				oops.printStackTrace();
-				result = this.newEditModelAndView(rendezvous);
+				result = newEditModelAndView(rendezvous);
 				result.addObject("message", "rendezvous.commitError");
 			}
 		return result;
@@ -127,15 +130,15 @@ public class UserRendezvousController extends AbstractController {
 	public ModelAndView delete(final Rendezvous rendezvous, final BindingResult binding) {
 		ModelAndView result;
 		if (binding.hasErrors())
-			result = this.newEditModelAndView(rendezvous);
+			result = newEditModelAndView(rendezvous);
 		else
 			try {
-				if(rendezvous.getOrganisationMoment().before(new Date()) || rendezvous.getUser() != this.userService.findByPrincipal() || rendezvous.getFinalMode())
+				if(rendezvous.getOrganisationMoment().before(new Date()) || rendezvous.getUser() != userService.findByPrincipal() || rendezvous.getFinalMode())
 					throw new Throwable();
-				this.rendezvousService.deleteByUser(rendezvous.getId());
+				rendezvousService.deleteByUser(rendezvous.getId());
 				result = new ModelAndView("redirect:../../rendezvous/list.do");
 			} catch (Throwable oops) {
-				result = this.newEditModelAndView(rendezvous);
+				result = newEditModelAndView(rendezvous);
 				result.addObject("message", "rendezvous.commitError");
 			}
 		return result;
@@ -145,8 +148,8 @@ public class UserRendezvousController extends AbstractController {
 		ModelAndView result;
 		result = new ModelAndView("user/rendezvous/edit");
 		result.addObject("rendezvous", rendezvous);
-		result.addObject("isAdult", this.userService.isAdult());
-		result.addObject("rendezvouses", this.rendezvousService.getRendezvousesToLink());
+		result.addObject("isAdult", userService.isAdult());
+		result.addObject("rendezvouses", rendezvousService.getRendezvousesToLink());
 		result.addObject("actionUri", "user/rendezvous/save.do");
 		return result;
 	}

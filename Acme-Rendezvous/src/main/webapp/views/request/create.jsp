@@ -90,7 +90,7 @@
           <a data-toggle="collapse" data-parent="#accordion" href="#collapse1"><i class="far fa-credit-card"></i> <jstl:out value="${fn:toUpperCase(fn:substring(request.creditCard.brandName,0,1))}${fn:toLowerCase(fn:substring(request.creditCard.brandName,1,fn:length(request.creditCard.brandName)))}"/> <spring:message code="request.creditCard.old"/> <jstl:out value="${fn:substring(request.creditCard.number,fn:length(request.creditCard.number)-4,fn:length(request.creditCard.number))}"/> </a>
         </h4>
       </div>
-      <div id="collapse1" class="panel-collapse collapse">
+      <div id="collapse1" class="panel-collapse collapse in">
         <div class="panel-body">
 			<div class="creditCardContainer"></div>
         	<div class="form-group">

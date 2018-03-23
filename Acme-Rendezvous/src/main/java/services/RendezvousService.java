@@ -197,7 +197,6 @@ public class RendezvousService {
 
 	public Rendezvous reconstructNew(final Rendezvous res, final BindingResult binding){
 		res.setId(0);
-		res.setVersion(0);
 		res.setDeleted(false);
 		res.setAnnouncements(new ArrayList<Announcement>());
 		res.setComments(new ArrayList<Comment>());
@@ -232,7 +231,7 @@ public class RendezvousService {
 		if(!userService.isAdult())
 			copy.setAdultOnly(false);
 		else
-			copy.setAdultOnly(true);
+			copy.setAdultOnly(res.getAdultOnly());
 		copy.setQuestions(res.getQuestions());
 		copy.setinappropriate(rendezvous.getinappropriate());
 
@@ -243,8 +242,9 @@ public class RendezvousService {
 		copy.setRequests(rendezvous.getRequests());
 		copy.setRsvps(rendezvous.getRsvps());
 
-		copy.setVersion(res.getVersion());
+		copy.setVersion(rendezvous.getVersion());
 		copy.setId(res.getId());
+
 
 		validator.validate(copy, binding);
 		return copy;
@@ -290,8 +290,8 @@ public class RendezvousService {
 		Authority managerAuth = new Authority();
 		managerAuth.setAuthority(Authority.MANAGER);
 
-		if(!LoginService.getPrincipal().getAuthorities().contains(adminAuth) && !LoginService.getPrincipal().getAuthorities().contains(managerAuth) && !this.userService.isAdult())
-			rendezvouses.removeAll(this.rendezvousRepository.findAllOver18());
+		if(!LoginService.getPrincipal().getAuthorities().contains(adminAuth) && !LoginService.getPrincipal().getAuthorities().contains(managerAuth) && !userService.isAdult())
+			rendezvouses.removeAll(rendezvousRepository.findAllOver18());
 
 		//Filtrado de category
 		if(categories != null && !categories.isEmpty()){
