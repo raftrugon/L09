@@ -253,7 +253,9 @@ public class RendezvousService {
 
 	public void deleteLink(final int rendezvousId, final int linkId) {
 		Rendezvous r = rendezvousRepository.findOne(rendezvousId);
+		Assert.notNull(r);
 		Rendezvous link = rendezvousRepository.findOne(linkId);
+		Assert.notNull(link);
 		List<Rendezvous> rendezvouses = new ArrayList<Rendezvous>(r.getRendezvouses());
 		rendezvouses.remove(link);
 		r.setRendezvouses(rendezvouses);

@@ -15,8 +15,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.Manager;
+import domain.Category;
 import domain.Rendezvous;
+import domain.User;
 import domain.Zervice;
 
 @ContextConfiguration(locations = {
@@ -31,6 +32,10 @@ public class RendezvousServiceTest extends AbstractTest {
 	private RendezvousService rendezvousService;
 	
 	//Supporting services -----------------------------------------------------
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private CategoryService categoryService;
 
 	// Tests ------------------------------------------------------------------
 	
@@ -449,5 +454,405 @@ public class RendezvousServiceTest extends AbstractTest {
 		System.out.println("-----------------------------------------------------------------\r");
 
 	}
+	
+	@Test
+	public void driverGetRSVPRendezvousesForUser() {
 
+		System.out.println("===============================================================================================================");
+		System.out.println("========================================TEST GET RSVP RENDEZVOUSES FOR USER====================================================");
+		System.out.println("===============================================================================================================\r");
+
+		User user = userService.findOne(getEntityId("user1"));
+		
+		Object testingData[][] = {
+			//Positive test
+			{
+				user, rendezvousService.getRSVPRendezvousesForUser(user).size(), null, "Búsqueda correcta de RSVP Rendezvouses de un usuario."
+			}, {
+				user, rendezvousService.getRSVPRendezvousesForUser(user).size() + 1, IllegalArgumentException.class, "Distintos rangos"
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			templateGetRSVPRendezvousesForUser((User) testingData[i][0], (Integer) testingData[i][1], (Class<?>) testingData[i][2], (String) testingData[i][3]);
+	}
+
+	protected void templateGetRSVPRendezvousesForUser(User user, Integer index, Class<?> expected, String explanation) {
+
+		Class<?> caught = null;
+
+		try {
+			Collection<Rendezvous> ren = rendezvousService.getRSVPRendezvousesForUser(user);
+			Assert.isTrue(ren.size() == index);
+
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		checkExceptions(expected, caught);
+		if (expected == null)
+			System.out.println("---------------------------- POSITIVO ---------------------------");
+		else
+			System.out.println("---------------------------- NEGATIVO ---------------------------");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
+
+	}
+	
+	@Test
+	public void driverGetTop10RendezvousByRSVPs() {
+
+		System.out.println("===============================================================================================================");
+		System.out.println("========================================TEST GET TOP 10 RENDEZVOUS BY RSVPS====================================================");
+		System.out.println("===============================================================================================================\r");
+		
+		Object testingData[][] = {
+			//Positive test
+			{
+				rendezvousService.getTop10RendezvousByRSVPs().size(), null, "Búsqueda correcta Top 10 Rendezvouses por RSVPs."
+			}, {
+				rendezvousService.getTop10RendezvousByRSVPs().size() + 1, IllegalArgumentException.class, "Distintos rangos"
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			templateGetRSVPRendezvousesForUser((Integer) testingData[i][0], (Class<?>) testingData[i][1], (String) testingData[i][2]);
+	}
+
+	protected void templateGetRSVPRendezvousesForUser(Integer index, Class<?> expected, String explanation) {
+
+		Class<?> caught = null;
+
+		try {
+			Collection<Rendezvous> ren = rendezvousService.getTop10RendezvousByRSVPs();
+			Assert.isTrue(ren.size() == index);
+
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		checkExceptions(expected, caught);
+		if (expected == null)
+			System.out.println("---------------------------- POSITIVO ---------------------------");
+		else
+			System.out.println("---------------------------- NEGATIVO ---------------------------");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
+
+	}
+	
+	@Test
+	public void driverLink() {
+
+		System.out.println("===============================================================================================================");
+		System.out.println("========================================TEST LINK====================================================");
+		System.out.println("===============================================================================================================\r");
+
+		Object testingData[][] = {
+			// Positive test
+			{
+				"user1", getEntityId("rendezvous1"), getEntityId("rendezvous2"), null, "Enlace correcto de un rendezvous a otro."
+			},
+			// The user who tries to link one rendezvous is not its owner
+			{
+				"user2", getEntityId("rendezvous1"), getEntityId("rendezvous2"), IllegalArgumentException.class, "Intento de enlazar un rendezvous de otro dueño a otro."
+			},
+			// Authentication with another role
+			{
+				"manager1", getEntityId("rendezvous1"), getEntityId("rendezvous2"), IllegalArgumentException.class, "Intento de enlazar un rendezvous a otro siendo mánager."
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			templateLink((String) testingData[i][0], (Integer) testingData[i][1], (Integer) testingData[i][2], (Class<?>) testingData[i][3], (String) testingData[i][4]);
+	}
+
+	protected void templateLink(String username, Integer sourceId, Integer targetId, Class<?> expected, String explanation) {
+
+		Class<?> caught = null;
+
+		try {
+			authenticate(username);
+			rendezvousService.link(sourceId, targetId);
+			authenticate(null);
+
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		checkExceptions(expected, caught);
+
+		// --------------------------------- CONSOLA ---------------------------------
+
+		if (expected == null)
+			System.out.println("---------------------------- POSITIVO ---------------------------");
+		else
+			System.out.println("---------------------------- NEGATIVO ---------------------------");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
+
+	}
+	
+	@Test
+	public void driverGetRendezvousesToLink() {
+
+		System.out.println("===============================================================================================================");
+		System.out.println("========================================TEST GET RENDEZVOUSES TO LINK====================================================");
+		System.out.println("===============================================================================================================\r");
+
+		Object testingData[][] = {
+			// Positive test
+			{
+				"user1", getEntityId("rendezvous1"), null, "Rendezvouses a enlazar de un rendezvous correctamente."
+			},
+			// Try to get the rendezvouses being anonymous
+			{
+				null, getEntityId("rendezvous1"), IllegalArgumentException.class, "Intento de obtener los rendezvous siendo anónimo."
+			},
+			// Try to get the rendezvouses with another role
+			{
+				"manager1", getEntityId("rendezvous1"), IllegalArgumentException.class, "Intento de obtener los rendezvous siendo mánager."
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			templateGetRendezvousesToLink((String) testingData[i][0], (Integer) testingData[i][1], (Class<?>) testingData[i][2], (String) testingData[i][3]);
+	}
+
+	protected void templateGetRendezvousesToLink(String username, Integer rendezvousId, Class<?> expected, String explanation) {
+
+		Class<?> caught = null;
+
+		try {
+			authenticate(username);
+			rendezvousService.getRendezvousesToLink(rendezvousId);
+			authenticate(null);
+
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		checkExceptions(expected, caught);
+
+		// --------------------------------- CONSOLA ---------------------------------
+
+		if (expected == null)
+			System.out.println("---------------------------- POSITIVO ---------------------------");
+		else
+			System.out.println("---------------------------- NEGATIVO ---------------------------");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
+
+	}
+	
+	@Test
+	public void driverDeleteLink() {
+
+		System.out.println("===============================================================================================================");
+		System.out.println("========================================TEST DELETE LINK====================================================");
+		System.out.println("===============================================================================================================\r");
+
+		Object testingData[][] = {
+			// Positive test
+			{
+				getEntityId("rendezvous1"), getEntityId("rendezvous2"), null, "Borrar un enlace de un rendezvous exitosamente."
+			},
+			// Try to delete a link with a wrong rendezvous id
+			{
+				getEntityId("comment1"), getEntityId("rendezvous2"), IllegalArgumentException.class, "Intento de borrar un link de un rendezvous con id errónea."
+			},
+			// Try to delete a link with a wrong link id
+			{
+				getEntityId("rendezvous1"), getEntityId("comment1"), IllegalArgumentException.class, "Intento de borrar un link con id errónea de un rendezvous."
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			templateDeleteLink((Integer) testingData[i][0], (Integer) testingData[i][1], (Class<?>) testingData[i][2], (String) testingData[i][3]);
+	}
+
+	protected void templateDeleteLink(Integer rendezvousId, Integer linkId, Class<?> expected, String explanation) {
+
+		Class<?> caught = null;
+
+		try {
+			rendezvousService.deleteLink(rendezvousId, linkId);
+
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		checkExceptions(expected, caught);
+
+		// --------------------------------- CONSOLA ---------------------------------
+
+		if (expected == null)
+			System.out.println("---------------------------- POSITIVO ---------------------------");
+		else
+			System.out.println("---------------------------- NEGATIVO ---------------------------");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
+
+	}
+	
+	@Test
+	public void driverListRendezvouses() {
+
+		System.out.println("===============================================================================================================");
+		System.out.println("========================================TEST LIST RENDEZVOUSES====================================================");
+		System.out.println("===============================================================================================================\r");
+
+		Object testingData[][] = {
+			//Positive test 1
+			{
+				"user1", 1, null, "Listado correcto de rendezvouses (tipo 1)"
+			},
+			//Positive test 2
+			{
+				"user1", 2, null, "Listado correcto de rendezvouses (tipo 2)"
+			},
+			//Positive test 3
+			{
+				"user1", 3, null, "Listado correcto de rendezvouses (tipo 3)"
+			},
+			//Positive test 4
+			{
+				"user1", 4, null, "Listado correcto de rendezvouses (tipo 4)"
+			},
+			//Try to list rendezvouses being anonymous
+			{
+				null, 1, IllegalArgumentException.class, "Intento de listar los rendezvouses siendo anónimo"
+			},
+			//Try to list rendezvouses being another role
+			{
+				"manager1", 1, NullPointerException.class, "Intento de listar los rendezvouses siendo mánager"
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			templateListRendezvouses((String) testingData[i][0], (Integer) testingData[i][1], (Class<?>) testingData[i][2], (String) testingData[i][3]);
+	}
+
+	protected void templateListRendezvouses(String username, Integer type, Class<?> expected, String explanation) {
+
+		Class<?> caught = null;
+
+		try {
+			authenticate(username);
+			Collection<Category> categories = categoryService.findAll();
+			rendezvousService.listRendezvouses(type, categories);
+			authenticate(null);
+
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		checkExceptions(expected, caught);
+		if (expected == null)
+			System.out.println("---------------------------- POSITIVO ---------------------------");
+		else
+			System.out.println("---------------------------- NEGATIVO ---------------------------");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
+
+	}
+	
+	@Test
+	public void driverListRendezvousesAnonymous() {
+
+		System.out.println("===============================================================================================================");
+		System.out.println("========================================TEST LIST RENDEZVOUSES ANONYMOUS====================================================");
+		System.out.println("===============================================================================================================\r");
+
+		Collection<Category> categories = categoryService.findAll();
+		
+		Object testingData[][] = {
+			//Positive test
+			{
+				null, "Listado correcto de rendezvouses como anónimo", rendezvousService.listRendezvousesAnonymous(categories).size()
+			},
+			//Different range
+			{
+				IllegalArgumentException.class, "Distintos rangos", rendezvousService.listRendezvousesAnonymous(categories).size() + 1
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			templateListRendezvousesAnonymous((Class<?>) testingData[i][0], (String) testingData[i][1], (int) testingData[i][2]);
+	}
+
+	protected void templateListRendezvousesAnonymous(Class<?> expected, String explanation, int index) {
+
+		Class<?> caught = null;
+
+		try {
+			Collection<Category> categories = categoryService.findAll();
+			Collection<Rendezvous> ren = rendezvousService.listRendezvousesAnonymous(categories);
+			Assert.isTrue(ren.size() == index);
+
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		checkExceptions(expected, caught);
+		if (expected == null)
+			System.out.println("---------------------------- POSITIVO ---------------------------");
+		else
+			System.out.println("---------------------------- NEGATIVO ---------------------------");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
+
+	}
+	
+	@Test
+	public void driverGetZervicesForRendezvous() {
+
+		System.out.println("===============================================================================================================");
+		System.out.println("========================================TEST GET ZERVICES FOR RENDEZVOUS====================================================");
+		System.out.println("===============================================================================================================\r");
+		
+		Object testingData[][] = {
+			//Positive test
+			{
+				getEntityId("rendezvous1"), null, "Obtener servicios para rendezvous", rendezvousService.getZervicesForRendezvous(getEntityId("rendezvous1")).size()
+			},
+			//Different range
+			{
+				getEntityId("rendezvous1"), IllegalArgumentException.class, "Distintos rangos", rendezvousService.getZervicesForRendezvous(getEntityId("rendezvous1")).size() + 1
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			templateGetZervicesForRendezvous((Integer) testingData[i][0], (Class<?>) testingData[i][1], (String) testingData[i][2], (int) testingData[i][3]);
+	}
+
+	protected void templateGetZervicesForRendezvous(Integer rendezvousId, Class<?> expected, String explanation, int index) {
+
+		Class<?> caught = null;
+
+		try {
+			Collection<Zervice> zerv = rendezvousService.getZervicesForRendezvous(rendezvousId);
+			Assert.isTrue(zerv.size() == index);
+
+		} catch (Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		checkExceptions(expected, caught);
+		if (expected == null)
+			System.out.println("---------------------------- POSITIVO ---------------------------");
+		else
+			System.out.println("---------------------------- NEGATIVO ---------------------------");
+		System.out.println("Explicación: " + explanation);
+		System.out.println("\r¿Correcto? " + (expected == caught));
+		System.out.println("-----------------------------------------------------------------\r");
+
+	}
 }
